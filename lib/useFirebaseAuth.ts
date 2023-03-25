@@ -1,11 +1,32 @@
-import { User as FirebaseUser } from 'firebase/auth';
+import { auth } from '@/utils/firebaseConfig';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  User as FirebaseUser,
+} from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { auth } from '../util/firebaseConfig';
+
+/**
+ * TYPES
+ * -----------------------------------------------------------------
+ */
 
 type FormattedAuthUserType = {
   uid: string;
   email: string | null;
 };
+
+type UseFirebaseAuthType = {
+  authUser: FormattedAuthUserType | null;
+  loading: boolean;
+  signInPassword: (email: string, password: string) => Promise<any>;
+  createUserPassword: (email: string, password: string) => Promise<any>;
+  signOut: () => Promise<any>;
+};
+
+/**
+ * -----------------------------------------------------------------
+ */
 
 //In context of app these are the field we use
 const formatAuthUser = (user: FirebaseUser): FormattedAuthUserType => ({
@@ -13,9 +34,9 @@ const formatAuthUser = (user: FirebaseUser): FormattedAuthUserType => ({
   email: user.email,
 });
 
-const useFirebaseAuth = () => {
+const useFirebaseAuth = (): UseFirebaseAuthType => {
   const [authUser, setAuthUser] = useState<FormattedAuthUserType | null>(null);
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const authStateChanged = async (authState: any) => {
     if (!authState) {
@@ -30,6 +51,19 @@ const useFirebaseAuth = () => {
     setLoading(false);
   };
 
+  const clear = () => {
+    setAuthUser(null);
+    setLoading(true);
+  };
+
+  const signInPassword = (email: string, password: string): any =>
+    signInWithEmailAndPassword(auth, email, password);
+
+  const createUserPassword = (email: string, password: string): any =>
+    createUserWithEmailAndPassword(auth, email, password);
+
+  const signOut = () => auth.signOut().then(clear);
+
   //Listen for Firebase state change
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authStateChanged);
@@ -39,7 +73,11 @@ const useFirebaseAuth = () => {
   return {
     authUser,
     loading,
+    signInPassword,
+    createUserPassword,
+    signOut,
   };
 };
 
-export default useFirebaseAuth;
+export { useFirebaseAuth };
+export type { UseFirebaseAuthType };
