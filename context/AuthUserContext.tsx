@@ -6,6 +6,7 @@ const authUserContext = createContext<UseFirebaseAuthType>({
   loading: true,
   signInPassword: async () => {},
   createUserPassword: async () => {},
+  signInGoogle: async () => {},
   signOut: async () => {},
 });
 
