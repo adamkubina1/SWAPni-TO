@@ -9,7 +9,7 @@ const DefaultLayout = ({ children }: { children: ReactNode }) => {
   const { authUser } = useAuth();
 
   return (
-    <Box w={'100%'}>
+    <Box w={'100%'} h={'100%'}>
       {authUser ? <NavbarAuth /> : <NavbarNonAuth />}
       <Container as={'main'} minH={'100vh'}>
         {children}
