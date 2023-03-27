@@ -13,7 +13,6 @@ const NavbarContainer = ({ children }: { children: ReactNode }) => {
       flexWrap={'wrap'}
       justifyContent={'space-between'}
       px={{ base: 4, md: 6 }}
-      bgColor={'gray.100'}
     >
       {children}
     </Box>
