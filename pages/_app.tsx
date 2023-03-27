@@ -1,3 +1,4 @@
+import { DefaultLayout } from '@/components/layout/DefaultLayout';
 import { AuthUserProvider } from '@/context/AuthUserContext';
 import { theme } from '@/styles/theme';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -7,7 +8,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <AuthUserProvider>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <DefaultLayout>
+          <Component {...pageProps} />
+        </DefaultLayout>
       </ChakraProvider>
     </AuthUserProvider>
   );
