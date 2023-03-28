@@ -1,21 +1,14 @@
-import { useAuth } from '@/context/AuthUserContext';
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { Seo } from '@/components/Seo';
+import { Heading, HStack } from '@chakra-ui/react';
 
 const Home = () => {
-  const { signOut } = useAuth();
-
-  const logout = () => {
-    signOut();
-  };
-
   return (
-    <Box h={'100%'} pt={24}>
-      <Heading>This is home page</Heading>
-      <Button onClick={logout} variant={'swapDark'}>
-        Logout
-      </Button>
-      <Box h={'100vh'}></Box>
-    </Box>
+    <>
+      <Seo />
+      <HStack pt={{ base: '10vh', md: '10vh' }} justifyContent={'center'}>
+        <Heading size={{ base: 'xl', md: '2xl' }}>Prozkoumejte knihy</Heading>
+      </HStack>
+    </>
   );
 };
 
