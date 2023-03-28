@@ -7,7 +7,7 @@ import { useEffect } from 'react';
  * Watching for changes in authUser, loading variables from useFirebaseAuth.ts through AuthUserContext.tsx.
  * If loading is false and authUser is null redirects to LOGIN_PATH constant from AuthUserContext.tsx.
  */
-const useProtectedRoute = () => {
+const useAuthProtectedRoute = () => {
   const { authUser, loading } = useAuth();
   const router = useRouter();
 
@@ -16,4 +16,18 @@ const useProtectedRoute = () => {
   }, [authUser, loading, router]);
 };
 
-export { useProtectedRoute };
+/**
+ * Custom hook.
+ * Watching for changes in authUser, loading variables from useFirebaseAuth.ts through AuthUserContext.tsx.
+ * If loading is false and authUser is not null redirects to '/' url.
+ */
+const useNonAuthProtectedRoute = () => {
+  const { authUser, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authUser && !loading) router.push('/');
+  }, [authUser, loading, router]);
+};
+
+export { useAuthProtectedRoute, useNonAuthProtectedRoute };

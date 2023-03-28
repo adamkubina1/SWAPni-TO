@@ -1,6 +1,7 @@
 import { FormField } from '@/components/forms/FormField';
 import { Seo } from '@/components/Seo';
 import { useAuth } from '@/context/AuthUserContext';
+import { useNonAuthProtectedRoute } from '@/lib/customReactHooks';
 import { ValidateEmail, ValidatePasswordLogin } from '@/lib/formValidators';
 import {
   Box,
@@ -23,6 +24,8 @@ const PAGE_TITLE = 'Přihlášení';
 const PAGE_DESCRIPTION = 'Přihlášení do webové aplikace SWAPni TO.';
 
 const Prihlaseni = () => {
+  useNonAuthProtectedRoute();
+
   return (
     <>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
