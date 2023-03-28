@@ -116,10 +116,12 @@ const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
   const router = useRouter();
 
   const signOutClick = () => {
-    signOut().then(() => {
-      setOpenFalse();
-      router.push('/');
-    });
+    signOut()
+      .then(() => {
+        setOpenFalse();
+        router.push('/');
+      })
+      .catch((e) => {});
   };
 
   return (

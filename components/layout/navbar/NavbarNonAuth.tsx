@@ -42,12 +42,20 @@ const LinksNonAuth = ({
       </NextLink>
       <Stack direction={{ base: 'column', md: 'row' }} align={'center'}>
         <NextLink href={'/prihlaseni'} onClick={setOpenFalse}>
-          <Button variant={'swapDark'} size={{ base: 'md', md: 'sm' }}>
+          <Button
+            variant={'swapDarkOutline'}
+            size={{ base: 'md', md: 'sm' }}
+            fontWeight={'normal'}
+          >
             Přihlášení
           </Button>
         </NextLink>
         <NextLink href={'/registrace'} onClick={setOpenFalse}>
-          <Button variant={'swapDark'} size={{ base: 'md', md: 'sm' }}>
+          <Button
+            variant={'swapDarkOutline'}
+            size={{ base: 'md', md: 'sm' }}
+            fontWeight={'normal'}
+          >
             Registrace
           </Button>
         </NextLink>
