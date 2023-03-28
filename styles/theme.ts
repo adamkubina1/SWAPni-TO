@@ -5,6 +5,7 @@ import '@fontsource/open-sans';
 const colors = {
   swap: {
     darkBase: '#22232F',
+    darkBase95: 'rgba(34, 35, 47, 0.95)',
     darkText: '#FFFFFF',
     darkHighlight: '#E02401',
     lightBase: '#F5F5F5',
@@ -20,8 +21,15 @@ const theme = extendTheme({
   },
   components: {
     Button: {
-      baseStyle: {
-        backgroundColor: '#22232F', //swap.darkBase
+      variants: {
+        swapDark: {
+          borderColor: 'swap.darkHighlight',
+          borderWidth: '1px',
+          fontWeight: 'normal',
+          _hover: {
+            background: 'swap.darkHighlight',
+          },
+        },
       },
     },
   },

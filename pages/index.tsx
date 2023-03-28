@@ -11,7 +11,10 @@ const Home = () => {
   return (
     <Box h={'100%'} pt={24}>
       <Heading>This is home page</Heading>
-      <Button onClick={logout}>Logout</Button>
+      <Button onClick={logout} variant={'swapDark'}>
+        Logout
+      </Button>
+      <Box h={'100vh'}></Box>
     </Box>
   );
 };

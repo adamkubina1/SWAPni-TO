@@ -12,7 +12,9 @@ const NavbarContainer = ({ children }: { children: ReactNode }) => {
       alignItems={'center'}
       flexWrap={'wrap'}
       justifyContent={'space-between'}
-      px={{ base: 4, md: 6 }}
+      px={{ base: 4, md: 8 }}
+      background={'swap.darkBase95'}
+      shadow={'dark-lg'}
     >
       {children}
     </Box>

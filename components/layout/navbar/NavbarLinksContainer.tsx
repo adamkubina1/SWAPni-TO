@@ -1,32 +1,37 @@
 import { Box, Stack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-type NavbarLinksContainerType = {
-  children: ReactNode;
-  isOpen: boolean;
-};
-
 /**
  * @param children ReactNode
  * @param isOpen Boolean that describes the state of the the mobile hamburger.
+ * @param authJustify Boolean for justifying links correctly based on the type of navbar. True for authentificated, false for nonauthentificated.
  */
 const NavbarLinksContainer = ({
   children,
   isOpen,
-}: NavbarLinksContainerType) => {
+  authJustify,
+}: {
+  children: ReactNode;
+  isOpen: boolean;
+  authJustify: boolean;
+}) => {
   return (
     <Box
       h={{ base: isOpen ? '100vh' : 'auto', md: 'auto' }}
       display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
-      flexBasis={{ base: '100%', md: 'auto' }}
+      flexBasis={{ base: '100%', md: '0' }}
+      flexGrow={{ base: 0, md: 1 }}
     >
       <Stack
-        spacing={10}
+        spacing={6}
         alignItems={'center'}
         alignContent={'center'}
-        justifyContent={['center', 'space-between', 'flex-end', 'flex-end']}
-        direction={['column', 'column', 'row', 'row']}
-        pt={[30, 30, 0, 0]}
+        justifyContent={{
+          base: 'center',
+          md: authJustify ? 'center' : 'flex-end',
+        }}
+        direction={{ base: 'column', md: 'row' }}
+        pt={{ base: 30, md: 0 }}
         whiteSpace={'nowrap'}
       >
         {children}

@@ -2,14 +2,17 @@ import { Box } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 
-const NavbarLogo = () => {
+/**
+ * @param Function To close if mobile navbar is open after the link is clicked
+ */
+const NavbarLogo = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
   return (
-    <NextLink href={'/'} passHref>
+    <NextLink href={'/'} passHref onClick={setOpenFalse}>
       <Box _hover={{ opacity: 0.8 }}>
         <Image
-          src={'/imgs/logo_transparent.png'}
+          src={'/imgs/logo-Placeholder.jpg'}
           width={'50'}
-          height={'35'}
+          height={'50'}
           alt={'SWAPni-to logo'}
         />
       </Box>

@@ -1,4 +1,4 @@
-import { Button, Heading, Spacer } from '@chakra-ui/react';
+import { Button, Heading, Spacer, Stack } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useState } from 'react';
 import { NavbarContainer } from './NavbarContainer';
@@ -14,29 +14,44 @@ import { NavbarLogo } from './NavbarLogo';
 const NavbarNonAuth = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const toggleOpen = () => setOpen(!isOpen);
+  const setOpenFalse = () => setOpen(false);
 
   return (
     <NavbarContainer>
-      <NavbarLogo />
+      <NavbarLogo setOpenFalse={setOpenFalse} />
       <Spacer />
       <NavbarHamburger isOpen={isOpen} toggleOpen={toggleOpen} />
-      <LinksNonAuth isOpen={isOpen} />
+      <LinksNonAuth isOpen={isOpen} setOpenFalse={setOpenFalse} />
     </NavbarContainer>
   );
 };
 
-const LinksNonAuth = ({ isOpen }: { isOpen: boolean }) => {
+const LinksNonAuth = ({
+  isOpen,
+  setOpenFalse,
+}: {
+  isOpen: boolean;
+  setOpenFalse: () => void;
+}) => {
   return (
-    <NavbarLinksContainer isOpen={isOpen}>
-      <NextLink href={'/jak-to-funguje'}>
-        <Heading>Jak to funguje?</Heading>
+    <NavbarLinksContainer isOpen={isOpen} authJustify={false}>
+      <NextLink href={'/jak-to-funguje'} onClick={setOpenFalse}>
+        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+          Jak to funguje?
+        </Heading>
       </NextLink>
-      <NextLink href={'/prihlaseni'}>
-        <Button>Přihlášení</Button>
-      </NextLink>
-      <NextLink href={'/registrace'}>
-        <Button>Registrace</Button>
-      </NextLink>
+      <Stack direction={{ base: 'column', md: 'row' }} align={'center'}>
+        <NextLink href={'/prihlaseni'} onClick={setOpenFalse}>
+          <Button variant={'swapDark'} size={{ base: 'md', md: 'sm' }}>
+            Přihlášení
+          </Button>
+        </NextLink>
+        <NextLink href={'/registrace'} onClick={setOpenFalse}>
+          <Button variant={'swapDark'} size={{ base: 'md', md: 'sm' }}>
+            Registrace
+          </Button>
+        </NextLink>
+      </Stack>
     </NavbarLinksContainer>
   );
 };

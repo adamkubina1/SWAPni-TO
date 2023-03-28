@@ -1,6 +1,8 @@
-import { Box, Heading } from '@chakra-ui/react';
+import { useAuth } from '@/context/AuthUserContext';
+import { Avatar, Box, Flex, Heading, HStack, Tooltip } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useState } from 'react';
+import { MdMessage, MdOutlineLogout, MdSwapHoriz } from 'react-icons/md';
 import { NavbarContainer } from './NavbarContainer';
 import { NavbarHamburger } from './NavbarHamburger';
 import { NavbarLinksContainer } from './NavbarLinksContainer';
@@ -11,6 +13,7 @@ import { NavbarLogo } from './NavbarLogo';
  * base -----Mobile version----- md ------Desktop version ----->
  *
  * On mobile using flex order to switch Components order
+ * Flex grow/flex basis is used to center the links
  * *****DESKTOP*****
  * LOGO ----- LINKS ------ BUTTONS
  * *****MOBILE******
@@ -20,40 +23,104 @@ import { NavbarLogo } from './NavbarLogo';
 const NavbarAuth = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const toggleOpen = () => setOpen(!isOpen);
+  const setOpenFalse = () => setOpen(false);
 
   return (
     <NavbarContainer>
-      <Box display={'flex'} order={'-2'}>
-        <NavbarLogo />
-      </Box>
+      <Flex
+        order={'-2'}
+        flexGrow={{ base: 0, md: 1 }}
+        flexBasis={{ base: 'auto', md: 0 }}
+      >
+        <NavbarLogo setOpenFalse={setOpenFalse} />
+      </Flex>
       <NavbarHamburger isOpen={isOpen} toggleOpen={toggleOpen} />
-      <LinksAuth isOpen={isOpen} />
-      <ButtonLinksAuth />
+      <LinksAuth isOpen={isOpen} setOpenFalse={setOpenFalse} />
+      <Flex
+        order={{ base: -1, md: 1 }}
+        flexGrow={{ base: 0, md: 1 }}
+        flexBasis={{ base: 'auto', md: 0 }}
+        justifyContent={'flex-end'}
+      >
+        <ButtonLinksAuth setOpenFalse={setOpenFalse} />
+      </Flex>
     </NavbarContainer>
   );
 };
 
-const LinksAuth = ({ isOpen }: { isOpen: boolean }) => {
+const LinksAuth = ({
+  isOpen,
+  setOpenFalse,
+}: {
+  isOpen: boolean;
+  setOpenFalse: () => void;
+}) => {
   return (
-    <NavbarLinksContainer isOpen={isOpen}>
-      <NextLink href={'/'}>
-        <Heading size={'md'}>Knihy</Heading>
+    <NavbarLinksContainer isOpen={isOpen} authJustify={true}>
+      <NextLink href={'/'} onClick={setOpenFalse}>
+        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+          Knihy
+        </Heading>
       </NextLink>
-      <NextLink href={'/nabidky'}>
-        <Heading size={'md'}>Nabídky</Heading>
+      <NextLink href={'/nabidky'} onClick={setOpenFalse}>
+        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+          Nabídky
+        </Heading>
       </NextLink>
-      <NextLink href={'/poptávky'}>
-        <Heading size={'md'}>Poptávky</Heading>
+      <NextLink href={'/poptávky'} onClick={setOpenFalse}>
+        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+          Poptávky
+        </Heading>
       </NextLink>
     </NavbarLinksContainer>
   );
 };
 
-const ButtonLinksAuth = () => {
+const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
   return (
-    <Box display={'flex'} order={{ base: -1, md: 1 }}>
-      Buttons tmp
-    </Box>
+    <HStack gap={{ base: 0, md: 8 }}>
+      <HStack gap={1}>
+        <Tooltip
+          label={'Žádosti o výměnu'}
+          aria-label={'Žádosti o výměnu tooltip'}
+        >
+          <NextLink href={'/zadosti-o-vymeny'} onClick={setOpenFalse}>
+            <MdSwapHoriz size={40} />
+          </NextLink>
+        </Tooltip>
+        <Tooltip label={'Chaty a zprávy'} aria-label={'Chaty a zprávy tooltip'}>
+          <NextLink href={'/zpravy'} onClick={setOpenFalse}>
+            <MdMessage size={35} />
+          </NextLink>
+        </Tooltip>
+        <Tooltip label={'Můj profil'} aria-label={'Můj profil tooltip'}>
+          <NextLink href={'/profil'} onClick={setOpenFalse}>
+            <Avatar size={'sm'} />
+          </NextLink>
+        </Tooltip>
+      </HStack>
+      <Box display={{ base: 'none', md: 'block' }}>
+        <LogOutIcon setOpenFalse={setOpenFalse} />
+      </Box>
+    </HStack>
+  );
+};
+
+const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
+  const { signOut } = useAuth();
+
+  return (
+    <Tooltip label={'Odhlásit se'} aria-label={'Odhlásit se tooltip'}>
+      <NextLink
+        href={'/'}
+        onClick={() => {
+          setOpenFalse();
+          signOut();
+        }}
+      >
+        <MdOutlineLogout size={35} />
+      </NextLink>
+    </Tooltip>
   );
 };
 

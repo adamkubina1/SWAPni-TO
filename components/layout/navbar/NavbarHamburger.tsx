@@ -13,7 +13,7 @@ type NavbarHamburgerType = {
 const NavbarHamburger = ({ isOpen, toggleOpen }: NavbarHamburgerType) => {
   return (
     <Box display={{ base: 'block', md: 'none' }} onClick={toggleOpen} mr={'4'}>
-      {isOpen ? <CloseIcon w={6} h={6} /> : <HamburgerIcon w={8} h={8} />}
+      {isOpen ? <CloseIcon w={5} h={5} /> : <HamburgerIcon w={7} h={7} />}
     </Box>
   );
 };
