@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 import '@fontsource/montserrat';
 import '@fontsource/open-sans';
+import { ButtonTheme } from './components/ButtonTheme';
 
 const colors = {
   swap: {
@@ -20,18 +21,7 @@ const theme = extendTheme({
     body: `'Montserrat', sans-serif`,
   },
   components: {
-    Button: {
-      variants: {
-        swapDark: {
-          borderColor: 'swap.darkHighlight',
-          borderWidth: '1px',
-          fontWeight: 'normal',
-          _hover: {
-            background: 'swap.darkHighlight',
-          },
-        },
-      },
-    },
+    Button: ButtonTheme,
   },
   colors,
 });
