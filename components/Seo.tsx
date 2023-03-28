@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 const TITLE = 'Aplikace pro knižní výměnu';
 const DESCRIPTION =
-  'Webová aplikace propojující čtenáře za účelem výměny knih.';
+  'Webová aplikace SWAPni TO propojující čtenáře za účelem výměny knih.';
 const SITE_NAME = 'SWAPni TO';
 const DOMAIN = 'tmp'; //TODO add domain
 const DEFAULT_OG_IMAGE = 'tmp'; //TODO add default image absolute path

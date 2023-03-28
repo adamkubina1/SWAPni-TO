@@ -1,6 +1,7 @@
 import { useAuth } from '@/context/AuthUserContext';
 import { Avatar, Box, Flex, Heading, HStack, Tooltip } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { MdMessage, MdOutlineLogout, MdSwapHoriz } from 'react-icons/md';
 import { NavbarContainer } from './NavbarContainer';
@@ -112,16 +113,18 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
 
 const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
   const { signOut } = useAuth();
+  const router = useRouter();
+
+  const signOutClick = () => {
+    signOut().then(() => {
+      setOpenFalse();
+      router.push('/');
+    });
+  };
 
   return (
     <Tooltip label={'Odhlásit se'} aria-label={'Odhlásit se tooltip'}>
-      <NextLink
-        href={'/'}
-        onClick={() => {
-          setOpenFalse();
-          signOut();
-        }}
-      >
+      <NextLink href={'/'} onClick={signOutClick}>
         <MdOutlineLogout size={35} />
       </NextLink>
     </Tooltip>
