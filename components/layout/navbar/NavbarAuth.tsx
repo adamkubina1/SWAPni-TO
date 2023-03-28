@@ -14,6 +14,7 @@ import { NavbarLogo } from './NavbarLogo';
  *
  * On mobile using flex order to switch Components order
  * Flex grow/flex basis is used to center the links
+ * Logout icon shows on destop in ButtonLinksAuth, but on mobile in LinksAuth
  * *****DESKTOP*****
  * LOGO ----- LINKS ------ BUTTONS
  * *****MOBILE******
@@ -72,6 +73,9 @@ const LinksAuth = ({
           Poptávky
         </Heading>
       </NextLink>
+      <Box display={{ base: 'block', md: 'none' }}>
+        <LogOutIcon setOpenFalse={setOpenFalse} />
+      </Box>
     </NavbarLinksContainer>
   );
 };
