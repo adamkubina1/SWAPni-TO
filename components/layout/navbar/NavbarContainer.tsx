@@ -6,10 +6,12 @@ const NavbarContainer = ({ children }: { children: ReactNode }) => {
     <Box
       as={'nav'}
       w={'100%'}
+      display={'flex'}
       position={'fixed'}
       zIndex={'overlay'}
-      display={'flex'}
       alignItems={'center'}
+      flexWrap={'wrap'}
+      justifyContent={'space-between'}
       px={{ base: 4, md: 6 }}
     >
       {children}
