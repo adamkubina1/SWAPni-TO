@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -12,6 +13,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+const siteKey = process.env.NEXT_PUBLIC_FIREBASE_RECAPTCHA_SITE_KEY;
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(siteKey ? siteKey : ''),
+  isTokenAutoRefreshEnabled: true,
+});
+
 const auth = getAuth(app);
 
 export { app, auth };
