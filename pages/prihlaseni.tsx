@@ -96,7 +96,7 @@ const LoginForm = () => {
           label={'Email'}
           placeholder={'Vaše emailová adresa'}
           leftAddon={
-            <InputLeftAddon>
+            <InputLeftAddon backgroundColor={'gray.400'}>
               <MdAlternateEmail />
             </InputLeftAddon>
           }
@@ -108,7 +108,7 @@ const LoginForm = () => {
           label={'Heslo'}
           placeholder={'Vaše heslo'}
           leftAddon={
-            <InputLeftAddon>
+            <InputLeftAddon backgroundColor={'gray.400'}>
               <RiLockPasswordLine />
             </InputLeftAddon>
           }

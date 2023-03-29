@@ -99,7 +99,7 @@ const SignUpForm = () => {
           label={'Email'}
           placeholder={'Vaše emailová adresa'}
           leftAddon={
-            <InputLeftAddon>
+            <InputLeftAddon backgroundColor={'gray.400'}>
               <MdAlternateEmail />
             </InputLeftAddon>
           }
@@ -111,7 +111,7 @@ const SignUpForm = () => {
           label={'Heslo'}
           placeholder={'Vaše heslo'}
           leftAddon={
-            <InputLeftAddon>
+            <InputLeftAddon backgroundColor={'gray.400'}>
               <RiLockPasswordLine />
             </InputLeftAddon>
           }
@@ -123,7 +123,7 @@ const SignUpForm = () => {
           label={'Kontrola hesla'}
           placeholder={'Vaše heslo znovu'}
           leftAddon={
-            <InputLeftAddon>
+            <InputLeftAddon backgroundColor={'gray.400'}>
               <RiLockPasswordLine />
             </InputLeftAddon>
           }
