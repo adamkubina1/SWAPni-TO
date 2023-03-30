@@ -1,9 +1,9 @@
-import { useAuth } from '@/context/AuthUserContext';
 import { Avatar, Box, Flex, Heading, HStack, Tooltip } from '@chakra-ui/react';
+import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MdMessage, MdOutlineLogout, MdSwapHoriz } from 'react-icons/md';
+import { useAuth } from 'reactfire';
 import { NavbarContainer } from './NavbarContainer';
 import { NavbarHamburger } from './NavbarHamburger';
 import { NavbarLinksContainer } from './NavbarLinksContainer';
@@ -112,21 +112,15 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
 };
 
 const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
-  const { signOut } = useAuth();
-  const router = useRouter();
+  const auth = useAuth();
 
-  const signOutClick = () => {
-    signOut()
-      .then(() => {
-        setOpenFalse();
-        router.push('/');
-      })
-      .catch((e) => {});
-  };
+  const onSignOutRequested = useCallback(() => {
+    return signOut(auth);
+  }, [auth]);
 
   return (
     <Tooltip label={'Odhlásit se'} aria-label={'Odhlásit se tooltip'}>
-      <NextLink href={'/'} onClick={signOutClick}>
+      <NextLink href={'/'} onClick={onSignOutRequested}>
         <MdOutlineLogout size={35} />
       </NextLink>
     </Tooltip>
