@@ -14,9 +14,7 @@ const DefaultLayout = ({ children }: { children: ReactNode }) => {
       color={'swap.darkText'}
     >
       <NavbarAuthRender />
-      <Container as={'main'} minH={'100vh'}>
-        {children}
-      </Container>
+      <Container minH={'100vh'}>{children}</Container>
       <Footer />
     </Box>
   );
