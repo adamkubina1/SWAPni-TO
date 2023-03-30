@@ -1,3 +1,4 @@
+import FirebaseAppCheckProvider from '@/components/context/FirebaseAppCheckProvider';
 import { DefaultLayout } from '@/components/layout/DefaultLayout';
 import '@/styles/global.css';
 import { theme } from '@/styles/theme';
@@ -24,14 +25,16 @@ export default function App({ Component, pageProps }: AppProps) {
   const auth = initializeAuth(app, { persistence });
 
   return (
-    <FirebaseAppProvider firebaseApp={app}>
-      <AuthProvider sdk={auth}>
-        <ChakraProvider theme={theme}>
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
-        </ChakraProvider>
-      </AuthProvider>
+    <FirebaseAppProvider firebaseApp={app} suspense={true}>
+      <FirebaseAppCheckProvider>
+        <AuthProvider sdk={auth}>
+          <ChakraProvider theme={theme}>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </ChakraProvider>
+        </AuthProvider>
+      </FirebaseAppCheckProvider>
     </FirebaseAppProvider>
   );
 }
