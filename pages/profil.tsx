@@ -1,12 +1,21 @@
 import { EditProfileForm } from '@/components/forms/EditProfileForm';
 import { EditProfilePicForm } from '@/components/forms/EditProfilePicForm';
+import { EditUserNameForm } from '@/components/forms/EditUserNameForm';
 import { ModalContainer } from '@/components/modals/ModalContainer';
 import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
 import { useFetchAvatarUrl } from '@/lib/customHooks/useFetchAvatarUrl';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { Avatar, Box, Spinner, Stack, Text, VStack } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Heading,
+  Spinner,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { useUser } from 'reactfire';
 
 const PAGE_TITLE = 'Můj profil';
@@ -18,15 +27,18 @@ const Profil = () => {
   return (
     <ProtectedPage>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-      <VStack>
+      <VStack pt={28}>
+        <Heading size={{ base: 'xl', md: '2xl' }}>Můj profil</Heading>
         <Stack
+          pt={6}
           direction={{ base: 'column', md: 'row' }}
-          pt={28}
           gap={{ base: 0, md: '12' }}
         >
           <NoSSR>
             {user?.uid ? <UserAvatar userId={user.uid} /> : <Spinner />}
-            {user?.uid ? <UserDescription userId={user.uid} /> : <Spinner />}
+            <VStack>
+              {user?.uid ? <UserDescription userId={user.uid} /> : <Spinner />}
+            </VStack>
           </NoSSR>
         </Stack>
         <NoSSR>
@@ -34,6 +46,9 @@ const Profil = () => {
             modalButtonText={'Upravit profil'}
             modalHeaderText={'Upravit profil'}
           >
+            <Box mb={8}>
+              <EditUserNameForm />
+            </Box>
             <EditProfileForm />
             <Box mt={8}>
               <EditProfilePicForm />
@@ -53,11 +68,16 @@ const UserDescription = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <Text>
-      {userFirestore.bio
-        ? userFirestore.bio
-        : 'Zatím jsem o sobě nic nenapsal :)'}
-    </Text>
+    <>
+      <Heading size={'md'}>
+        {userFirestore.userName ? userFirestore.userName : 'Uživatelské jméno'}
+      </Heading>
+      <Text>
+        {userFirestore.bio
+          ? userFirestore.bio
+          : 'Zatím jsem o sobě nic nenapsal :)'}
+      </Text>
+    </>
   );
 };
 

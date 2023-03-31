@@ -1,4 +1,5 @@
 type Users = {
+  userName: string;
   bio: string;
 };
 

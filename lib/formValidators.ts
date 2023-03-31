@@ -54,11 +54,22 @@ const ValidateProfilePic: Validator = (pic) => {
   return error;
 };
 
+const ValidateProfileUsername: Validator = (userName) => {
+  let error;
+
+  if (!userName) {
+    error = 'Vyplňte prosím uživatelksé jméno';
+  }
+
+  return error;
+};
+
 export {
   ValidatePasswordLogin,
   ValidatePasswordSignUp,
   ValidateEmail,
   ValidateProfileBio,
   ValidateProfilePic,
+  ValidateProfileUsername,
 };
 export type { Validator };
