@@ -1,15 +1,17 @@
+import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { useAuth, useSigninCheck } from 'reactfire';
 
 const ProtectedPage = ({
   children,
-  whenSignedOut,
+  whenSignedOut = '/',
 }: {
   children: ReactNode;
   whenSignedOut?: string;
 }) => {
   const auth = useAuth();
   const { status } = useSigninCheck();
+  const router = useRouter();
 
   useEffect(() => {
     if (status !== 'success') {
@@ -20,16 +22,14 @@ const ProtectedPage = ({
       const shouldLogOut = !user && whenSignedOut;
 
       if (shouldLogOut) {
-        const path = window.location.pathname;
-
-        if (path !== whenSignedOut) {
-          window.location.assign(whenSignedOut);
+        if (router.pathname !== whenSignedOut) {
+          router.push(whenSignedOut);
         }
       }
     });
 
     return () => listener();
-  }, [auth, status, whenSignedOut]);
+  }, [auth, status, router, whenSignedOut]);
 
   return <>{children}</>;
 };

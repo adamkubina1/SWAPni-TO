@@ -1,9 +1,18 @@
-import { Avatar, Box, Flex, Heading, HStack, Tooltip } from '@chakra-ui/react';
+import { useFetchAvatarUrl } from '@/lib/customHooks/useFetchAvatarUrl';
+import {
+  Avatar,
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  Tooltip,
+} from '@chakra-ui/react';
 import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';
 import { useCallback, useState } from 'react';
 import { MdMessage, MdOutlineLogout, MdSwapHoriz } from 'react-icons/md';
-import { useAuth } from 'reactfire';
+import { useAuth, useUser } from 'reactfire';
 import { NavbarContainer } from './NavbarContainer';
 import { NavbarHamburger } from './NavbarHamburger';
 import { NavbarLinksContainer } from './NavbarLinksContainer';
@@ -82,6 +91,8 @@ const LinksAuth = ({
 };
 
 const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
+  const { data: user } = useUser();
+
   return (
     <HStack gap={{ base: 0, md: 8 }}>
       <HStack gap={1}>
@@ -100,7 +111,7 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
         </Tooltip>
         <Tooltip label={'Můj profil'} aria-label={'Můj profil tooltip'}>
           <NextLink href={'/profil'} onClick={setOpenFalse}>
-            <Avatar size={'sm'} />
+            {user?.uid ? <UserAvatar userId={user.uid} /> : <Spinner />}
           </NextLink>
         </Tooltip>
       </HStack>
@@ -109,6 +120,16 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
       </Box>
     </HStack>
   );
+};
+
+const UserAvatar = ({ userId }: { userId: string }) => {
+  const { status, data: imgUrl } = useFetchAvatarUrl(userId);
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
+
+  return <Avatar size={'sm'} src={imgUrl} />;
 };
 
 const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {

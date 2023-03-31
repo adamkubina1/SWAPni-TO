@@ -34,5 +34,31 @@ const ValidateEmail: Validator = (email) => {
   return error;
 };
 
-export { ValidatePasswordLogin, ValidatePasswordSignUp, ValidateEmail };
+const ValidateProfileBio: Validator = (bio) => {
+  let error;
+
+  if (!bio) {
+    error = 'Bio nemůže být prázdné';
+  }
+
+  return error;
+};
+
+const ValidateProfilePic: Validator = (pic) => {
+  let error;
+
+  if (!pic) {
+    error = 'Vyberte profilový obrázek';
+  }
+
+  return error;
+};
+
+export {
+  ValidatePasswordLogin,
+  ValidatePasswordSignUp,
+  ValidateEmail,
+  ValidateProfileBio,
+  ValidateProfilePic,
+};
 export type { Validator };

@@ -9,7 +9,7 @@ import { ReactNode, useEffect } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { GoogleSignButton } from '../GoogleSignButton';
-import { FormField } from './FormField';
+import { FormFieldInput } from './FormField';
 
 const SignUpContainer = ({ children }: { children: ReactNode }) => {
   return (
@@ -58,7 +58,7 @@ const SignUpForm = ({ onSignUp }: { onSignUp: () => void }) => {
         validateOnChange={false}
       >
         <Form>
-          <FormField
+          <FormFieldInput
             name={'email'}
             type={'text'} //Browsers are annoying with type email to users
             validate={ValidateEmail}
@@ -70,7 +70,7 @@ const SignUpForm = ({ onSignUp }: { onSignUp: () => void }) => {
               </InputLeftAddon>
             }
           />
-          <FormField
+          <FormFieldInput
             name={'password'}
             type={'password'}
             validate={ValidatePasswordSignUp}
@@ -82,7 +82,7 @@ const SignUpForm = ({ onSignUp }: { onSignUp: () => void }) => {
               </InputLeftAddon>
             }
           />
-          <FormField
+          <FormFieldInput
             name={'passwordRepeat'}
             type={'password'}
             validate={ValidatePasswordSignUp}
