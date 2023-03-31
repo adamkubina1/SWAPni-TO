@@ -12,6 +12,7 @@ const Footer = () => {
       direction={{ base: 'column-reverse', md: 'row' }}
       gap={10}
       pb={{ base: 2, md: 0 }}
+      mt={'5vh'}
     >
       <VStack>
         <Text color={'gray.500'}>
