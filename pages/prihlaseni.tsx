@@ -1,4 +1,5 @@
 import { LoginForm } from '@/components/forms/LoginForm';
+import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { Heading, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -23,11 +24,12 @@ const Prihlaseni = () => {
         gap={10}
       >
         <Heading size={{ base: 'xl', md: '2xl' }}>Přihlášení</Heading>
-        <LoginForm onSignIn={onSignIn} />
+        <NoSSR>
+          <LoginForm onSignIn={onSignIn} />
+        </NoSSR>
       </VStack>
     </>
   );
 };
-
 
 export default Prihlaseni;

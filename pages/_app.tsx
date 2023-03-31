@@ -1,5 +1,6 @@
 import FirebaseAppCheckProvider from '@/components/context/FirebaseAppCheckProvider';
 import FirebaseAuthProvider from '@/components/context/FirebaseAuthProvider';
+import FirebaseFirestoreProvider from '@/components/context/FirebaseFirestoreProvider';
 import { DefaultLayout } from '@/components/layout/DefaultLayout';
 import '@/styles/global.css';
 import { theme } from '@/styles/theme';
@@ -13,14 +14,16 @@ export default function App({ Component, pageProps }: AppProps) {
   const app = initializeApp(firebaseConfig);
 
   return (
-    <FirebaseAppProvider firebaseApp={app} suspense={true}>
+    <FirebaseAppProvider firebaseApp={app}>
       <FirebaseAppCheckProvider>
         <FirebaseAuthProvider>
-          <ChakraProvider theme={theme}>
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
-          </ChakraProvider>
+          <FirebaseFirestoreProvider>
+            <ChakraProvider theme={theme}>
+              <DefaultLayout>
+                <Component {...pageProps} />
+              </DefaultLayout>
+            </ChakraProvider>
+          </FirebaseFirestoreProvider>
         </FirebaseAuthProvider>
       </FirebaseAppCheckProvider>
     </FirebaseAppProvider>

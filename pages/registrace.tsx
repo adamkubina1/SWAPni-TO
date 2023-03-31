@@ -1,4 +1,5 @@
 import { SignUpForm } from '@/components/forms/SignUpForm';
+import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { Heading, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -23,11 +24,12 @@ const Registrace = () => {
         gap={10}
       >
         <Heading size={{ base: 'xl', md: '2xl' }}>Registrace</Heading>
-        <SignUpForm onSignUp={onSignUp} />
+        <NoSSR>
+          <SignUpForm onSignUp={onSignUp} />
+        </NoSSR>
       </VStack>
     </>
   );
 };
-
 
 export default Registrace;
