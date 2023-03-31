@@ -87,7 +87,7 @@ const UserAvatar = ({ userId }: { userId: string }) => {
 
   return (
     <Flex justify={'center'}>
-      <Avatar size={'2xl'} src={imageURL} />;
+      <Avatar size={'2xl'} src={imageURL} />
     </Flex>
   );
 };
