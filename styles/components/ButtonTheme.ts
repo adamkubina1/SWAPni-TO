@@ -12,6 +12,12 @@ const ButtonTheme = {
       color: 'swap.lightText',
       _hover: { backgroundColor: 'swap.lightHighlight' },
     },
+    swapLightOutline: {
+      borderColor: 'swap.lightHighlight',
+      borderWidth: '1px',
+      color: 'swap.lightText',
+      _hover: { backgroundColor: 'swap.lightHighlight' },
+    },
   },
 };
 
