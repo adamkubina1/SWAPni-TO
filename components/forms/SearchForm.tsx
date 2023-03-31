@@ -1,3 +1,4 @@
+import { ValidateSearch } from '@/lib/formValidators';
 import { Box, Button, InputRightAddon, Stack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { MdSearch } from 'react-icons/md';
@@ -12,10 +13,7 @@ const SearchForm = () => {
   const onSubmitForm = async (values: {
     search: string;
     searchType: string;
-  }) => {
-    console.log('submited');
-    console.log(values);
-  };
+  }) => {};
 
   return (
     <Formik
@@ -29,7 +27,7 @@ const SearchForm = () => {
           <Box w={'100%'}>
             <FormFieldInput
               name={'search'}
-              validate={() => ''}
+              validate={ValidateSearch}
               label={''}
               type={'search'}
               placeholder={'Vyhledat'}

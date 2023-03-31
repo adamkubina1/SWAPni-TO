@@ -64,6 +64,16 @@ const ValidateProfileUsername: Validator = (userName) => {
   return error;
 };
 
+const ValidateSearch: Validator = (search) => {
+  let error;
+
+  if (!search) {
+    error = 'Zadejte klíčová slova pro vyhledání';
+  }
+
+  return error;
+};
+
 export {
   ValidatePasswordLogin,
   ValidatePasswordSignUp,
@@ -71,5 +81,6 @@ export {
   ValidateProfileBio,
   ValidateProfilePic,
   ValidateProfileUsername,
+  ValidateSearch,
 };
 export type { Validator };
