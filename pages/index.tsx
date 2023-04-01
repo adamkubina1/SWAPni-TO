@@ -49,7 +49,7 @@ const SearchBookByNameResults = ({ search }: { search: string }) => {
     fetcher
   );
 
-  if (isLoading || isValidating) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (error) return <Text>Nebyly nelezeny žádné výsledky.</Text>;
 
   console.log(data);
