@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  Select,
   Textarea,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
@@ -122,7 +123,6 @@ const FormFieldInputFile = ({
   name: string;
   validate?: Validator;
   label?: string;
-  placeholder?: string;
 }) => {
   return (
     <Field name={name} validate={validate}>
@@ -150,4 +150,52 @@ const FormFieldInputFile = ({
   );
 };
 
-export { FormFieldInput, FormFieldTextArea, FormFieldInputFile };
+/**
+ *
+ * @param name String id for the field in the form.
+ * @param validate Function validating value of the field, reference in /lib/formValidators.ts.
+ * @param label Optional text on top of the input.
+
+ */
+const FormFieldSelect = ({
+  name,
+  validate,
+  label,
+  placeholder,
+  options,
+}: {
+  name: string;
+  validate?: Validator;
+  label?: string;
+  placeholder?: string;
+  options: Array<{ value: string; description: string }>;
+}) => {
+  return (
+    <Field name={name} validate={validate}>
+      {({ field, form }: any) => (
+        <FormControl isInvalid={form.errors[name]}>
+          <FormLabel mt={2}>{label}</FormLabel>
+          <Select
+            name={name}
+            placeholder={placeholder}
+            onChange={form.handleChange}
+          >
+            {options.map((option, i) => (
+              <option id={name} key={i} value={option.value}>
+                {option.description}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{form.errors[name]}</FormErrorMessage>
+        </FormControl>
+      )}
+    </Field>
+  );
+};
+
+export {
+  FormFieldInput,
+  FormFieldTextArea,
+  FormFieldInputFile,
+  FormFieldSelect,
+};
