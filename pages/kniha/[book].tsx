@@ -1,5 +1,6 @@
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
+import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
@@ -34,10 +35,25 @@ const Book = () => {
     <>
       <VStack pt={28} gap={6}>
         <BookInfo bookId={book} />
-        <BookActions />
+        <BookActions bookId={book} />
+        <BookRelatedContent />
       </VStack>
     </>
   );
+};
+
+const BookRelatedContent = () => {
+  const { status, data: signInCheckResult } = useSigninCheck();
+
+  if (status === 'loading') return <Spinner />;
+
+  if (!signInCheckResult.signedIn) {
+    return null;
+  }
+
+  console.log();
+
+  return <></>;
 };
 
 const BookInfo = ({ bookId }: { bookId: string }) => {
@@ -104,7 +120,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
   );
 };
 
-const BookActions = () => {
+const BookActions = ({ bookId }: { bookId: string }) => {
   const { status, data: signInCheckResult } = useSigninCheck();
 
   return (
@@ -118,7 +134,7 @@ const BookActions = () => {
         >
           {signInCheckResult.signedIn ? (
             <>
-              <Button>Přidat nabídku</Button>
+              <AddBookOfferForm bookId={bookId} />
               <Button>Přidat poptávku</Button>
               <Button>Napsat recenzi</Button>
             </>

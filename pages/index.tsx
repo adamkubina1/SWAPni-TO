@@ -1,3 +1,4 @@
+import { BookCard } from '@/components/BookCard';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { SearchForm } from '@/components/forms/SearchForm';
