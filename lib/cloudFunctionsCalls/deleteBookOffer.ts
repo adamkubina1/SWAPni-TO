@@ -5,9 +5,9 @@ const deleteBookOffer = async (
     bookOfferId: string,
     bookId: string,
   ) => {
-    const createBookOfferPromise = httpsCallable(functions, 'deleteBookOffer');
+    const deleteBookOfferCall = httpsCallable(functions, 'deleteBookOffer');
   
-    return createBookOfferPromise({ bookOfferId: bookOfferId, bookId: bookId });
+    return deleteBookOfferCall({ bookOfferId: bookOfferId, bookId: bookId });
   };
 
   export { deleteBookOffer };
