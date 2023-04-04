@@ -13,13 +13,13 @@ import type { AppProps } from 'next/app';
 import {
   FirebaseAppProvider,
   FunctionsProvider,
-  StorageProvider,
+  StorageProvider
 } from 'reactfire';
 
 export default function App({ Component, pageProps }: AppProps) {
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
-  const functions = getFunctions(app);
+  const functions = getFunctions(app, 'europe-west3');
 
   return (
     <FirebaseAppProvider firebaseApp={app}>

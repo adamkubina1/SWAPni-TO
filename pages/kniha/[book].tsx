@@ -1,7 +1,7 @@
+import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
-import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
@@ -13,7 +13,7 @@ import {
   Spinner,
   Stack,
   Text,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -66,8 +66,6 @@ const BookRelatedContent = ({ bookId }: { bookId: string }) => {
   if (status === 'loading') return <Spinner />;
 
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
-
-  console.log(bookOffers);
 
   return (
     <>

@@ -22,3 +22,4 @@ const useFetchAllOffersForUser = ({ userId }: { userId: string }) => {
 };
 
 export { useFetchAllOffersForBook, useFetchAllOffersForUser };
+
