@@ -1,5 +1,9 @@
+import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
+import { UserAvatar } from '@/components/UserAvatar';
+import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
+import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
@@ -9,9 +13,10 @@ import {
   Spinner,
   Stack,
   Text,
-  VStack,
+  VStack
 } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
@@ -30,13 +35,61 @@ const Book = () => {
     book = book[0];
   }
 
+  if (!book) {
+    return (
+      <Text color={'red'} pt={28}>
+        Něco se pokazilo...
+      </Text>
+    );
+  }
+
   return (
     <>
       <VStack pt={28} gap={6}>
         <BookInfo bookId={book} />
-        <BookActions />
+        <BookActions bookId={book} />
+        <BookRelatedContent bookId={book} />
       </VStack>
     </>
+  );
+};
+
+const BookRelatedContent = ({ bookId }: { bookId: string }) => {
+  const { data: signInCheckResult } = useSigninCheck();
+  const { status, data: bookOffers } = useFetchAllOffersForBook({
+    bookId,
+  });
+
+  if (!signInCheckResult?.signedIn) {
+    return null;
+  }
+  if (status === 'loading') return <Spinner />;
+
+  if (status === 'error') return <Text>Něco se pokazilo...</Text>;
+
+  return (
+    <>
+      {bookOffers.map((offer, i) => (
+        <BookOfferCard key={i} userId={offer.userId} />
+      ))}
+    </>
+  );
+};
+
+const BookOfferCard = ({ userId }: { userId: string }) => {
+  const { data: userFirestore, status } = useFetchProfile(userId);
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
+
+  return (
+    <Box>
+      <Link href={`/uzivatel/${userId}`}>
+        <UserAvatar userId={userId} size={'sm'} />
+      </Link>
+      <Heading>{userFirestore.userName}</Heading>
+    </Box>
   );
 };
 
@@ -104,7 +157,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
   );
 };
 
-const BookActions = () => {
+const BookActions = ({ bookId }: { bookId: string }) => {
   const { status, data: signInCheckResult } = useSigninCheck();
 
   return (
@@ -118,7 +171,7 @@ const BookActions = () => {
         >
           {signInCheckResult.signedIn ? (
             <>
-              <Button>Přidat nabídku</Button>
+              <AddBookOfferForm bookId={bookId} />
               <Button>Přidat poptávku</Button>
               <Button>Napsat recenzi</Button>
             </>

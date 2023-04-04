@@ -1,6 +1,7 @@
+import { BookCard } from '@/components/BookCard';
+import { SearchForm } from '@/components/forms/SearchForm';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
-import { SearchForm } from '@/components/forms/SearchForm';
 import { GoogleBookApiResponseType } from '@/lib/types/GoogleBooksApi';
 import { SearchType } from '@/lib/types/Search';
 import { Heading, Spinner, Text, VStack } from '@chakra-ui/react';
@@ -14,11 +15,7 @@ const Home = () => {
   return (
     <>
       <Seo />
-      <VStack
-        pt={{ base: '10vh', md: '10vh' }}
-        justifyContent={'center'}
-        gap={6}
-      >
+      <VStack pt={'10vh'} justifyContent={'center'} gap={6}>
         <Heading size={{ base: 'lg', md: '2xl' }}>
           Prozkoumejte SWAPni TO
         </Heading>
