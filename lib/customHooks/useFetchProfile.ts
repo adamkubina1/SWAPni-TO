@@ -1,5 +1,5 @@
 import { doc, DocumentReference } from 'firebase/firestore';
-import { useFirestore, useFirestoreDocData } from 'reactfire';
+import { ObservableStatus, useFirestore, useFirestoreDocData } from 'reactfire';
 import { Users } from '../types/Users';
 
 type Response = Users & { id: string };
@@ -15,7 +15,7 @@ const useFetchProfile = (userId: string) => {
 
   const ref = doc(firestore, path, userId) as DocumentReference<Response>;
 
-  return useFirestoreDocData(ref, { idField: 'id' });
+  return useFirestoreDocData(ref, { idField: 'id' }) as ObservableStatus<Users>;
 };
 
 export { useFetchProfile };

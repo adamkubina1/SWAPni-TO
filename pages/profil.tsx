@@ -6,7 +6,10 @@ import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
+import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
+import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
+import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
   Flex,
@@ -16,7 +19,10 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useUser } from 'reactfire';
+import useSWR from 'swr';
 
 const PAGE_TITLE = 'Můj profil';
 const PAGE_DESCRIPTION = 'Můj profil ve webové aplikace SWAPni TO.';
@@ -62,8 +68,65 @@ const Profil = () => {
             </Box>
           </ModalContainer>
         </NoSSR>
+        {user?.uid ? <UserCreatedContent userId={user.uid} /> : <Spinner />}
       </VStack>
     </ProtectedPage>
+  );
+};
+
+const UserCreatedContent = ({ userId }: { userId: string }) => {
+  const { status, data: offers } = useFetchAllOffersForUser({ userId });
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
+
+  return (
+    <>
+      {offers.map((offer, i) => (
+        <BookOfferCard key={i} bookId={offer.bookId} />
+      ))}
+    </>
+  );
+};
+
+const BookOfferCard = ({ bookId }: { bookId: string }) => {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR(
+    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
+    fetcher
+  );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <Heading color={'red'}>Něco se pokazilo...</Heading>;
+  }
+
+  const bookData: GoogleBookApiBook = data;
+
+  const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
+
+  return (
+    <Box
+      pos={'relative'}
+      w={{ base: 150, md: 150 }}
+      h={{ base: 200, md: 200 }}
+      minW={150}
+      objectFit={'cover'}
+      overflow={'hidden'}
+      mr={2}
+      borderRadius={'md'}
+    >
+      <Link href={`/kniha/${bookId}`}>
+        <Image
+          src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
+          fill
+          alt={bookData.volumeInfo?.title}
+        />
+      </Link>
+    </Box>
   );
 };
 

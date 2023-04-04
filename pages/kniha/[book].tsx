@@ -1,6 +1,9 @@
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
+import { UserAvatar } from '@/components/UserAvatar';
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
+import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
+import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
@@ -13,6 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
@@ -44,24 +48,51 @@ const Book = () => {
       <VStack pt={28} gap={6}>
         <BookInfo bookId={book} />
         <BookActions bookId={book} />
-        <BookRelatedContent />
+        <BookRelatedContent bookId={book} />
       </VStack>
     </>
   );
 };
 
-const BookRelatedContent = () => {
-  const { status, data: signInCheckResult } = useSigninCheck();
+const BookRelatedContent = ({ bookId }: { bookId: string }) => {
+  const { data: signInCheckResult } = useSigninCheck();
+  const { status, data: bookOffers } = useFetchAllOffersForBook({
+    bookId,
+  });
 
-  if (status === 'loading') return <Spinner />;
-
-  if (!signInCheckResult.signedIn) {
+  if (!signInCheckResult?.signedIn) {
     return null;
   }
+  if (status === 'loading') return <Spinner />;
 
-  console.log();
+  if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
-  return <></>;
+  console.log(bookOffers);
+
+  return (
+    <>
+      {bookOffers.map((offer, i) => (
+        <BookOfferCard key={i} userId={offer.userId} />
+      ))}
+    </>
+  );
+};
+
+const BookOfferCard = ({ userId }: { userId: string }) => {
+  const { data: userFirestore, status } = useFetchProfile(userId);
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
+
+  return (
+    <Box>
+      <Link href={`/uzivatel/${userId}`}>
+        <UserAvatar userId={userId} size={'sm'} />
+      </Link>
+      <Heading>{userFirestore.userName}</Heading>
+    </Box>
+  );
 };
 
 const BookInfo = ({ bookId }: { bookId: string }) => {
