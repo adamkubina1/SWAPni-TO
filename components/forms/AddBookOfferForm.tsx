@@ -3,7 +3,7 @@ import { BookOffer } from '@/lib/types/BookOffer';
 import { BookState } from '@/lib/types/BookState';
 import { Button, useToast } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import { useFirestore, useUser } from 'reactfire';
+import { useFunctions, useUser } from 'reactfire';
 import { ModalContainer } from '../modals/ModalContainer';
 import { FormFieldSelect, FormFieldTextArea } from './FormField';
 
@@ -15,9 +15,9 @@ const bookStateOptions: Array<{ value: BookState; description: string }> = [
 ];
 
 const AddBookOfferForm = ({ bookId }: { bookId: string }) => {
-  const fireStore = useFirestore();
   const { data: user } = useUser();
   const toast = useToast();
+  const functions = useFunctions();
 
   const addBookOfferSubmit = async (values: BookOffer) => {
     if (!user) {
@@ -31,20 +31,28 @@ const AddBookOfferForm = ({ bookId }: { bookId: string }) => {
       return;
     }
 
-    createBookOffer(user.uid, bookId, fireStore, {
-      notes: values.notes,
-      bookState: values.bookState,
-    }).then(
-      () => {
-        toast({
-          title: 'Nabídka vytvořena.',
-          description: 'Vaše nabídka byla úspěšně přidána.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-      },
-      () => {
+    createBookOffer(functions, bookId, values)
+      .then(
+        () => {
+          toast({
+            title: 'Nabídka vytvořena.',
+            description: 'Vaše nabídka byla úspěšně přidána.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+        },
+        () => {
+          toast({
+            title: 'Jejda něco se pokazilo.',
+            description: 'Nepodařilo se vytvořit nabídku.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      )
+      .catch(() => {
         toast({
           title: 'Jejda něco se pokazilo.',
           description: 'Nepodařilo se vytvořit nabídku.',
@@ -52,8 +60,7 @@ const AddBookOfferForm = ({ bookId }: { bookId: string }) => {
           duration: 5000,
           isClosable: true,
         });
-      }
-    );
+      });
   };
 
   return (

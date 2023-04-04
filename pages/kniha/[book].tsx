@@ -31,6 +31,14 @@ const Book = () => {
     book = book[0];
   }
 
+  if (!book) {
+    return (
+      <Text color={'red'} pt={28}>
+        Něco se pokazilo...
+      </Text>
+    );
+  }
+
   return (
     <>
       <VStack pt={28} gap={6}>
