@@ -1,4 +1,4 @@
-import { createBookOffer } from '@/lib/createBookOffer';
+import { createBookOffer } from '@/lib/cloudFunctionsCalls/createBookOffer';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { BookState } from '@/lib/types/BookState';
 import { Button, useToast } from '@chakra-ui/react';
