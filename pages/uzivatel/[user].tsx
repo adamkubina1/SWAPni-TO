@@ -1,9 +1,8 @@
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
-import { useFetchAvatarUrl } from '@/lib/customHooks/useFetchAvatarUrl';
+import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
@@ -12,6 +11,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+
 import { useRouter } from 'next/router';
 
 const PAGE_TITLE = 'Profil uživatele';
@@ -42,7 +42,14 @@ const User = () => {
           gap={{ base: 0, md: '12' }}
         >
           <NoSSR>
-            {user ? <UserAvatar userId={user} /> : <Spinner />}
+            {user ? (
+              <Flex justify={'center'}>
+                <UserAvatar userId={user} size={'2xl'} />
+              </Flex>
+            ) : (
+              <Spinner />
+            )}
+
             <VStack>
               {user ? <UserDescription userId={user} /> : <Spinner />}
             </VStack>
@@ -67,28 +74,14 @@ const UserDescription = ({ userId }: { userId: string }) => {
         color={'swap.darkHighlight'}
         textAlign={{ base: 'center', md: 'left' }}
       >
-        {userFirestore.userName ? userFirestore.userName : 'Uživatelské jméno'}
+        {userFirestore?.userName ? userFirestore.userName : 'Nový uživatel'}
       </Heading>
       <Text>
-        {userFirestore.bio
+        {userFirestore?.bio
           ? userFirestore.bio
           : 'Zatím jsem o sobě nic nenapsal :)'}
       </Text>
     </Box>
-  );
-};
-
-const UserAvatar = ({ userId }: { userId: string }) => {
-  const { status, data: imageURL } = useFetchAvatarUrl(userId);
-
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  return (
-    <Flex justify={'center'}>
-      <Avatar size={'2xl'} src={imageURL} />
-    </Flex>
   );
 };
 

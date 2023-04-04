@@ -5,10 +5,9 @@ import { ModalContainer } from '@/components/modals/ModalContainer';
 import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
-import { useFetchAvatarUrl } from '@/lib/customHooks/useFetchAvatarUrl';
+import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
@@ -37,7 +36,13 @@ const Profil = () => {
           justifyContent={'center'}
         >
           <NoSSR>
-            {user?.uid ? <UserAvatar userId={user.uid} /> : <Spinner />}
+            {user?.uid ? (
+              <Flex justify={'center'}>
+                <UserAvatar userId={user.uid} size={'2xl'} />
+              </Flex>
+            ) : (
+              <Spinner />
+            )}
             <VStack>
               {user?.uid ? <UserDescription userId={user.uid} /> : <Spinner />}
             </VStack>
@@ -76,28 +81,14 @@ const UserDescription = ({ userId }: { userId: string }) => {
         color={'swap.darkHighlight'}
         textAlign={{ base: 'center', md: 'left' }}
       >
-        {userFirestore.userName ? userFirestore.userName : 'Uživatelské jméno'}
+        {userFirestore?.userName ? userFirestore.userName : 'Nový uživatel'}
       </Heading>
       <Text>
-        {userFirestore.bio
+        {userFirestore?.bio
           ? userFirestore.bio
           : 'Zatím jsem o sobě nic nenapsal :)'}
       </Text>
     </Box>
-  );
-};
-
-const UserAvatar = ({ userId }: { userId: string }) => {
-  const { status, data: imageURL } = useFetchAvatarUrl(userId);
-
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  return (
-    <Flex justify={'center'}>
-      <Avatar size={'2xl'} src={imageURL} />
-    </Flex>
   );
 };
 

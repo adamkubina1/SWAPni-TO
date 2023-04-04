@@ -1,13 +1,5 @@
-import { useFetchAvatarUrl } from '@/lib/customHooks/useFetchAvatarUrl';
-import {
-  Avatar,
-  Box,
-  Flex,
-  Heading,
-  HStack,
-  Spinner,
-  Tooltip,
-} from '@chakra-ui/react';
+import { UserAvatar } from '@/components/UserAvatar';
+import { Box, Flex, Heading, HStack, Spinner, Tooltip } from '@chakra-ui/react';
 import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';
 import { useCallback, useState } from 'react';
@@ -111,7 +103,11 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
         </Tooltip>
         <Tooltip label={'Můj profil'} aria-label={'Můj profil tooltip'}>
           <NextLink href={'/profil'} onClick={setOpenFalse}>
-            {user?.uid ? <UserAvatar userId={user.uid} /> : <Spinner />}
+            {user?.uid ? (
+              <UserAvatar userId={user.uid} size={'sm'} />
+            ) : (
+              <Spinner />
+            )}
           </NextLink>
         </Tooltip>
       </HStack>
@@ -120,16 +116,6 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
       </Box>
     </HStack>
   );
-};
-
-const UserAvatar = ({ userId }: { userId: string }) => {
-  const { status, data: imgUrl } = useFetchAvatarUrl(userId);
-
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  return <Avatar size={'sm'} src={imgUrl} />;
 };
 
 const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
