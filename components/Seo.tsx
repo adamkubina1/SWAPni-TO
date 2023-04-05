@@ -47,6 +47,7 @@ const Seo = ({
       <meta name='robots' content='index,follow' />
 
       <link rel='canonical' href={canonical ?? DOMAIN} />
+      <link rel='shortcut icon' href='/favicon/favicon.ico' />
       <link
         rel='apple-touch-icon'
         sizes='180x180'

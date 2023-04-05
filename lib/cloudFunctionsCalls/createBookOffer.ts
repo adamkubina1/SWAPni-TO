@@ -6,9 +6,10 @@ const createBookOffer = async (
   bookId: string,
   bookOfferData: BookOffer
 ) => {
-  const createBookOfferPromise = httpsCallable(functions, 'createBookOffer');
+  const createBookOfferCall = httpsCallable(functions, 'createBookOffer');
 
-  return createBookOfferPromise({ bookId: bookId, bookOffer: bookOfferData });
+  return createBookOfferCall({ bookId: bookId, bookOffer: bookOfferData });
 };
 
 export { createBookOffer };
+

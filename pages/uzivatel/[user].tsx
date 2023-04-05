@@ -9,13 +9,13 @@ import {
   Box,
   Flex,
   Heading,
-  Link,
   Spinner,
   Stack,
   Text,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 

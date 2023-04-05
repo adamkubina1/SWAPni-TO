@@ -1,13 +1,13 @@
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
-import { deleteBookOffer } from '@/lib/cloudFunctionsCalls/deleteBookOffer';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
+import { deleteBookOffer } from '@/lib/deleteBookOffer';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import { Box, Button, Heading, HStack, Spinner, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useFunctions, useSigninCheck } from 'reactfire';
+import { useFirestore, useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
 
 const PAGE_TITLE = 'Moje nabídky';
@@ -56,7 +56,7 @@ const BookOfferCard = ({ bookId, offer }: { bookId: string, offer: any }) => {
     `https://www.googleapis.com/books/v1/volumes/${bookId}`,
     fetcher
   );
-    const functions = useFunctions()
+    const firestore = useFirestore()
 
   if (isLoading) {
     return <Spinner />;
@@ -91,7 +91,7 @@ const BookOfferCard = ({ bookId, offer }: { bookId: string, offer: any }) => {
       </Link>
       
     </Box>
-        <Button onClick={() => deleteBookOffer(functions, offer.id, offer.bookId)}>Smazat</Button>
+        <Button onClick={() => deleteBookOffer(firestore, offer.id)}>Smazat</Button>
     </HStack>
   );
 };

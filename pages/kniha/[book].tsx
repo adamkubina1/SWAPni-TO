@@ -1,19 +1,22 @@
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
+import { CreateExchangeOfferForm } from '@/components/forms/CreateExchangeOfferForm';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
+import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
   Button,
+  Divider,
   Heading,
   Spinner,
   Stack,
   Text,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,13 +73,32 @@ const BookRelatedContent = ({ bookId }: { bookId: string }) => {
   return (
     <>
       {bookOffers.map((offer, i) => (
-        <BookOfferCard key={i} userId={offer.userId} />
+        <BookOfferCard
+          key={i}
+          userId={offer.userId}
+          bookId={bookId}
+          bookOfferId={offer.id}
+          offer={{ bookState: offer.bookState, notes: offer.notes }}
+          currentUID={signInCheckResult.user.uid}
+        />
       ))}
     </>
   );
 };
 
-const BookOfferCard = ({ userId }: { userId: string }) => {
+const BookOfferCard = ({
+  userId,
+  bookId,
+  bookOfferId,
+  offer,
+  currentUID,
+}: {
+  userId: string;
+  bookId: string;
+  bookOfferId: string;
+  offer: BookOffer;
+  currentUID: string;
+}) => {
   const { data: userFirestore, status } = useFetchProfile(userId);
 
   if (status === 'loading') {
@@ -89,6 +111,14 @@ const BookOfferCard = ({ userId }: { userId: string }) => {
         <UserAvatar userId={userId} size={'sm'} />
       </Link>
       <Heading>{userFirestore.userName}</Heading>
+      {currentUID !== userId ? (
+        <CreateExchangeOfferForm
+          receiverUserId={userId}
+          bookId={bookId}
+          bookOfferId={bookOfferId}
+          bookOffer={offer}
+        />
+      ) : null}
     </Box>
   );
 };
@@ -115,10 +145,13 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
     <>
       <Seo title={bookData.volumeInfo.title} description={PAGE_DESCRIPTION} />
 
-      <Heading size={{ base: 'lg', md: '2xl' }}>
+      <Heading size={{ base: 'lg', md: '2xl' }} textAlign={'center'}>
         {bookData.volumeInfo.title}
       </Heading>
-      <Stack direction={{ base: 'column', md: 'row' }}>
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        align={{ base: 'center', md: 'start' }}
+      >
         <Box
           pos={'relative'}
           w={{ base: 200, md: 200 }}
@@ -141,7 +174,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
               ? bookData.volumeInfo?.subtitle
               : null}
           </Text>
-          <Heading size={'xs'}>
+          <Heading size={'xs'} color={'swap.lightHighlight'}>
             {bookData.volumeInfo?.authors
               ? bookData.volumeInfo?.authors.join(', ')
               : null}
@@ -150,6 +183,18 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
             {bookData.volumeInfo?.description
               ? bookData.volumeInfo.description.replace(/(<([^>]+)>)/gi, '')
               : null}
+          </Text>
+          <Divider backgroundColor={'swap.darkHighlight'} />
+          <Text fontSize={'xs'}>{bookData.volumeInfo.publishedDate}</Text>
+          <Text fontSize={'xs'}>
+            Počet stran: {bookData.volumeInfo.pageCount}
+          </Text>
+          <Text fontSize={'xs'}>Jazyk: {bookData.volumeInfo.language}</Text>
+          <Text fontSize={'xs'}>
+            Identifikátory:{' '}
+            {bookData.volumeInfo.industryIdentifiers.map((item, i) => (
+              <>{item.identifier} </>
+            ))}
           </Text>
         </VStack>
       </Stack>
