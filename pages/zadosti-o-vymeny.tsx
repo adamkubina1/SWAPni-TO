@@ -50,7 +50,10 @@ const ZadostiOVymeny = () => {
 };
 
 const ExchangeTabs = () => {
-  const { data: signInStatus } = useSigninCheck();
+  const { status, data: signInStatus } = useSigninCheck();
+
+  if (status === 'loading') return <Spinner />;
+  if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
     <Tabs variant={'enclosed'} align={'center'} isLazy>
@@ -58,7 +61,6 @@ const ExchangeTabs = () => {
         <Tab>Příchozí žádosti</Tab>
         <Tab>Moje žádosti</Tab>
       </TabList>
-
       <TabPanels>
         <TabPanel>
           {signInStatus?.user?.uid ? (
