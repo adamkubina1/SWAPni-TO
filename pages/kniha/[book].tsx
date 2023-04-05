@@ -11,6 +11,7 @@ import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
   Button,
+  Divider,
   Heading,
   Spinner,
   Stack,
@@ -144,10 +145,13 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
     <>
       <Seo title={bookData.volumeInfo.title} description={PAGE_DESCRIPTION} />
 
-      <Heading size={{ base: 'lg', md: '2xl' }}>
+      <Heading size={{ base: 'lg', md: '2xl' }} textAlign={'center'}>
         {bookData.volumeInfo.title}
       </Heading>
-      <Stack direction={{ base: 'column', md: 'row' }}>
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        align={{ base: 'center', md: 'start' }}
+      >
         <Box
           pos={'relative'}
           w={{ base: 200, md: 200 }}
@@ -170,7 +174,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
               ? bookData.volumeInfo?.subtitle
               : null}
           </Text>
-          <Heading size={'xs'}>
+          <Heading size={'xs'} color={'swap.lightHighlight'}>
             {bookData.volumeInfo?.authors
               ? bookData.volumeInfo?.authors.join(', ')
               : null}
@@ -179,6 +183,18 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
             {bookData.volumeInfo?.description
               ? bookData.volumeInfo.description.replace(/(<([^>]+)>)/gi, '')
               : null}
+          </Text>
+          <Divider backgroundColor={'swap.darkHighlight'} />
+          <Text fontSize={'xs'}>{bookData.volumeInfo.publishedDate}</Text>
+          <Text fontSize={'xs'}>
+            Počet stran: {bookData.volumeInfo.pageCount}
+          </Text>
+          <Text fontSize={'xs'}>Jazyk: {bookData.volumeInfo.language}</Text>
+          <Text fontSize={'xs'}>
+            Identifikátory:{' '}
+            {bookData.volumeInfo.industryIdentifiers.map((item, i) => (
+              <>{item.identifier} </>
+            ))}
           </Text>
         </VStack>
       </Stack>

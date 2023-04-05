@@ -14,7 +14,9 @@ type GoogleBookApiBook = {
     subtitle: string;
     authors: Array<string>;
     description: string;
-
+    publishedDate: string;
+    pageCount: number;
+    language: string;
     industryIdentifiers: Array<{ type: string; identifier: string }>;
 
     imageLinks: GoogleBookApiImageLinks;

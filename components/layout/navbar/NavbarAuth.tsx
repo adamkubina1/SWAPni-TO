@@ -2,6 +2,7 @@ import { UserAvatar } from '@/components/UserAvatar';
 import { Box, Flex, Heading, HStack, Spinner, Tooltip } from '@chakra-ui/react';
 import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { MdMessage, MdOutlineLogout, MdSwapHoriz } from 'react-icons/md';
 import { useAuth, useUser } from 'reactfire';
@@ -120,10 +121,11 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
 
 const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
   const auth = useAuth();
+  const router = useRouter();
 
   const onSignOutRequested = useCallback(() => {
-    return signOut(auth);
-  }, [auth]);
+    return signOut(auth).then(() => router.reload());
+  }, [auth, router]);
 
   return (
     <Tooltip label={'Odhlásit se'} aria-label={'Odhlásit se tooltip'}>

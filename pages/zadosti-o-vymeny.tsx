@@ -1,6 +1,8 @@
+import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
+import { acceptExchangeOffer } from '@/lib/cloudFunctionsCalls/acceptExchangeOffer';
 import {
   useFetchAllExchangesForReceiver,
   useFetchAllExchangesForSender,
@@ -27,7 +29,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useFirestore, useSigninCheck } from 'reactfire';
+import { useFirestore, useFunctions, useSigninCheck } from 'reactfire';
 
 const PAGE_TITLE = 'Žádosti o výměny';
 const PAGE_DESCRIPTION =
@@ -43,7 +45,9 @@ const ZadostiOVymeny = () => {
         gap={10}
       >
         <Heading size={{ base: 'xl', md: '2xl' }}>Žádosti o výměnu</Heading>
-        <ExchangeTabs />
+        <NoSSR>
+          <ExchangeTabs />
+        </NoSSR>
       </VStack>
     </ProtectedPage>
   );
@@ -56,24 +60,28 @@ const ExchangeTabs = () => {
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
-    <Tabs variant={'enclosed'} align={'center'} isLazy>
-      <TabList>
-        <Tab>Příchozí žádosti</Tab>
-        <Tab>Moje žádosti</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          {signInStatus?.user?.uid ? (
-            <IncomingExchanges userId={signInStatus.user?.uid} />
-          ) : null}
-        </TabPanel>
-        <TabPanel>
-          {signInStatus?.user?.uid ? (
-            <SentExchanges userId={signInStatus.user?.uid} />
-          ) : null}
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+    <>
+      {signInStatus.signedIn ? (
+        <Tabs variant={'enclosed'} align={'center'} isLazy>
+          <TabList>
+            <Tab>Příchozí žádosti</Tab>
+            <Tab>Moje žádosti</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              {signInStatus.user ? (
+                <IncomingExchanges userId={signInStatus.user.uid} />
+              ) : null}
+            </TabPanel>
+            <TabPanel>
+              {signInStatus.user ? (
+                <SentExchanges userId={signInStatus.user.uid} />
+              ) : null}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      ) : null}
+    </>
   );
 };
 
@@ -106,6 +114,7 @@ const IncomingExchangeCard = ({
   );
   const { data, error, isLoading } = useFetchBook(exchange.bookId);
   const firestore = useFirestore();
+  const functions = useFunctions();
 
   if (isLoading) return <Spinner />;
   if (error) return <Text>Něco se pokazilo...</Text>;
@@ -148,7 +157,9 @@ const IncomingExchangeCard = ({
           <Button onClick={() => deleteExchangeOffer(firestore, exchange.id)}>
             Odmítnout
           </Button>
-          <Button>Přijmout</Button>
+          <Button onClick={() => acceptExchangeOffer(functions, exchange.id)}>
+            Přijmout
+          </Button>
         </VStack>
       </HStack>
     </Box>

@@ -1,15 +1,15 @@
 import { Functions, httpsCallable } from 'firebase/functions';
-import { BookOffer } from '../types/BookOffer';
 
 const acceptExchangeOffer = async (
   functions: Functions,
-  bookId: string,
-  bookOfferData: BookOffer
+  exchangeOfferId: string
 ) => {
-  const acceptExchangeOfferCall = httpsCallable(functions, 'acceptExchangeOffer');
+  const acceptExchangeOfferCall = httpsCallable(
+    functions,
+    'acceptExchangeOffer'
+  );
 
-  return acceptExchangeOfferCall({ bookId: bookId, bookOffer: bookOfferData });
+  return acceptExchangeOfferCall({ exchangeOfferId: exchangeOfferId });
 };
 
 export { acceptExchangeOffer };
-
