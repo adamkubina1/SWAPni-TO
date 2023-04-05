@@ -6,12 +6,21 @@ const createExchangeOffer = async (
   bookOfferId: string,
   targetUserId: string,
   bookId: string,
-  bookOfferData: BookOffer
+  bookOfferData: BookOffer,
+  message: string
 ) => {
-  const createExchangeOfferCall = httpsCallable(functions, 'createExchangeOffer');
+  const createExchangeOfferCall = httpsCallable(
+    functions,
+    'createExchangeOffer'
+  );
 
-  return createExchangeOfferCall({ bookOfferId: bookOfferId, targetUserId: targetUserId, bookOffer:{ bookId: bookId, bookOffer: bookOfferData} });
+  return createExchangeOfferCall({
+    bookOfferId: bookOfferId,
+    targetUserId: targetUserId,
+    bookId: bookId,
+    bookOffer: bookOfferData,
+    message,
+  });
 };
 
 export { createExchangeOffer };
-

@@ -1,10 +1,12 @@
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
+import { CreateExchangeOfferForm } from '@/components/forms/CreateExchangeOfferForm';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
+import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
@@ -13,7 +15,7 @@ import {
   Spinner,
   Stack,
   Text,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,13 +72,32 @@ const BookRelatedContent = ({ bookId }: { bookId: string }) => {
   return (
     <>
       {bookOffers.map((offer, i) => (
-        <BookOfferCard key={i} userId={offer.userId} />
+        <BookOfferCard
+          key={i}
+          userId={offer.userId}
+          bookId={bookId}
+          bookOfferId={offer.id}
+          offer={{ bookState: offer.bookState, notes: offer.notes }}
+          currentUID={signInCheckResult.user.uid}
+        />
       ))}
     </>
   );
 };
 
-const BookOfferCard = ({ userId }: { userId: string }) => {
+const BookOfferCard = ({
+  userId,
+  bookId,
+  bookOfferId,
+  offer,
+  currentUID,
+}: {
+  userId: string;
+  bookId: string;
+  bookOfferId: string;
+  offer: BookOffer;
+  currentUID: string;
+}) => {
   const { data: userFirestore, status } = useFetchProfile(userId);
 
   if (status === 'loading') {
@@ -89,6 +110,14 @@ const BookOfferCard = ({ userId }: { userId: string }) => {
         <UserAvatar userId={userId} size={'sm'} />
       </Link>
       <Heading>{userFirestore.userName}</Heading>
+      {currentUID !== userId ? (
+        <CreateExchangeOfferForm
+          receiverUserId={userId}
+          bookId={bookId}
+          bookOfferId={bookOfferId}
+          bookOffer={offer}
+        />
+      ) : null}
     </Box>
   );
 };
