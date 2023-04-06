@@ -1,6 +1,7 @@
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
 import { CreateExchangeOfferForm } from '@/components/forms/CreateExchangeOfferForm';
 import NoSSR from '@/components/NoSSR';
+import { Rating } from '@/components/Ratings';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
@@ -13,6 +14,7 @@ import {
   Button,
   Divider,
   Heading,
+  HStack,
   Spinner,
   Stack,
   Text,
@@ -136,8 +138,8 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
   if (error) {
     return <Heading color={'red'}>Něco se pokazilo...</Heading>;
   }
-
   const bookData: GoogleBookApiBook = data;
+  console.log(bookData);
 
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 
@@ -152,22 +154,49 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
         direction={{ base: 'column', md: 'row' }}
         align={{ base: 'center', md: 'start' }}
       >
-        <Box
-          pos={'relative'}
-          w={{ base: 200, md: 200 }}
-          h={{ base: 300, md: 300 }}
-          minW={200}
-          objectFit={'cover'}
-          overflow={'hidden'}
-          mr={2}
-          borderRadius={'md'}
-        >
-          <Image
-            src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
-            fill
-            alt={bookData.volumeInfo.title}
-          />
-        </Box>
+        <VStack gap={2}>
+          <Box
+            pos={'relative'}
+            w={{ base: 200, md: 200 }}
+            h={{ base: 300, md: 300 }}
+            minW={200}
+            objectFit={'cover'}
+            overflow={'hidden'}
+            mr={2}
+            borderRadius={'md'}
+          >
+            <Image
+              src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
+              fill
+              alt={bookData.volumeInfo.title}
+            />
+          </Box>
+          <Link
+            href={`https://books.google.cz/books?id=${bookData.id}&hl=cs&sitesec=reviews`}
+            target={'_blank'}
+          >
+            <HStack justify={'center'}>
+              <Rating
+                maxRating={5}
+                rating={
+                  bookData.volumeInfo?.averageRating
+                    ? bookData.volumeInfo?.averageRating
+                    : 0
+                }
+              />
+              <Text fontSize={'xs'}>
+                {bookData.volumeInfo.averageRating
+                  ? bookData.volumeInfo.averageRating
+                  : null}
+                {' ('}
+                {bookData.volumeInfo.ratingsCount
+                  ? bookData.volumeInfo.ratingsCount
+                  : '0'}
+                {')'}
+              </Text>
+            </HStack>
+          </Link>
+        </VStack>
         <VStack align={'flex-start'}>
           <Text noOfLines={2} size={'x'}>
             {bookData.volumeInfo?.subtitle
@@ -192,9 +221,16 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
           <Text fontSize={'xs'}>Jazyk: {bookData.volumeInfo.language}</Text>
           <Text fontSize={'xs'}>
             Identifikátory:{' '}
-            {bookData.volumeInfo.industryIdentifiers.map((item, i) => (
-              <>{item.identifier} </>
-            ))}
+            {bookData.volumeInfo?.industryIdentifiers
+              ? bookData.volumeInfo?.industryIdentifiers.map((item, i) => (
+                  <span key={i}>
+                    {item.identifier}
+                    {i !== bookData.volumeInfo?.industryIdentifiers.length - 1
+                      ? ', '
+                      : null}
+                  </span>
+                ))
+              : null}
           </Text>
         </VStack>
       </Stack>

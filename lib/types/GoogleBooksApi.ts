@@ -19,6 +19,9 @@ type GoogleBookApiBook = {
     language: string;
     industryIdentifiers: Array<{ type: string; identifier: string }>;
 
+    averageRating: number | undefined;
+    ratingsCount: number | undefined;
+
     imageLinks: GoogleBookApiImageLinks;
   };
 };
