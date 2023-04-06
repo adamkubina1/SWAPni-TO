@@ -4,17 +4,21 @@ import { useFirestore, useFirestoreCollectionData } from 'reactfire';
 const useFetchAllOffersForBook = ({ bookId }: { bookId: string }) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, '/bookOffers');
-  const offersQuery = query(collectionRef, where( "bookId", '==', bookId));
+  const offersQuery = query(collectionRef, where('bookId', '==', bookId));
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
   });
 };
 
-const useFetchAllOffersForUser = ({ userId }: { userId: string }) => {
+const useFetchAllOffersForUser = ({
+  userId,
+}: {
+  userId: string | undefined;
+}) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, '/bookOffers');
-  const offersQuery = query(collectionRef, where( "userId", '==', userId));
+  const offersQuery = query(collectionRef, where('userId', '==', userId));
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
@@ -22,4 +26,3 @@ const useFetchAllOffersForUser = ({ userId }: { userId: string }) => {
 };
 
 export { useFetchAllOffersForBook, useFetchAllOffersForUser };
-

@@ -1,4 +1,5 @@
 import { Validator } from '@/lib/formValidators';
+import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   FormControl,
   FormErrorMessage,
@@ -6,10 +7,13 @@ import {
   Input,
   InputGroup,
   Select,
+  Spinner,
+  Text,
   Textarea,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
 import { ReactNode } from 'react';
+import useSWR from 'swr';
 
 /**
  *
@@ -168,7 +172,7 @@ const FormFieldSelect = ({
   validate?: Validator;
   label?: string;
   placeholder?: string;
-  options: Array<{ value: string; description: string }>;
+  options: Array<{ value: any; description: string }>;
 }) => {
   return (
     <Field name={name} validate={validate}>
@@ -193,9 +197,100 @@ const FormFieldSelect = ({
   );
 };
 
+/**
+ *
+ * @param name String id for the field in the form.
+ * @param validate Function validating value of the field, reference in /lib/formValidators.ts.
+ * @param label Optional text on top of the input.
+
+ */
+const FormFieldSelectWithBook = ({
+  name,
+  validate,
+  label,
+  placeholder,
+  options,
+}: {
+  name: string;
+  validate?: Validator;
+  label?: string;
+  placeholder?: string;
+  options: Array<{ value: any; description: string }>;
+}) => {
+  return (
+    <Field name={name} validate={validate}>
+      {({ field, form }: any) => (
+        <FormControl isInvalid={form.errors[name]}>
+          <FormLabel mt={2}>{label}</FormLabel>
+          <Select
+            name={name}
+            placeholder={placeholder}
+            onChange={form.handleChange}
+          >
+            <option
+              id={name}
+              value={JSON.stringify({
+                bookState: 'Jako nová',
+                notes: '',
+                id: null,
+              })}
+            >
+              Bez protinabídky
+            </option>
+
+            {options.map((option, i) => (
+              <BookOption
+                name={name}
+                key={i}
+                value={option.value}
+                descriptionEnding={option.description}
+                bookId={option.value.bookId}
+              />
+            ))}
+          </Select>
+          <FormErrorMessage>{form.errors[name]}</FormErrorMessage>
+        </FormControl>
+      )}
+    </Field>
+  );
+};
+
+const BookOption = ({
+  name,
+  value,
+  descriptionEnding,
+  bookId,
+}: {
+  name: string;
+  value: any;
+  descriptionEnding: string;
+  bookId: string;
+}) => {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR(
+    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
+    fetcher
+  );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <Text color={'red'}>Něco se pokazilo...</Text>;
+  }
+  const bookData: GoogleBookApiBook = data;
+
+  return (
+    <option id={name} value={JSON.stringify(value)}>
+      {bookData.volumeInfo.title + ' - ' + descriptionEnding}
+    </option>
+  );
+};
+
 export {
   FormFieldInput,
   FormFieldTextArea,
   FormFieldInputFile,
   FormFieldSelect,
+  FormFieldSelectWithBook,
 };

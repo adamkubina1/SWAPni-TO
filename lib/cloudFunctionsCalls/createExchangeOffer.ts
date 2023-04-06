@@ -4,10 +4,12 @@ import { BookOffer } from '../types/BookOffer';
 const createExchangeOffer = async (
   functions: Functions,
   bookOfferId: string,
+  counterOfferId: string | null,
   targetUserId: string,
   bookId: string,
   bookOfferData: BookOffer,
-  message: string
+  message: string,
+  counterOffer: BookOffer | null
 ) => {
   const createExchangeOfferCall = httpsCallable(
     functions,
@@ -16,9 +18,11 @@ const createExchangeOffer = async (
 
   return createExchangeOfferCall({
     bookOfferId: bookOfferId,
+    counterOfferId: counterOfferId,
     targetUserId: targetUserId,
     bookId: bookId,
     bookOffer: bookOfferData,
+    counterOffer: counterOffer,
     message,
   });
 };

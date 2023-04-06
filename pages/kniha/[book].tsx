@@ -80,7 +80,11 @@ const BookRelatedContent = ({ bookId }: { bookId: string }) => {
           userId={offer.userId}
           bookId={bookId}
           bookOfferId={offer.id}
-          offer={{ bookState: offer.bookState, notes: offer.notes }}
+          offer={{
+            bookState: offer.bookState,
+            notes: offer.notes,
+            bookId: offer.bookId,
+          }}
           currentUID={signInCheckResult.user.uid}
         />
       ))}
@@ -139,7 +143,6 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
     return <Heading color={'red'}>Něco se pokazilo...</Heading>;
   }
   const bookData: GoogleBookApiBook = data;
-  console.log(bookData);
 
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 
