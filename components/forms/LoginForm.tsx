@@ -2,12 +2,13 @@ import { useSignInWithPass } from '@/lib/customHooks/useSignInWithPass';
 import { ValidateEmail, ValidatePasswordLogin } from '@/lib/formValidators';
 import { Button } from '@chakra-ui/button';
 import { InputLeftAddon } from '@chakra-ui/input';
-import { Box, Flex, Text } from '@chakra-ui/layout';
+import { Box, Text, VStack } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
 import NextLink from 'next/link';
 import { ReactNode, useEffect } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { FacebookSignButton } from '../FacebookSignButton';
 import { GoogleSignButton } from '../GoogleSignButton';
 import { FormFieldInput } from './FormField';
 
@@ -71,7 +72,7 @@ const LoginForm = ({ onSignIn }: { onSignIn: () => void }) => {
               </InputLeftAddon>
             }
           />
-          <Flex direction={'column'} mt={4}>
+          <VStack mt={4}>
             <Button w={'100%'} type={'submit'} variant={'swapLightSolid'}>
               Přihlásit se
             </Button>
@@ -80,8 +81,12 @@ const LoginForm = ({ onSignIn }: { onSignIn: () => void }) => {
                 {firebaseSignInError.message}
               </Text>
             ) : null}
-            <GoogleSignButton onSignIn={onSignIn} />
-          </Flex>
+
+            <VStack w={'full'}>
+              <GoogleSignButton onSignIn={onSignIn} />
+              <FacebookSignButton onSignIn={onSignIn} />
+            </VStack>
+          </VStack>
         </Form>
       </Formik>
       <NextLink href={'/registrace'}>

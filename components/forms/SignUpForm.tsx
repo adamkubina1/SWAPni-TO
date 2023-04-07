@@ -2,12 +2,13 @@ import { useSignUpWithPass } from '@/lib/customHooks/useSignUpWithPass';
 import { ValidateEmail, ValidatePasswordSignUp } from '@/lib/formValidators';
 import { Button } from '@chakra-ui/button';
 import { InputLeftAddon } from '@chakra-ui/input';
-import { Box, Flex, Text } from '@chakra-ui/layout';
+import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
 import NextLink from 'next/link';
 import { ReactNode, useEffect } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { FacebookSignButton } from '../FacebookSignButton';
 import { GoogleSignButton } from '../GoogleSignButton';
 import { FormFieldInput } from './FormField';
 
@@ -103,7 +104,10 @@ const SignUpForm = ({ onSignUp }: { onSignUp: () => void }) => {
                 {firebaseSignUpError.message}
               </Text>
             ) : null}
-            <GoogleSignButton onSignIn={onSignUp} />
+            <VStack w={'full'}>
+              <GoogleSignButton onSignIn={onSignUp} />
+              <FacebookSignButton onSignIn={onSignUp} />
+            </VStack>
           </Flex>
         </Form>
       </Formik>
