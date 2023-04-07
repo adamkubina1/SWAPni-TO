@@ -116,7 +116,7 @@ const BookOfferCard = ({
       <Link href={`/uzivatel/${userId}`}>
         <UserAvatar userId={userId} size={'sm'} />
       </Link>
-      <Heading>{userFirestore.userName}</Heading>
+      <Heading>{userFirestore?.userName}</Heading>
       {currentUID !== userId ? (
         <CreateExchangeOfferForm
           receiverUserId={userId}
