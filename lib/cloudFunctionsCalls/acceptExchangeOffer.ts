@@ -9,7 +9,9 @@ const acceptExchangeOffer = async (
     'acceptExchangeOffer'
   );
 
-  return acceptExchangeOfferCall({ exchangeOfferId: exchangeOfferId });
+  return acceptExchangeOfferCall({
+    exchangeOfferId: exchangeOfferId,
+  });
 };
 
 export { acceptExchangeOffer };

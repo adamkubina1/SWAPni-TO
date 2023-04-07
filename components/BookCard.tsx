@@ -54,7 +54,12 @@ const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
             <Text fontSize={'xs'}>
               Identifikátory:{' '}
               {book.volumeInfo.industryIdentifiers.map((item, i) => (
-                <>{item.identifier} </>
+                <span key={i}>
+                  {item.identifier}
+                  {i !== book.volumeInfo.industryIdentifiers.length - 1
+                    ? ', '
+                    : null}
+                </span>
               ))}
             </Text>
           </VStack>

@@ -74,6 +74,16 @@ const ValidateSearch: Validator = (search) => {
   return error;
 };
 
+const ValidateMessage: Validator = (message) => {
+  let error;
+
+  if (!message) {
+    error = 'Zpráva nemůže být prázdná';
+  }
+
+  return error;
+};
+
 export {
   ValidatePasswordLogin,
   ValidatePasswordSignUp,
@@ -82,5 +92,6 @@ export {
   ValidateProfilePic,
   ValidateProfileUsername,
   ValidateSearch,
+  ValidateMessage,
 };
 export type { Validator };

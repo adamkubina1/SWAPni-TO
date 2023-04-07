@@ -51,7 +51,16 @@ const UserAvatar = ({
     return <Spinner />;
   }
 
-  return <Avatar size={size} src={downloadURL ? downloadURL : ''} />;
+  return (
+    <Avatar
+      size={size}
+      src={
+        downloadURL
+          ? downloadURL
+          : `https://api.dicebear.com/6.x/personas/svg?seed=${userId}`
+      }
+    />
+  );
 };
 
 export { UserAvatar };
