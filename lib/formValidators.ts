@@ -84,6 +84,16 @@ const ValidateMessage: Validator = (message) => {
   return error;
 };
 
+const ValidateStars: Validator = (stars) => {
+  let error;
+
+  if (!stars || Number(stars) < 1 || Number(stars) > 5) {
+    error = 'Vyberte počet hvězd';
+  }
+
+  return error;
+};
+
 export {
   ValidatePasswordLogin,
   ValidatePasswordSignUp,
@@ -93,5 +103,6 @@ export {
   ValidateProfileUsername,
   ValidateSearch,
   ValidateMessage,
+  ValidateStars,
 };
 export type { Validator };

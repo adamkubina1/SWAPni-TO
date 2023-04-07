@@ -1,6 +1,8 @@
+import { AddUserReview } from '@/components/forms/AddUserReview';
 import NoSSR from '@/components/NoSSR';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
+import { UserRating } from '@/components/UserRating';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
@@ -60,6 +62,7 @@ const User = () => {
             </VStack>
           </NoSSR>
         </Stack>
+        {user ? <AddUserReview reviewedUserId={user} /> : <Spinner />}
         {user ? <UserCreatedContent userId={user} /> : <Spinner />}
       </VStack>
     </>
@@ -143,6 +146,13 @@ const UserDescription = ({ userId }: { userId: string }) => {
           ? userFirestore.bio
           : 'Zatím jsem o sobě nic nenapsal :)'}
       </Text>
+      <UserRating
+        userRating={userFirestore?.userScore ? userFirestore?.userScore : '0'}
+        ratingsCount={
+          userFirestore?.reviewsCount ? userFirestore.reviewsCount : '0'
+        }
+        userId={userId}
+      />
     </Box>
   );
 };

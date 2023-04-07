@@ -14,7 +14,6 @@ import {
   Button,
   Divider,
   Heading,
-  HStack,
   Spinner,
   Stack,
   Text,
@@ -178,7 +177,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
             href={`https://books.google.cz/books?id=${bookData.id}&hl=cs&sitesec=reviews`}
             target={'_blank'}
           >
-            <HStack justify={'center'}>
+            <VStack justify={'center'} align={'center'}>
               <Rating
                 maxRating={5}
                 rating={
@@ -197,7 +196,7 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
                   : '0'}
                 {')'}
               </Text>
-            </HStack>
+            </VStack>
           </Link>
         </VStack>
         <VStack align={'flex-start'}>
