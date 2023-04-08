@@ -1,3 +1,3 @@
-type SearchType = 'none' | 'searchBookName' | 'searchUser';
+type SearchType = 'none' | 'searchBookName' | 'searchOffer';
 
 export type { SearchType };

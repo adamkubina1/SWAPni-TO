@@ -11,12 +11,12 @@ const SearchResult = ({
   search: string;
   searchType: SearchType;
 }) => {
-  if (searchType === 'none') return <></>;
+  if (searchType === 'searchOffer') return null;
+
+  if (!search) return null;
 
   if (searchType === 'searchBookName')
     return <SearchBookByNameResults search={search} />;
-
-  if (searchType === 'searchUser') return <> User {search}</>;
 
   return <></>;
 };
@@ -32,6 +32,8 @@ const SearchBookByNameResults = ({ search }: { search: string }) => {
   if (error) return <Text>Nebyly nelezeny žádné výsledky.</Text>;
 
   const googleBooksResponse: GoogleBookApiResponseType = data;
+
+  if (!googleBooksResponse.items) return null;
 
   return (
     <VStack gap={8}>
