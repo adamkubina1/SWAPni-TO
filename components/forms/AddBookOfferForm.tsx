@@ -14,7 +14,13 @@ const bookStateOptions: Array<{ value: BookState; description: string }> = [
   { value: 'Velmi poškozená', description: 'Velmi poškozená' },
 ];
 
-const AddBookOfferForm = ({ bookId }: { bookId: string }) => {
+const AddBookOfferForm = ({
+  bookId,
+  bookTitle,
+}: {
+  bookId: string;
+  bookTitle: string;
+}) => {
   const { data: user } = useUser();
   const toast = useToast();
   const functions = useFunctions();
@@ -31,7 +37,7 @@ const AddBookOfferForm = ({ bookId }: { bookId: string }) => {
       return;
     }
 
-    createBookOffer(functions, bookId, values)
+    createBookOffer(functions, bookId, bookTitle, values)
       .then(
         () => {
           toast({
