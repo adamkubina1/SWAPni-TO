@@ -23,7 +23,7 @@ const NavbarLinksContainer = ({
       flexGrow={{ base: 0, md: 1 }}
     >
       <Stack
-        spacing={6}
+        spacing={8}
         alignItems={'center'}
         alignContent={'center'}
         justifyContent={{

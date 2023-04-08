@@ -63,7 +63,7 @@ const LinksAuth = ({
     <NavbarLinksContainer isOpen={isOpen} authJustify={true}>
       <NextLink href={'/'} onClick={setOpenFalse}>
         <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
-          Knihy
+          SWAPuj
         </Heading>
       </NextLink>
       <NextLink href={'/nabidky'} onClick={setOpenFalse}>
@@ -71,7 +71,7 @@ const LinksAuth = ({
           Nabídky
         </Heading>
       </NextLink>
-      <NextLink href={'/poptávky'} onClick={setOpenFalse}>
+      <NextLink href={'/poptavky'} onClick={setOpenFalse}>
         <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
           Poptávky
         </Heading>

@@ -4,6 +4,7 @@ import NoSSR from '@/components/NoSSR';
 import { Rating } from '@/components/Ratings';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
+import { createBookDemand } from '@/lib/cloudFunctionsCalls/createBookDemand';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
@@ -22,7 +23,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSigninCheck } from 'reactfire';
+import { useFunctions, useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
 
 const PAGE_DESCRIPTION = 'Stránka o knize ve webové aplikace SWAPni TO.';
@@ -51,7 +52,6 @@ const Book = () => {
     <>
       <VStack pt={28} gap={6}>
         <BookInfo bookId={book} />
-        <BookActions bookId={book} />
         <BookRelatedContent bookId={book} />
       </VStack>
     </>
@@ -236,12 +236,20 @@ const BookInfo = ({ bookId }: { bookId: string }) => {
           </Text>
         </VStack>
       </Stack>
+      <BookActions bookId={bookData.id} bookTitle={bookData.volumeInfo.title} />
     </>
   );
 };
 
-const BookActions = ({ bookId }: { bookId: string }) => {
+const BookActions = ({
+  bookId,
+  bookTitle,
+}: {
+  bookId: string;
+  bookTitle: string;
+}) => {
   const { status, data: signInCheckResult } = useSigninCheck();
+  const functions = useFunctions();
 
   return (
     <NoSSR>
@@ -254,9 +262,12 @@ const BookActions = ({ bookId }: { bookId: string }) => {
         >
           {signInCheckResult.signedIn ? (
             <>
-              <AddBookOfferForm bookId={bookId} />
-              <Button>Přidat poptávku</Button>
-              <Button>Napsat recenzi</Button>
+              <AddBookOfferForm bookId={bookId} bookTitle={bookTitle} />
+              <Button
+                onClick={() => createBookDemand(functions, bookId, bookTitle)}
+              >
+                Přidat poptávku
+              </Button>
             </>
           ) : (
             <Text color={'swap.darkHighlight'} fontSize={'xl'}>

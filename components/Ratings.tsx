@@ -14,7 +14,7 @@ const Rating = ({
     <HStack>
       <>
         {starArray.map((star, i) => (
-          <RatingStar key={i} filled={i <= Number(rating)} />
+          <RatingStar key={i} filled={i <= Number(rating) - 0.5} />
         ))}
       </>
     </HStack>
