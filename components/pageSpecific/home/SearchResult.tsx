@@ -11,8 +11,6 @@ const SearchResult = ({
   search: string;
   searchType: SearchType;
 }) => {
-  if (searchType === 'searchOffer') return null;
-
   if (!search) return null;
 
   if (searchType === 'searchBookName')
@@ -24,7 +22,7 @@ const SearchResult = ({
 const SearchBookByNameResults = ({ search }: { search: string }) => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes?q=${search}&projection=full`,
+    `https://www.googleapis.com/books/v1/volumes?q=${search}&projection=full&maxResults=40`,
     fetcher
   );
 

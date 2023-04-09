@@ -53,7 +53,7 @@ const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
             <Text fontSize={'xs'}>{book.volumeInfo.publishedDate}</Text>
             <Text fontSize={'xs'}>
               Identifikátory:{' '}
-              {book.volumeInfo.industryIdentifiers.map((item, i) => (
+              {book.volumeInfo?.industryIdentifiers?.map((item, i) => (
                 <span key={i}>
                   {item.identifier}
                   {i !== book.volumeInfo.industryIdentifiers.length - 1
