@@ -3,6 +3,7 @@ import { SearchForm } from '@/components/forms/SearchForm';
 import NoSSR from '@/components/NoSSR';
 import { SearchResult } from '@/components/pageSpecific/home/SearchResult';
 import { Seo } from '@/components/Seo';
+import { getRandomBook } from '@/lib/getRandomBook';
 import { SearchType } from '@/lib/types/Search';
 import { Heading, Select, Stack, VStack } from '@chakra-ui/react';
 import algoliasearch from 'algoliasearch/lite';
@@ -23,7 +24,7 @@ const searchClient = algoliasearch(
 );
 
 const Home = () => {
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>(getRandomBook());
   const [searchType, setSearchType] = useState<SearchType>('searchBookName');
 
   return (
@@ -48,8 +49,9 @@ const Home = () => {
               <BookOffers />
             )}
           </Stack>
-
-          <SearchResult search={search} searchType={searchType} />
+          {searchType === 'searchBookName' ? (
+            <SearchResult search={search} searchType={searchType} />
+          ) : null}
         </NoSSR>
       </VStack>
     </>
