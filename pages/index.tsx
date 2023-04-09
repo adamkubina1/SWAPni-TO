@@ -26,7 +26,6 @@ const Home = () => {
   const [search, setSearch] = useState<string>('');
   const [searchType, setSearchType] = useState<SearchType>('searchBookName');
 
-  console.log(searchType);
   return (
     <>
       <Seo />
