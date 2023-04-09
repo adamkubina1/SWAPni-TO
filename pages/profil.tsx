@@ -9,15 +9,25 @@ import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
+  Button,
   Flex,
   Heading,
-  HStack,
   Spinner,
   Stack,
   Text,
+  useDisclosure,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
+import { deleteUser, getAuth } from 'firebase/auth';
+import React from 'react';
 import { useUser } from 'reactfire';
 
 const PAGE_TITLE = 'Můj profil';
@@ -26,7 +36,6 @@ const PAGE_DESCRIPTION = 'Můj profil ve webové aplikace SWAPni TO.';
 const Profil = () => {
   const { data: user } = useUser();
 
-  console.log(user?.providerData);
   return (
     <ProtectedPage>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
@@ -52,7 +61,7 @@ const Profil = () => {
           </NoSSR>
         </Stack>
         <NoSSR>
-          <HStack>
+          <Stack direction={{ base: 'column', md: 'row' }}>
             <ModalContainer
               modalButtonText={'Upravit profil'}
               modalHeaderText={'Upravit profil'}
@@ -68,11 +77,79 @@ const Profil = () => {
             {user?.providerData[0].providerId === 'password' ? (
               <ChangePasswordForm />
             ) : null}
-          </HStack>
+            <DeleteAccountAlert />
+          </Stack>
         </NoSSR>
         {user?.uid ? <UserCreatedContent userId={user.uid} /> : <Spinner />}
       </VStack>
     </ProtectedPage>
+  );
+};
+
+const DeleteAccountAlert = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
+  const toast = useToast();
+
+  const submited = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    deleteUser(user)
+      .then(() => {})
+      .catch((error) => {
+        toast({
+          title: 'Vaše relace je příliš stará.',
+          description: 'Odhlašte se a znovu přihlašte a zkuste akci znovu.',
+          status: 'error',
+          duration: 8000,
+          isClosable: true,
+        });
+      });
+  };
+
+  return (
+    <>
+      <Button colorScheme='red' onClick={onOpen}>
+        Smazat účet
+      </Button>
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete Customer
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                colorScheme='red'
+                onClick={() => {
+                  onClose;
+                  submited();
+                }}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
   );
 };
 
