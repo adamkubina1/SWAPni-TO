@@ -1,3 +1,4 @@
+import { ChangePasswordForm } from '@/components/forms/ChangePasswordForm';
 import { EditProfileForm } from '@/components/forms/EditProfileForm';
 import { EditProfilePicForm } from '@/components/forms/EditProfilePicForm';
 import { EditUserNameForm } from '@/components/forms/EditUserNameForm';
@@ -11,10 +12,11 @@ import {
   Box,
   Flex,
   Heading,
+  HStack,
   Spinner,
   Stack,
   Text,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import { useUser } from 'reactfire';
 
@@ -24,6 +26,7 @@ const PAGE_DESCRIPTION = 'Můj profil ve webové aplikace SWAPni TO.';
 const Profil = () => {
   const { data: user } = useUser();
 
+  console.log(user?.providerData);
   return (
     <ProtectedPage>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
@@ -49,18 +52,23 @@ const Profil = () => {
           </NoSSR>
         </Stack>
         <NoSSR>
-          <ModalContainer
-            modalButtonText={'Upravit profil'}
-            modalHeaderText={'Upravit profil'}
-          >
-            <Box mb={8}>
-              <EditUserNameForm />
-            </Box>
-            <EditProfileForm />
-            <Box mt={8}>
-              <EditProfilePicForm />
-            </Box>
-          </ModalContainer>
+          <HStack>
+            <ModalContainer
+              modalButtonText={'Upravit profil'}
+              modalHeaderText={'Upravit profil'}
+            >
+              <Box mb={8}>
+                <EditUserNameForm />
+              </Box>
+              <EditProfileForm />
+              <Box mt={8}>
+                <EditProfilePicForm />
+              </Box>
+            </ModalContainer>
+            {user?.providerData[0].providerId === 'password' ? (
+              <ChangePasswordForm />
+            ) : null}
+          </HStack>
         </NoSSR>
         {user?.uid ? <UserCreatedContent userId={user.uid} /> : <Spinner />}
       </VStack>
@@ -69,10 +77,8 @@ const Profil = () => {
 };
 
 const UserCreatedContent = ({ userId }: { userId: string }) => {
-  return <>TODO user content</>
+  return <>TODO user content</>;
 };
-
-
 
 const UserDescription = ({ userId }: { userId: string }) => {
   const { data: userFirestore, status } = useFetchProfile(userId);
