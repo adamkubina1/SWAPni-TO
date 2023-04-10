@@ -15,16 +15,18 @@ const ModalContainer = ({
   children,
   modalButtonText,
   modalHeaderText,
+  variant,
 }: {
   children?: ReactNode;
   modalButtonText?: string;
   modalHeaderText?: string;
+  variant?: string;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Button onClick={onOpen} variant={'swapDarkOutline'}>
+      <Button onClick={onOpen} variant={variant} size={'sm'}>
         {modalButtonText}
       </Button>
 

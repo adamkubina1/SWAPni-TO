@@ -1,5 +1,12 @@
 import { collection, query, where } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import {
+  ObservableStatus,
+  useFirestore,
+  useFirestoreCollectionData,
+} from 'reactfire';
+import { BookOffer } from '../types/BookOffer';
+
+type Response = BookOffer & { id: string };
 
 const useFetchAllOffersForBook = ({ bookId }: { bookId: string }) => {
   const firestore = useFirestore();
@@ -8,7 +15,7 @@ const useFetchAllOffersForBook = ({ bookId }: { bookId: string }) => {
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
-  });
+  }) as ObservableStatus<Array<Response>>;
 };
 
 const useFetchAllOffersForUser = ({
@@ -22,7 +29,7 @@ const useFetchAllOffersForUser = ({
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
-  });
+  }) as ObservableStatus<Array<Response>>;
 };
 
 export { useFetchAllOffersForBook, useFetchAllOffersForUser };

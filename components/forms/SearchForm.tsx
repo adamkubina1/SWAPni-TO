@@ -1,5 +1,12 @@
 import { ValidateSearch } from '@/lib/formValidators';
-import { Box, Button, InputRightAddon } from '@chakra-ui/react';
+import { InfoIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Button,
+  HStack,
+  InputRightAddon,
+  Tooltip,
+} from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import { MdSearch } from 'react-icons/md';
@@ -23,20 +30,27 @@ const SearchForm = ({
     >
       <Form>
         <Box w={'100%'}>
-          <FormFieldInput
-            name={'search'}
-            validate={ValidateSearch}
-            label={''}
-            type={'search'}
-            placeholder={'Vyhledat'}
-            rightAddon={
-              <InputRightAddon px={0}>
-                <Button type={'submit'} color={'swap.darkHighlight'}>
-                  <MdSearch />
-                </Button>
-              </InputRightAddon>
-            }
-          />
+          <HStack align={'center'}>
+            <FormFieldInput
+              name={'search'}
+              validate={ValidateSearch}
+              label={''}
+              type={'search'}
+              placeholder={'Vyhledat'}
+              rightAddon={
+                <InputRightAddon px={0}>
+                  <Button type={'submit'} color={'swap.darkHighlight'}>
+                    <MdSearch />
+                  </Button>
+                </InputRightAddon>
+              }
+            />
+            <Box pt={1}>
+              <Tooltip label={'Při vyhledávání použijte interpunkci'}>
+                <InfoIcon w={5} h={5} />
+              </Tooltip>
+            </Box>
+          </HStack>
         </Box>
       </Form>
     </Formik>

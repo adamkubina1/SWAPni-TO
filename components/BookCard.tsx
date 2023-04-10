@@ -8,16 +8,18 @@ import Link from 'next/link';
  * TODO add sizes prop to book images to boost performance
  */
 const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
-  const imgUrl = getHighestSizeLinkUrl(book.volumeInfo?.imageLinks);
+  const imgUrl = getHighestSizeLinkUrl(book?.volumeInfo?.imageLinks);
 
   return (
     <Box
-      backgroundColor={'swap.lightBase'}
-      boxShadow={'dark-lg'}
+      boxShadow={'xl'}
       w={'100%'}
-      color={'swap.lightText'}
+      color={'swap.darkText'}
       borderRadius={'md'}
-      p={1}
+      borderColor={'swap.lightBase'}
+      _hover={{
+        boxShadow: 'dark-lg',
+      }}
     >
       <Link href={`/kniha/${book.id}`}>
         <HStack align={'start'}>
@@ -41,7 +43,7 @@ const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
             <Heading size={'md'} noOfLines={{ base: 3, md: 2 }}>
               {book.volumeInfo.title}
             </Heading>
-            <Text noOfLines={2} size={'x'}>
+            <Text noOfLines={2} fontSize={'xs'}>
               {book.volumeInfo.subtitle}
             </Text>
             <Heading size={'xs'} color={'swap.lightHighlight'}>
@@ -52,7 +54,7 @@ const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
             <Divider backgroundColor={'swap.darkHighlight'}></Divider>
             <Text fontSize={'xs'}>{book.volumeInfo.publishedDate}</Text>
             <Text fontSize={'xs'}>
-              Identifikátory:{' '}
+              ID:{' '}
               {book.volumeInfo?.industryIdentifiers?.map((item, i) => (
                 <span key={i}>
                   {item.identifier}

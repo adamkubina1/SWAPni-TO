@@ -1,3 +1,4 @@
+import Hits from '@/components/forms/Algolia/Hits';
 import SearchBox from '@/components/forms/Algolia/SearchBox';
 import { SearchForm } from '@/components/forms/SearchForm';
 import NoSSR from '@/components/NoSSR';
@@ -5,18 +6,16 @@ import { SearchResult } from '@/components/pageSpecific/home/SearchResult';
 import { Seo } from '@/components/Seo';
 import { getRandomBook } from '@/lib/getRandomBook';
 import { SearchType } from '@/lib/types/Search';
-import { Heading, Select, Stack, VStack } from '@chakra-ui/react';
+import { Heading, Select, Spinner, Stack, VStack } from '@chakra-ui/react';
 import algoliasearch from 'algoliasearch/lite';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
   ClearRefinements,
   Configure,
-  Highlight,
-  Hits,
   InstantSearch,
-  Pagination,
   RefinementList,
 } from 'react-instantsearch-dom';
+import { useUser } from 'reactfire';
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -72,12 +71,15 @@ const SearchTypeForm = ({
 }) => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchType(event.target.value as SearchType);
-    console.log(event.target.value);
   };
 
   return (
     <form>
-      <Select value={searchType} onChange={handleSelectChange}>
+      <Select
+        value={searchType}
+        onChange={handleSelectChange}
+        color={'swap.lightHighlight'}
+      >
         {searchOptions.map((option, i) => (
           <option id={'searchOption'} key={i} value={option.value}>
             {option.description}
@@ -89,8 +91,12 @@ const SearchTypeForm = ({
 };
 
 const BookOffers = () => {
+  const user = useUser();
+
+  if (user.status === 'loading') return <Spinner />;
+
   return (
-    <VStack className='ais-InstantSearch'>
+    <VStack className='ais-InstantSearch' w={'full'}>
       <InstantSearch indexName={'bookTitle'} searchClient={searchClient}>
         <div>
           <SearchBox />
@@ -101,30 +107,13 @@ const BookOffers = () => {
               reset: 'Smazat filtry',
             }}
           />
-          <Configure hitsPerPage={12} />
+          <Configure hitsPerPage={8} />
         </div>
-        <div>
-          <Hits hitComponent={Hit} />
-          <Pagination />
-        </div>
+
+        <Hits userUID={user.data?.uid} />
       </InstantSearch>
     </VStack>
   );
 };
-
-function Hit(props) {
-  return (
-    <div>
-      <img src={props.hit.image} align='left' alt={props.hit.name} />
-      <div className='hit-name'>
-        <Highlight attribute={'bookTitle'} hit={props.hit} />
-      </div>
-      <div className='hit-description'>
-        <Highlight attribute='description' hit={props.hit} />
-      </div>
-      <div className='hit-price'>${props.hit.price}</div>
-    </div>
-  );
-}
 
 export default Home;
