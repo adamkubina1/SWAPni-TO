@@ -1,3 +1,4 @@
+import { BookOfferCollumn } from '@/components/BookOfferCollumn';
 import { ChatMessageForm } from '@/components/forms/ChatMessageForm';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -5,9 +6,9 @@ import { useFetchChat } from '@/lib/customHooks/useFetchChat';
 import { useFetchMessages } from '@/lib/customHooks/useFetchMessages';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { deleteChat } from '@/lib/deleteChat';
-import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { Chat } from '@/lib/types/Chat';
 import { Message } from '@/lib/types/Message';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -17,12 +18,10 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useFirestore, useSigninCheck } from 'reactfire';
-import useSWR from 'swr';
 
 const Chat = () => {
   const router = useRouter();
@@ -34,7 +33,7 @@ const Chat = () => {
 
   return (
     <ProtectedPage>
-      <VStack pt={'10vh'} justifyContent={'center'} gap={1}>
+      <VStack pt={'10vh'} justifyContent={'center'} gap={2}>
         {chat ? (
           signedIn.data?.signedIn ? (
             <>
@@ -74,13 +73,14 @@ const ChatControl = ({
     <>
       <ChatInfo otherUserId={otherUserId} />
       <HStack>
-        <BookOffer bookId={chatData?.exchangeOfferData.bookId} />
+        <BookOffer chat={chatData} userId={userId} />
         {chatData.exchangeOfferData.counterOfferId ? (
-          <CounterOffer
-            bookId={chatData.exchangeOfferData.counterOffer.bookId}
-          />
+          <CounterOffer chat={chatData} />
         ) : null}
         <VStack>
+          <Button onClick={() => {}} colorScheme={'green'} size={'sm'}>
+            Potvrdit výměnu
+          </Button>
           <Button
             size={'sm'}
             colorScheme={'red'}
@@ -97,86 +97,30 @@ const ChatControl = ({
   );
 };
 
-const BookOffer = ({ bookId }: { bookId: string }) => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-    fetcher
-  );
-
-  if (isLoading) return <Spinner />;
-  if (error) return <Text>Něco se pokazilo...</Text>;
-
-  const bookOfferData = data as GoogleBookApiBook;
-  const bookOfferImgUrl = getHighestSizeLinkUrl(
-    bookOfferData?.volumeInfo.imageLinks
-  );
-
+const BookOffer = ({ chat, userId }: { chat: Chat; userId: string }) => {
   return (
     <VStack>
-      <Heading size={'xs'}>O co jde?</Heading>
-      <Box
-        pos={'relative'}
-        w={90}
-        h={120}
-        minW={90}
-        objectFit={'cover'}
-        overflow={'hidden'}
-        mr={2}
-        borderRadius={'md'}
-      >
-        <Link href={`/kniha/${bookId}`}>
-          <Image
-            src={
-              bookOfferImgUrl ? bookOfferImgUrl : '/imgs/book-placeholder.jpg'
-            }
-            fill
-            alt={bookOfferData.volumeInfo?.title}
-          />
-        </Link>
-      </Box>
+      <Heading size={'xs'} color={'swap.darkHighlight'}>
+        {userId === chat.exchangeOfferData.receiverUserId
+          ? 'Moje nabídka'
+          : 'Jejich nabídka'}
+      </Heading>
+      <BookOfferCollumn offer={chat.exchangeOfferData.bookOffer} />
     </VStack>
   );
 };
 
-const CounterOffer = ({ bookId }: { bookId: string }) => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-    fetcher
-  );
-
-  if (isLoading) return <Spinner />;
-  if (error) return <Text>Něco se pokazilo...</Text>;
-
-  const bookOfferData = data as GoogleBookApiBook;
-  const bookOfferImgUrl = getHighestSizeLinkUrl(
-    bookOfferData?.volumeInfo.imageLinks
-  );
-
+const CounterOffer = ({ chat }: { chat: Chat }) => {
   return (
     <VStack>
-      <Heading size={'xs'}>Protinabídka</Heading>
-      <Box
-        pos={'relative'}
-        w={90}
-        h={120}
-        minW={90}
-        objectFit={'cover'}
-        overflow={'hidden'}
-        mr={2}
-        borderRadius={'md'}
-      >
-        <Link href={`/kniha/${bookId}`}>
-          <Image
-            src={
-              bookOfferImgUrl ? bookOfferImgUrl : '/imgs/book-placeholder.jpg'
-            }
-            fill
-            alt={bookOfferData.volumeInfo?.title}
-          />
-        </Link>
-      </Box>
+      <Heading size={'xs'} color={'swap.darkHighlight'}>
+        Protinabídka
+      </Heading>
+      {chat.exchangeOfferData.counterOfferId ? (
+        <BookOfferCollumn offer={chat.exchangeOfferData.counterOffer} />
+      ) : (
+        <Text fontSize={'xs'}>Bez protinabídky</Text>
+      )}
     </VStack>
   );
 };
@@ -188,14 +132,19 @@ const ChatInfo = ({ otherUserId }: { otherUserId: string }) => {
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
-    <Heading size={{ base: 'lg', md: '2xl' }}>
-      Chat s{' '}
-      <Link href={`/uzivatel/${otherUserId}`}>
-        <Box as={'span'} color={'swap.lightHighlight'}>
-          {otherUserData.userName}
-        </Box>
+    <HStack align={'center'} justify={'start'}>
+      <Link href={'/zpravy'}>
+        <ChevronLeftIcon width={20} height={12} _hover={{ opacity: 0.8 }} />
       </Link>
-    </Heading>
+      <Heading size={{ base: 'lg', md: '2xl' }}>
+        Chat s{' '}
+        <Link href={`/uzivatel/${otherUserId}`}>
+          <Box as={'span'} color={'swap.lightHighlight'}>
+            {otherUserData.userName}
+          </Box>
+        </Link>
+      </Heading>
+    </HStack>
   );
 };
 
@@ -215,7 +164,7 @@ const ChatWindow = ({ chatId, userId }: { chatId: string; userId: string }) => {
   return (
     <VStack w={'full'}>
       <VStack
-        h={{ base: '55vh', md: '60vh' }}
+        h={{ base: '45vh', md: '50vh' }}
         w={'full'}
         backgroundColor={'swap.lightBase'}
         borderRadius={'md'}
