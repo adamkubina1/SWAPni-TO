@@ -1,14 +1,11 @@
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
-import { CreateExchangeOfferForm } from '@/components/forms/CreateExchangeOfferForm';
 import NoSSR from '@/components/NoSSR';
+import { OfferCard } from '@/components/OfferCard';
 import { Rating } from '@/components/Ratings';
 import { Seo } from '@/components/Seo';
-import { UserAvatar } from '@/components/UserAvatar';
 import { createBookDemand } from '@/lib/cloudFunctionsCalls/createBookDemand';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
@@ -18,6 +15,7 @@ import {
   Spinner,
   Stack,
   Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -68,63 +66,14 @@ const BookRelatedContent = ({ bookId }: { bookId: string }) => {
     return null;
   }
   if (status === 'loading') return <Spinner />;
-
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
-    <>
+    <VStack w={'full'}>
       {bookOffers.map((offer, i) => (
-        <BookOfferCard
-          key={i}
-          userId={offer.userId}
-          bookId={bookId}
-          bookOfferId={offer.id}
-          offer={{
-            bookState: offer.bookState,
-            notes: offer.notes,
-            bookId: offer.bookId,
-          }}
-          currentUID={signInCheckResult.user.uid}
-        />
+        <OfferCard key={i} offer={offer} userUID={signInCheckResult.user.uid} />
       ))}
-    </>
-  );
-};
-
-const BookOfferCard = ({
-  userId,
-  bookId,
-  bookOfferId,
-  offer,
-  currentUID,
-}: {
-  userId: string;
-  bookId: string;
-  bookOfferId: string;
-  offer: BookOffer;
-  currentUID: string;
-}) => {
-  const { data: userFirestore, status } = useFetchProfile(userId);
-
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  return (
-    <Box>
-      <Link href={`/uzivatel/${userId}`}>
-        <UserAvatar userId={userId} size={'sm'} />
-      </Link>
-      <Heading>{userFirestore?.userName}</Heading>
-      {currentUID !== userId ? (
-        <CreateExchangeOfferForm
-          receiverUserId={userId}
-          bookId={bookId}
-          bookOfferId={bookOfferId}
-          bookOffer={offer}
-        />
-      ) : null}
-    </Box>
+    </VStack>
   );
 };
 
@@ -250,6 +199,7 @@ const BookActions = ({
 }) => {
   const { status, data: signInCheckResult } = useSigninCheck();
   const functions = useFunctions();
+  const toast = useToast();
 
   return (
     <NoSSR>
@@ -264,7 +214,30 @@ const BookActions = ({
             <>
               <AddBookOfferForm bookId={bookId} bookTitle={bookTitle} />
               <Button
-                onClick={() => createBookDemand(functions, bookId, bookTitle)}
+                size={'sm'}
+                variant={'swapDarkOutline'}
+                onClick={() =>
+                  createBookDemand(functions, bookId, bookTitle)
+                    .then(() => {
+                      toast({
+                        title: 'Poptávka vytvořena.',
+                        description:
+                          'Při přidání nových nabídek k této knize budete nyní dostávat emailová upozornění.',
+                        status: 'success',
+                        duration: 5000,
+                        isClosable: true,
+                      });
+                    })
+                    .catch(() => {
+                      toast({
+                        title: 'Tuto knihu již poptáváte.',
+                        description: 'Duplikovaná poptávka.',
+                        status: 'warning',
+                        duration: 5000,
+                        isClosable: true,
+                      });
+                    })
+                }
               >
                 Přidat poptávku
               </Button>

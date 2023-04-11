@@ -1,25 +1,15 @@
 import { AddUserReview } from '@/components/forms/AddUserReview';
 import NoSSR from '@/components/NoSSR';
+import { OfferCard } from '@/components/OfferCard';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { UserRating } from '@/components/UserRating';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
-import {
-  Box,
-  Flex,
-  Heading,
-  Spinner,
-  Stack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { BookOffer } from '@/lib/types/BookOffer';
+import { Flex, Heading, Spinner, Stack, Text, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import { useSigninCheck } from 'reactfire';
 
 const PAGE_TITLE = 'Profil uživatele';
 const PAGE_DESCRIPTION = 'Profil uživatele ve webové aplikace SWAPni TO.';
@@ -41,7 +31,7 @@ const User = () => {
       ) : (
         <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
       )}
-      <VStack pt={28}>
+      <VStack pt={28} gap={4}>
         <Heading size={{ base: 'xl', md: '2xl' }}>Profil uživatele</Heading>
         <Stack
           pt={6}
@@ -57,12 +47,13 @@ const User = () => {
               <Spinner />
             )}
 
-            <VStack>
+            <VStack align={'start'}>
               {user ? <UserDescription userId={user} /> : <Spinner />}
+              {user ? <AddUserReview reviewedUserId={user} /> : <Spinner />}
             </VStack>
           </NoSSR>
         </Stack>
-        {user ? <AddUserReview reviewedUserId={user} /> : <Spinner />}
+
         {user ? <UserCreatedContent userId={user} /> : <Spinner />}
       </VStack>
     </>
@@ -71,58 +62,35 @@ const User = () => {
 
 const UserCreatedContent = ({ userId }: { userId: string }) => {
   const { status, data: offers } = useFetchAllOffersForUser({ userId });
+  const signinCheck = useSigninCheck();
 
-  if (status === 'loading') {
-    return <Spinner />;
-  }
+  if (status === 'loading') return <Spinner />;
+  if (signinCheck.status === 'loading') return <Spinner />;
+
+  if (status === 'error') return null;
+  if (signinCheck.error) return null;
 
   return (
     <>
       {offers.map((offer, i) => (
-        <BookOfferCard key={i} bookId={offer.bookId} />
+        <BookOfferCard
+          key={i}
+          offer={offer}
+          userUID={signinCheck.data.user?.uid}
+        />
       ))}
     </>
   );
 };
 
-const BookOfferCard = ({ bookId }: { bookId: string }) => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-    fetcher
-  );
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-  if (error) {
-    return <Heading color={'red'}>Něco se pokazilo...</Heading>;
-  }
-
-  const bookData: GoogleBookApiBook = data;
-
-  const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
-
-  return (
-    <Box
-      pos={'relative'}
-      w={{ base: 150, md: 150 }}
-      h={{ base: 200, md: 200 }}
-      minW={150}
-      objectFit={'cover'}
-      overflow={'hidden'}
-      mr={2}
-      borderRadius={'md'}
-    >
-      <Link href={`/kniha/${bookId}`}>
-        <Image
-          src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
-          fill
-          alt={bookData.volumeInfo?.title}
-        />
-      </Link>
-    </Box>
-  );
+const BookOfferCard = ({
+  offer,
+  userUID,
+}: {
+  offer: BookOffer;
+  userUID: string | undefined;
+}) => {
+  return <OfferCard offer={offer} userUID={userUID} />;
 };
 
 const UserDescription = ({ userId }: { userId: string }) => {
@@ -133,7 +101,7 @@ const UserDescription = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <Box textAlign={'left'}>
+    <VStack textAlign={'left'} align={'start'}>
       <Heading
         size={'lg'}
         color={'swap.darkHighlight'}
@@ -141,7 +109,7 @@ const UserDescription = ({ userId }: { userId: string }) => {
       >
         {userFirestore?.userName ? userFirestore.userName : 'Nový uživatel'}
       </Heading>
-      <Text>
+      <Text mb={4}>
         {userFirestore?.bio
           ? userFirestore.bio
           : 'Zatím jsem o sobě nic nenapsal :)'}
@@ -153,7 +121,7 @@ const UserDescription = ({ userId }: { userId: string }) => {
         }
         userId={userId}
       />
-    </Box>
+    </VStack>
   );
 };
 

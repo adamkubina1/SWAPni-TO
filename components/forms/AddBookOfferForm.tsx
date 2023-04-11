@@ -1,8 +1,9 @@
 import { createBookOffer } from '@/lib/cloudFunctionsCalls/createBookOffer';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { BookState } from '@/lib/types/BookState';
-import { Button, useToast } from '@chakra-ui/react';
+import { Button, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { useState } from 'react';
 import { useFunctions, useUser } from 'reactfire';
 import { ModalContainer } from '../modals/ModalContainer';
 import { FormFieldSelect, FormFieldTextArea } from './FormField';
@@ -24,6 +25,7 @@ const AddBookOfferForm = ({
   const { data: user } = useUser();
   const toast = useToast();
   const functions = useFunctions();
+  const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
 
   const addBookOfferSubmit = async (values: BookOffer) => {
     if (!user) {
@@ -37,9 +39,12 @@ const AddBookOfferForm = ({
       return;
     }
 
+    setButtonLoading(true);
+
     createBookOffer(functions, bookId, bookTitle, values)
       .then(
         () => {
+          setButtonLoading(false);
           toast({
             title: 'Nabídka vytvořena.',
             description: 'Vaše nabídka byla úspěšně přidána.',
@@ -49,6 +54,7 @@ const AddBookOfferForm = ({
           });
         },
         () => {
+          setButtonLoading(false);
           toast({
             title: 'Jejda něco se pokazilo.',
             description: 'Nepodařilo se vytvořit nabídku.',
@@ -59,6 +65,7 @@ const AddBookOfferForm = ({
         }
       )
       .catch(() => {
+        setButtonLoading(false);
         toast({
           title: 'Jejda něco se pokazilo.',
           description: 'Nepodařilo se vytvořit nabídku.',
@@ -73,6 +80,7 @@ const AddBookOfferForm = ({
     <ModalContainer
       modalButtonText={'Přidat nabídku'}
       modalHeaderText={'Přidat nabídku'}
+      variant={'swapDarkOutline'}
     >
       <Formik
         initialValues={{ notes: '', bookState: 'Jako nová' }}
@@ -81,15 +89,21 @@ const AddBookOfferForm = ({
         validateOnChange={false}
       >
         <Form>
-          <FormFieldTextArea name={'notes'} label={'Poznámky k nabídce'} />
-          <FormFieldSelect
-            name={'bookState'}
-            label={'Stav knihy'}
-            options={bookStateOptions}
-          />
-          <Button variant={'swapLightOutline'} type={'submit'}>
-            Přidat nabídku
-          </Button>
+          <VStack gap={2} align={'start'}>
+            <FormFieldTextArea name={'notes'} label={'Poznámky k nabídce'} />
+            <FormFieldSelect
+              name={'bookState'}
+              label={'Stav knihy'}
+              options={bookStateOptions}
+            />
+            <Button
+              type={'submit'}
+              colorScheme={'green'}
+              isLoading={isButtonLoading}
+            >
+              Přidat nabídku
+            </Button>
+          </VStack>
         </Form>
       </Formik>
     </ModalContainer>

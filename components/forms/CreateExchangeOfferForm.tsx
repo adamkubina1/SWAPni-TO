@@ -58,8 +58,6 @@ const CreateExchangeOfferForm = ({
 
     const newCounter = JSON.parse(values.counterOffer);
 
-    console.log(newCounter);
-
     createExchangeOffer(
       functions,
       bookOfferId,

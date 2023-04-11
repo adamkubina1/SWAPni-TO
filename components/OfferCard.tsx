@@ -24,7 +24,7 @@ const OfferCard = ({
   offer,
   userUID,
 }: {
-  offer: BookOffer & { id: string };
+  offer: BookOffer & { id?: string };
   userUID: string | undefined;
 }) => {
   const { data: userFirestore, status } = useFetchProfile(offer.userId);
@@ -52,6 +52,7 @@ const OfferCard = ({
         gap={{ base: 4, md: 1 }}
         direction={{ base: 'column', md: 'row' }}
         align={{ base: 'center', md: 'center' }}
+        justify={'space-evenly'}
       >
         <VStack align={'center'} maxW={'105'}>
           <Link href={`/kniha/${offer.bookId}`}>
