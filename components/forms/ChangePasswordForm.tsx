@@ -64,6 +64,7 @@ const ChangePasswordForm = () => {
     <ModalContainer
       modalButtonText={'Změnit heslo'}
       modalHeaderText={'Změnit heslo'}
+      variant={'swapDarkOutline'}
     >
       <Formik
         initialValues={{ oldPassword: '', password: '', passwordRepeat: '' }}
@@ -109,7 +110,7 @@ const ChangePasswordForm = () => {
             }
           />
           <Flex direction={'column'} mt={4}>
-            <Button w={'100%'} type={'submit'} variant={'swapLightSolid'}>
+            <Button w={'100%'} type={'submit'} variant={'swapLightOutline'}>
               Změnit heslo
             </Button>
           </Flex>

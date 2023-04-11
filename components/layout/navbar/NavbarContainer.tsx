@@ -15,6 +15,7 @@ const NavbarContainer = ({ children }: { children: ReactNode }) => {
       px={{ base: 4, md: 8 }}
       background={'swap.darkBase95'}
       shadow={'dark-lg'}
+      py={1}
     >
       {children}
     </Box>

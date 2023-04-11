@@ -55,7 +55,7 @@ const LoginForm = ({ onSignIn }: { onSignIn: () => void }) => {
             label={'Email'}
             placeholder={'Vaše emailová adresa'}
             leftAddon={
-              <InputLeftAddon>
+              <InputLeftAddon backgroundColor={'swap.lightHighlight'}>
                 <MdAlternateEmail />
               </InputLeftAddon>
             }
@@ -67,7 +67,7 @@ const LoginForm = ({ onSignIn }: { onSignIn: () => void }) => {
             label={'Heslo'}
             placeholder={'Vaše heslo'}
             leftAddon={
-              <InputLeftAddon>
+              <InputLeftAddon backgroundColor={'swap.lightHighlight'}>
                 <RiLockPasswordLine />
               </InputLeftAddon>
             }

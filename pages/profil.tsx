@@ -39,7 +39,7 @@ const Profil = () => {
   return (
     <ProtectedPage>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
-      <VStack pt={28}>
+      <VStack pt={28} gap={4}>
         <Heading size={{ base: 'xl', md: '2xl' }}>Můj profil</Heading>
         <Stack
           pt={6}
@@ -65,6 +65,7 @@ const Profil = () => {
             <ModalContainer
               modalButtonText={'Upravit profil'}
               modalHeaderText={'Upravit profil'}
+              variant={'swapDarkOutline'}
             >
               <Box mb={8}>
                 <EditUserNameForm />
@@ -80,7 +81,6 @@ const Profil = () => {
             <DeleteAccountAlert />
           </Stack>
         </NoSSR>
-        {user?.uid ? <UserCreatedContent userId={user.uid} /> : <Spinner />}
       </VStack>
     </ProtectedPage>
   );
@@ -112,7 +112,7 @@ const DeleteAccountAlert = () => {
 
   return (
     <>
-      <Button colorScheme='red' onClick={onOpen}>
+      <Button colorScheme='red' onClick={onOpen} size={'sm'}>
         Smazat účet
       </Button>
 
@@ -124,16 +124,16 @@ const DeleteAccountAlert = () => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete Customer
+              Smazat účet
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              Opravdu chcete permanentně smazat váš uživetelský účet?
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
-                Cancel
+                Zrušit
               </Button>
               <Button
                 colorScheme='red'
@@ -143,7 +143,7 @@ const DeleteAccountAlert = () => {
                 }}
                 ml={3}
               >
-                Delete
+                Smazat můj účet
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -151,10 +151,6 @@ const DeleteAccountAlert = () => {
       </AlertDialog>
     </>
   );
-};
-
-const UserCreatedContent = ({ userId }: { userId: string }) => {
-  return <>TODO user content</>;
 };
 
 const UserDescription = ({ userId }: { userId: string }) => {

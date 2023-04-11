@@ -1,17 +1,27 @@
-import { CardContainer } from '@/components/CardContainer';
+import { BookOfferCollumn } from '@/components/BookOfferCollumn';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
+import { UserRating } from '@/components/UserRating';
 import { useFetchAllChats } from '@/lib/customHooks/useFetchAllChats';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
+import { deleteChat } from '@/lib/deleteChat';
 import { Chat } from '@/lib/types/Chat';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
-import { Box, Heading, HStack, Spinner, Text, VStack } from '@chakra-ui/react';
-import Image from 'next/image';
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Spinner,
+  Stack,
+  Text,
+  Tooltip,
+  VStack,
+} from '@chakra-ui/react';
 import Link from 'next/link';
-import { useSigninCheck } from 'reactfire';
-import useSWR from 'swr';
+import { useRouter } from 'next/router';
+import { MdOutlineMessage } from 'react-icons/md';
+import { useFirestore, useSigninCheck } from 'reactfire';
 
 const PAGE_TITLE = 'Chaty';
 const PAGE_DESCRIPTION =
@@ -66,63 +76,98 @@ const ChatLink = ({
       ? chat.exchangeOfferData.senderUserId
       : chat.exchangeOfferData.receiverUserId;
   const { status, data: otherUserData } = useFetchProfile(otherUserId);
+  const firestore = useFirestore();
+  const router = useRouter();
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes/${chat.exchangeOfferData.bookId}`,
-    fetcher
-  );
-  const bookOfferData = data as GoogleBookApiBook;
-  const bookOfferImgUrl = getHighestSizeLinkUrl(
-    bookOfferData?.volumeInfo.imageLinks
-  );
+  if (status === 'error') return null;
+  if (status === 'loading') return <Spinner />;
 
   return (
-    <CardContainer>
-      <HStack align={'start'}>
+    <Box
+      boxShadow={'xl'}
+      color={'swap.darkText'}
+      borderRadius={'md'}
+      borderColor={'swap.lightBase'}
+      _hover={{
+        boxShadow: 'dark-lg',
+      }}
+      py={{ base: 4, md: 1 }}
+      px={{ base: 2, md: 4 }}
+    >
+      <Stack direction={{ base: 'column', md: 'row' }} align={'center'} gap={4}>
         <VStack>
-          <Heading size={'xs'}>S kým?</Heading>
-          <Link href={`/uzivatel/${otherUserId}`}>
-            <UserAvatar size={'md'} userId={otherUserId} />
+          <Link href={`uzivatel/${chat.exchangeOfferData.receiverUserId}`}>
+            <UserAvatar
+              userId={chat.exchangeOfferData.receiverUserId}
+              size={'md'}
+            />
           </Link>
-          <Text>
-            {status === 'loading' ? <Spinner /> : otherUserData.userName}
-          </Text>
+          <UserRating
+            userRating={otherUserData.userScore}
+            ratingsCount={otherUserData.reviewsCount}
+            userId={otherUserData.id}
+          />
+          <Heading size={'xs'} color={'swap.lightHighlight'}>
+            {otherUserData?.userName ? otherUserData.userName : null}
+          </Heading>
         </VStack>
+        <HStack align={'start'}>
+          <VStack align={'center'} maxW={'105'}>
+            <Heading size={'xs'} color={'swap.darkHighlight'}>
+              {userId === chat.exchangeOfferData.receiverUserId
+                ? 'Moje nabídka'
+                : 'Jejich nabídka'}
+            </Heading>
+            <BookOfferCollumn offer={chat.exchangeOfferData.bookOffer} />
+          </VStack>
+          <VStack align={'center'} maxW={'105'}>
+            <Heading size={'xs'} color={'swap.darkHighlight'}>
+              Protinabídka
+            </Heading>
+            {chat.exchangeOfferData.counterOfferId ? (
+              <BookOfferCollumn offer={chat.exchangeOfferData.counterOffer} />
+            ) : (
+              <Text>Nabyla nabídnuta</Text>
+            )}
+          </VStack>
+        </HStack>
+        <Tooltip
+          placement={'top-start'}
+          label={chat.exchangeOfferData.message}
+          fontSize={'md'}
+          closeDelay={500}
+        >
+          <Box _hover={{ cursor: 'pointer' }}>
+            <MdOutlineMessage size={24} />
+          </Box>
+        </Tooltip>
+
         <VStack>
-          <Heading size={'xs'}>Co?</Heading>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <VStack>
-              <Link href={`/kniha/${bookOfferData.id}`}>
-                <Box
-                  // w={{ base: 150, md: 150 }}
-                  h={{ base: 120, md: 120 }}
-                  minW={100}
-                  objectFit={'cover'}
-                  overflow={'hidden'}
-                  position={'relative'}
-                  borderRadius={'md'}
-                >
-                  <Image
-                    src={
-                      bookOfferImgUrl ? bookOfferImgUrl : 'book-placeholder.jpg'
-                    }
-                    fill
-                    alt={bookOfferData.volumeInfo.title}
-                  />
-                </Box>
-              </Link>
-              <Text>{bookOfferData.volumeInfo.title}</Text>
-            </VStack>
-          )}
+          <Button
+            onClick={() => {
+              router.push(`/zpravy/${chat.id}`);
+            }}
+            colorScheme={'blue'}
+            size={'sm'}
+            mb={6}
+          >
+            Přejít na chat
+          </Button>
+
+          <Button onClick={() => {}} colorScheme={'green'} size={'sm'}>
+            Potvrdit výměnu
+          </Button>
+
+          <Button
+            onClick={() => deleteChat(firestore, chat.id)}
+            colorScheme={'red'}
+            size={'sm'}
+          >
+            Smazat chat
+          </Button>
         </VStack>
-        <Link href={`/zpravy/${chat.id}`}>
-          <Text>Link to chat</Text>
-        </Link>
-      </HStack>
-    </CardContainer>
+      </Stack>
+    </Box>
   );
 };
 

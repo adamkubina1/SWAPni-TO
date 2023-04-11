@@ -242,7 +242,7 @@ const FormFieldSelectWithBook = ({
               <BookOption
                 name={name}
                 key={i}
-                value={option.value}
+                value={JSON.stringify(option.value)}
                 descriptionEnding={option.description}
                 bookId={option.value.bookId}
               />
@@ -281,7 +281,7 @@ const BookOption = ({
   const bookData: GoogleBookApiBook = data;
 
   return (
-    <option id={name} value={JSON.stringify(value)}>
+    <option id={name} value={value}>
       {bookData.volumeInfo.title + ' - ' + descriptionEnding}
     </option>
   );

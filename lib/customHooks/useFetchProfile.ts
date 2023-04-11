@@ -15,7 +15,9 @@ const useFetchProfile = (userId: string) => {
 
   const ref = doc(firestore, path, userId) as DocumentReference<Response>;
 
-  return useFirestoreDocData(ref, { idField: 'id' }) as ObservableStatus<Users>;
+  return useFirestoreDocData(ref, {
+    idField: 'id',
+  }) as ObservableStatus<Response>;
 };
 
 export { useFetchProfile };

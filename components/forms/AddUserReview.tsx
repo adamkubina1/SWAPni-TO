@@ -1,7 +1,8 @@
 import { createUserReview } from '@/lib/createUserReview';
 import { ValidateStars } from '@/lib/formValidators';
-import { Button, useToast } from '@chakra-ui/react';
+import { Button, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { useState } from 'react';
 import { useFirestore, useUser } from 'reactfire';
 import { ModalContainer } from '../modals/ModalContainer';
 import { FormFieldSelect, FormFieldTextArea } from './FormField';
@@ -18,18 +19,20 @@ const AddUserReview = ({ reviewedUserId }: { reviewedUserId: string }) => {
   const firestore = useFirestore();
   const { data: user } = useUser();
   const toast = useToast();
+  const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
 
   const onSubmitForm = async (values: { stars: number; review: string }) => {
     if (!user) {
       toast({
         title: 'Jejda něco se pokazilo.',
-        description: 'Nepodařilo se aktualizovat váš profil.',
+        description: 'Nepodařilo se přidat recenzi.',
         status: 'error',
         duration: 5000,
         isClosable: true,
       });
       return;
     }
+    setButtonLoading(true);
 
     await createUserReview(
       firestore,
@@ -40,18 +43,21 @@ const AddUserReview = ({ reviewedUserId }: { reviewedUserId: string }) => {
     )
       .then(
         () => {
+          setButtonLoading(false);
           toast({
-            title: 'Profil byl aktualizován.',
-            description: 'Vaše uživatelské jméno bylo úspěšně aktualizováno.',
+            title: 'Recenze vytvořena.',
+            description:
+              'Byla úspěšně přidána vaše recenze na tohoto uživatele',
             status: 'success',
             duration: 5000,
             isClosable: true,
           });
         },
         () => {
+          setButtonLoading(false);
           toast({
             title: 'Jejda něco se pokazilo.',
-            description: 'Nepodařilo se aktualizovat váš profil.',
+            description: 'Nepodařilo se přidat recenzi.',
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -59,9 +65,10 @@ const AddUserReview = ({ reviewedUserId }: { reviewedUserId: string }) => {
         }
       )
       .catch(() => {
+        setButtonLoading(false);
         toast({
           title: 'Jejda něco se pokazilo.',
-          description: 'Nepodařilo se aktualizovat váš profil.',
+          description: 'Nepodařilo se přidat recenzi.',
           status: 'error',
           duration: 5000,
           isClosable: true,
@@ -73,6 +80,7 @@ const AddUserReview = ({ reviewedUserId }: { reviewedUserId: string }) => {
     <ModalContainer
       modalButtonText={'Ohodnotit uživatele'}
       modalHeaderText={'Ohodnotit uživatele'}
+      variant={'swapDarkOutline'}
     >
       <Formik
         initialValues={{ stars: 5, review: '' }}
@@ -81,21 +89,28 @@ const AddUserReview = ({ reviewedUserId }: { reviewedUserId: string }) => {
         validateOnChange={false}
       >
         <Form>
-          <FormFieldSelect
-            name={'stars'}
-            label={'Počet hvězd'}
-            options={starOptions}
-            validate={ValidateStars}
-          />
-          <FormFieldTextArea
-            name={'review'}
-            label={'Slovní hodnocení'}
-            placeholder={'Vaše zkušenost s uživatelem'}
-          />
+          <VStack align={'start'} gap={2}>
+            <FormFieldSelect
+              name={'stars'}
+              label={'Počet hvězd'}
+              options={starOptions}
+              validate={ValidateStars}
+            />
+            <FormFieldTextArea
+              name={'review'}
+              label={'Slovní hodnocení'}
+              placeholder={'Vaše zkušenost s uživatelem'}
+            />
 
-          <Button type={'submit'} variant={'swapLightOutline'} mt={2}>
-            Přidat recenzi!
-          </Button>
+            <Button
+              type={'submit'}
+              mt={2}
+              variant={'swapLightOutline'}
+              isLoading={isButtonLoading}
+            >
+              Přidat recenzi!
+            </Button>
+          </VStack>
         </Form>
       </Formik>
     </ModalContainer>

@@ -1,8 +1,9 @@
 import { createExchangeOffer } from '@/lib/cloudFunctionsCalls/createExchangeOffer';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { BookOffer } from '@/lib/types/BookOffer';
-import { Button, Spinner, useToast } from '@chakra-ui/react';
+import { Button, Spinner, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { useState } from 'react';
 import { useFunctions, useUser } from 'reactfire';
 import { ModalContainer } from '../modals/ModalContainer';
 import { FormFieldSelectWithBook, FormFieldTextArea } from './FormField';
@@ -19,13 +20,13 @@ const CreateExchangeOfferForm = ({
   bookOffer: BookOffer;
 }) => {
   const { data: user } = useUser();
+  const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
   const toast = useToast();
   const functions = useFunctions();
-  const { status, data } = useFetchAllOffersForUser({
+  const { status, data: possibleCounterOffers } = useFetchAllOffersForUser({
     userId: user?.uid,
   });
 
-  const possibleCounterOffers = data as Array<BookOffer & { id: string }>;
   let options: Array<{
     value: BookOffer & { id: string | null };
     description: string;
@@ -40,7 +41,7 @@ const CreateExchangeOfferForm = ({
 
   const addBookOfferSubmit = async (values: {
     message: string;
-    counterOffer: string;
+    counterOffer: any;
   }) => {
     if (!user) {
       toast({
@@ -52,25 +53,20 @@ const CreateExchangeOfferForm = ({
       });
       return;
     }
-    const counterOffer: BookOffer & { id: string | null } = JSON.parse(
-      values.counterOffer
-    );
+
+    setButtonLoading(true);
+
+    const newCounter = JSON.parse(values.counterOffer);
 
     createExchangeOffer(
       functions,
       bookOfferId,
-      counterOffer?.id ? counterOffer.id : null,
+      newCounter?.id ? newCounter.id : null,
       receiverUserId,
       bookId,
       bookOffer,
       values.message,
-      {
-        bookState: counterOffer?.bookState
-          ? counterOffer?.bookState
-          : 'Jako nová',
-        notes: counterOffer?.notes ? counterOffer?.notes : '',
-        bookId: counterOffer?.bookId ? counterOffer.bookId : '',
-      }
+      newCounter
     )
       .then(
         () => {
@@ -81,6 +77,7 @@ const CreateExchangeOfferForm = ({
             duration: 5000,
             isClosable: true,
           });
+          setButtonLoading(false);
         },
         () => {
           toast({
@@ -90,6 +87,7 @@ const CreateExchangeOfferForm = ({
             duration: 5000,
             isClosable: true,
           });
+          setButtonLoading(false);
         }
       )
       .catch(() => {
@@ -100,18 +98,24 @@ const CreateExchangeOfferForm = ({
           duration: 5000,
           isClosable: true,
         });
+        setButtonLoading(false);
       });
   };
 
   return (
     <ModalContainer
-      modalButtonText={'Vytvořit žádost'}
+      modalButtonText={'Požádat o výměnu'}
       modalHeaderText={'Vytvořit žádost o výměnu'}
+      variant={'swapLightSolid'}
     >
       <Formik
         initialValues={{
           message: 'Rád/a bych s vámi vyměnil/a tuto knihu.',
-          counterOffer: "{ bookState: 'Jako nová', notes: '', id: null }",
+          counterOffer: JSON.stringify({
+            bookState: 'Jako nová',
+            notes: '',
+            id: null,
+          }),
         }}
         onSubmit={addBookOfferSubmit}
         validateOnBlur={false}
@@ -121,17 +125,22 @@ const CreateExchangeOfferForm = ({
           {status === 'loading' ? (
             <Spinner />
           ) : (
-            <>
+            <VStack gap={2} align={'start'}>
               <FormFieldTextArea name={'message'} label={'Zpráva k žádosti'} />
               <FormFieldSelectWithBook
                 name={'counterOffer'}
                 label={'Protinabídka'}
                 options={options}
               />
-              <Button variant={'swapLightOutline'} type={'submit'}>
-                Přidat nabídku
+              <Button
+                variant={'swapLightOutline'}
+                type={'submit'}
+                loadingText={'Vytváříme'}
+                isLoading={isButtonLoading}
+              >
+                Požádat o výměnu
               </Button>
-            </>
+            </VStack>
           )}
         </Form>
       </Formik>
