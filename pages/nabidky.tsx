@@ -4,9 +4,20 @@ import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { deleteBookOffer } from '@/lib/deleteBookOffer';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
-import { Box, Button, Heading, HStack, Spinner, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Spinner,
+  Stack,
+  Text,
+  Tooltip,
+  VStack,
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
 import { useFirestore, useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
 
@@ -21,17 +32,18 @@ const Nabidky = () => {
     <ProtectedPage>
       <Seo title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
       <VStack pt={'10vh'} justifyContent={'center'} gap={6}>
-        <Heading size={{ base: 'lg', md: '2xl' }}>
-          Moje nabídky knih
-        </Heading>
-        {signIn.data?.user?.uid ? < BookOffersSection userId={signIn.data.user?.uid}/> : <Spinner/>}
-        
+        <Heading size={{ base: 'lg', md: '2xl' }}>Moje nabídky knih</Heading>
+        {signIn.data?.user?.uid ? (
+          <BookOffersSection userId={signIn.data.user?.uid} />
+        ) : (
+          <Spinner />
+        )}
       </VStack>
     </ProtectedPage>
   );
 };
 
-const BookOffersSection = ({userId}: {userId: string}) => {
+const BookOffersSection = ({ userId }: { userId: string }) => {
   const { status, data: offers } = useFetchAllOffersForUser({ userId });
 
   if (status === 'loading') {
@@ -40,23 +52,30 @@ const BookOffersSection = ({userId}: {userId: string}) => {
 
   return (
     <>
-      {offers.map((offer, i) => (
-        <BookOfferCard key={i} bookId={offer.bookId} offer={offer} />
-      ))}
+      {offers.length > 0 ? (
+        offers.map((offer, i) => (
+          <BookOfferCard key={i} bookId={offer.bookId} offer={offer} />
+        ))
+      ) : (
+        <Text>
+          Žádné nabídky knih k nahlédnutí, přidejte je{' '}
+          <Box as={'span'} color={'swap.lightHighlight'}>
+            <Link href={'/'}>zde</Link>
+          </Box>
+          .
+        </Text>
+      )}
     </>
   );
-}
+};
 
-/**
- * TODO add types
- */
-const BookOfferCard = ({ bookId, offer }: { bookId: string, offer: any }) => {
+const BookOfferCard = ({ bookId, offer }: { bookId: string; offer: any }) => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useSWR(
     `https://www.googleapis.com/books/v1/volumes/${bookId}`,
     fetcher
   );
-    const firestore = useFirestore()
+  const firestore = useFirestore();
 
   if (isLoading) {
     return <Spinner />;
@@ -70,29 +89,76 @@ const BookOfferCard = ({ bookId, offer }: { bookId: string, offer: any }) => {
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 
   return (
-    <HStack>
     <Box
-      pos={'relative'}
-      w={{ base: 150, md: 150 }}
-      h={{ base: 200, md: 200 }}
-      minW={150}
-      objectFit={'cover'}
-      overflow={'hidden'}
-      mr={2}
+      boxShadow={'xl'}
+      color={'swap.darkText'}
       borderRadius={'md'}
+      borderColor={'swap.lightBase'}
+      _hover={{
+        boxShadow: 'dark-lg',
+      }}
+      py={{ base: 4, md: 0 }}
+      pr={{ base: 0, md: 4 }}
     >
-      <Link href={`/kniha/${bookId}`}>
-        <Image
-        
-        src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
-          fill
-          alt={bookData.volumeInfo?.title}
-          />
-      </Link>
-      
+      <Stack
+        gap={{ base: 4, md: 1 }}
+        direction={{ base: 'column', md: 'row' }}
+        align={{ base: 'center', md: 'center' }}
+      >
+        <VStack align={'center'} maxW={'105'}>
+          <Link href={`/kniha/${offer.bookId}`}>
+            <Box
+              pos={'relative'}
+              w={105}
+              h={140}
+              minW={90}
+              objectFit={'cover'}
+              overflow={'hidden'}
+              mr={2}
+              borderRadius={'md'}
+            >
+              <Image
+                src={imgUrl ? imgUrl : '/imgs/book-placeholder.jpg'}
+                fill
+                alt={bookData.volumeInfo.title}
+              />
+            </Box>
+          </Link>
+          <Heading size={'xs'}>{bookData.volumeInfo.title}</Heading>
+        </VStack>
+
+        <VStack gap={3}>
+          <HStack>
+            <Tooltip
+              placement={'top-end'}
+              label={'Poznámky: ' + offer.notes}
+              fontSize={'md'}
+              closeDelay={500}
+            >
+              <Box _hover={{ cursor: 'pointer' }}>
+                <MdInfoOutline size={32} />
+              </Box>
+            </Tooltip>
+            <Tooltip
+              placement={'top-start'}
+              label={'Stav: ' + offer.bookState}
+              fontSize={'md'}
+              closeDelay={500}
+            >
+              <Box _hover={{ cursor: 'pointer' }}>
+                <MdMenuBook size={32} />
+              </Box>
+            </Tooltip>
+          </HStack>
+        </VStack>
+        <Button
+          onClick={() => deleteBookOffer(firestore, offer.id)}
+          colorScheme={'red'}
+        >
+          Smazat
+        </Button>
+      </Stack>
     </Box>
-        <Button onClick={() => deleteBookOffer(firestore, offer.id)}>Smazat</Button>
-    </HStack>
   );
 };
 
