@@ -38,8 +38,17 @@ const SearchForm = ({
               type={'search'}
               placeholder={'Vyhledat'}
               rightAddon={
-                <InputRightAddon px={0}>
-                  <Button type={'submit'} color={'swap.darkHighlight'}>
+                <InputRightAddon
+                  px={0}
+                  backgroundColor={'swap.lightHighlight'}
+                  borderColor={'swap.lightHighlight'}
+                >
+                  <Button
+                    type={'submit'}
+                    color={'swap.darkHighlight'}
+                    backgroundColor={'swap.lightHighlight'}
+                    borderColor={'swap.lightHighlight'}
+                  >
                     <MdSearch />
                   </Button>
                 </InputRightAddon>

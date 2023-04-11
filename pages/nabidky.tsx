@@ -5,6 +5,12 @@ import { deleteBookOffer } from '@/lib/deleteBookOffer';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Heading,
@@ -13,10 +19,12 @@ import {
   Stack,
   Text,
   Tooltip,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRef } from 'react';
 import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
 import { useFirestore, useSigninCheck } from 'reactfire';
 import useSWR from 'swr';
@@ -76,6 +84,8 @@ const BookOfferCard = ({ bookId, offer }: { bookId: string; offer: any }) => {
     fetcher
   );
   const firestore = useFirestore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
 
   if (isLoading) {
     return <Spinner />;
@@ -151,12 +161,49 @@ const BookOfferCard = ({ bookId, offer }: { bookId: string; offer: any }) => {
             </Tooltip>
           </HStack>
         </VStack>
-        <Button
-          onClick={() => deleteBookOffer(firestore, offer.id)}
-          colorScheme={'red'}
-        >
+        <Button onClick={onOpen} colorScheme={'red'}>
           Smazat
         </Button>
+
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                Smazat nabídku knihy
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                <Text>
+                  Smazání nabídky zároveň smaže všechny žádosti a chaty s ní
+                  asociované.
+                </Text>
+                <Text>
+                  Toto platí i pro takové, kde figuruje jako protinabídka!
+                </Text>
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  Zrušit
+                </Button>
+                <Button
+                  colorScheme='red'
+                  onClick={() => {
+                    deleteBookOffer(firestore, offer.id);
+                    onClose();
+                  }}
+                  ml={3}
+                >
+                  Smazat nabídku
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </Stack>
     </Box>
   );

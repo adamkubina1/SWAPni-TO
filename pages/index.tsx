@@ -127,15 +127,16 @@ const BookOffers = () => {
                 }}
               />
             </VStack>
-
-            <SortBy
-              defaultRefinement='bookTitle'
-              items={[
-                { value: 'bookTitle', label: 'Seřadit' },
-                { value: 'time_asc', label: 'Nejstarší' },
-                { value: 'time_desc', label: 'Nejnovější' },
-              ]}
-            />
+            <Box color={'swap.lightHighlight'}>
+              <SortBy
+                defaultRefinement='bookTitle'
+                items={[
+                  { value: 'bookTitle', label: 'Seřadit' },
+                  { value: 'time_asc', label: 'Nejstarší' },
+                  { value: 'time_desc', label: 'Nejnovější' },
+                ]}
+              />
+            </Box>
           </HStack>
           <Configure hitsPerPage={5} />
         </VStack>

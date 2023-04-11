@@ -24,8 +24,15 @@ const SearchBox = ({ refine }: any) => {
             color: 'gray.400',
           }}
         />
-        <InputRightAddon px={0}>
-          <Button color={'swap.darkHighlight'}>
+        <InputRightAddon
+          px={0}
+          backgroundColor={'swap.lightHighlight'}
+          borderColor={'swap.lightHighlight'}
+        >
+          <Button
+            color={'swap.darkHighlight'}
+            backgroundColor={'swap.lightHighlight'}
+          >
             <MdSearch />
           </Button>
         </InputRightAddon>
