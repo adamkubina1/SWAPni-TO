@@ -8,10 +8,10 @@ const colors = {
     darkBase: '#22232F',
     darkBase95: 'rgba(34, 35, 47, 0.95)',
     darkText: '#FFFFFF',
-    darkHighlight: '#E02401',
+    darkHighlight: '#E6C700',
     lightBase: '#E1D9D1', //#F5F5F5
     lightText: '#030201',
-    lightHighlight: '#189AD3',
+    lightHighlight: '#7abee6',
   },
 };
 

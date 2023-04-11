@@ -20,8 +20,7 @@ const Footer = () => {
         </Text>
         <HStack>
           <Text color={'gray.500'}>Zdrojový kód volně dostupný na</Text>
-          {/* TODO add path to project repo */}
-          <NextLink href={'/'}>
+          <NextLink href={'https://github.com/adamkubina1/SWAPni-TO'}>
             <Box color={'gray.500'} _hover={{ color: 'swap.darkText' }}>
               <FaGithub size={20} />
             </Box>
@@ -30,10 +29,10 @@ const Footer = () => {
       </VStack>
       <VStack>
         <NextLink href={'/jak-to-funguje'}>
-          <Text>Jak to funguje?</Text>
+          <Text _hover={{ opacity: 0.8 }}>Jak to funguje?</Text>
         </NextLink>
         <NextLink href={'/osobni-udaje'}>
-          <Text>Osobní údaje</Text>
+          <Text _hover={{ opacity: 0.8 }}>Osobní údaje</Text>
         </NextLink>
       </VStack>
     </Flex>

@@ -127,7 +127,7 @@ const CreateExchangeOfferForm = ({
           {status === 'loading' ? (
             <Spinner />
           ) : (
-            <VStack gap={2}>
+            <VStack gap={2} align={'start'}>
               <FormFieldTextArea name={'message'} label={'Zpráva k žádosti'} />
               <FormFieldSelectWithBook
                 name={'counterOffer'}

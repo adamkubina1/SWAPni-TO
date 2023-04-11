@@ -1,4 +1,6 @@
 import Hits from '@/components/forms/Algolia/Hits';
+import Pagination from '@/components/forms/Algolia/Pagination';
+import RefinementList from '@/components/forms/Algolia/RefinementList';
 import SearchBox from '@/components/forms/Algolia/SearchBox';
 import { SearchForm } from '@/components/forms/SearchForm';
 import NoSSR from '@/components/NoSSR';
@@ -6,21 +8,28 @@ import { SearchResult } from '@/components/pageSpecific/home/SearchResult';
 import { Seo } from '@/components/Seo';
 import { getRandomBook } from '@/lib/getRandomBook';
 import { SearchType } from '@/lib/types/Search';
-import { Heading, Select, Spinner, Stack, VStack } from '@chakra-ui/react';
+import { algoliaConfig } from '@/utils/algoliaConfig';
+import {
+  Box,
+  Heading,
+  HStack,
+  Select,
+  Spinner,
+  Stack,
+  VStack,
+} from '@chakra-ui/react';
 import algoliasearch from 'algoliasearch/lite';
+import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
   ClearRefinements,
   Configure,
   InstantSearch,
-  RefinementList,
+  SortBy,
 } from 'react-instantsearch-dom';
 import { useUser } from 'reactfire';
 
-const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
-  process.env.NEXT_PUBLIC_ALGOLIA_API_KEY
-);
+const searchClient = algoliasearch(algoliaConfig.appID, algoliaConfig.apiKey);
 
 const Home = () => {
   const [search, setSearch] = useState<string>(getRandomBook());
@@ -30,9 +39,17 @@ const Home = () => {
     <>
       <Seo />
       <VStack pt={'10vh'} justifyContent={'center'} gap={6}>
-        <Heading size={{ base: 'lg', md: '2xl' }}>
-          Prozkoumejte SWAPni TO
-        </Heading>
+        <HStack>
+          <Heading size={{ base: 'lg', md: '2xl' }}>SWAPni TO </Heading>
+          <Box
+            w={{ base: 12, md: 16 }}
+            h={{ base: 12, md: 16 }}
+            position={'relative'}
+          >
+            <Image src={'/imgs/swap-logo.svg'} fill alt={'SWAPni-to logo'} />
+          </Box>
+        </HStack>
+
         <NoSSR>
           <Stack
             direction={{ base: 'column', md: 'column' }}
@@ -96,21 +113,35 @@ const BookOffers = () => {
   if (user.status === 'loading') return <Spinner />;
 
   return (
-    <VStack className='ais-InstantSearch' w={'full'}>
+    <VStack className='ais-InstantSearch' w={'full'} gap={4}>
       <InstantSearch indexName={'bookTitle'} searchClient={searchClient}>
-        <div>
+        <VStack gap={6}>
           <SearchBox />
-          <Heading size={'sm'}>Stav</Heading>
-          <RefinementList attribute={'bookState'} />
-          <ClearRefinements
-            translations={{
-              reset: 'Smazat filtry',
-            }}
-          />
-          <Configure hitsPerPage={8} />
-        </div>
+          <HStack gap={2} align={'start'}>
+            <VStack>
+              <Heading size={'sm'}>Stav</Heading>
+              <RefinementList attribute={'bookState'} />
+              <ClearRefinements
+                translations={{
+                  reset: 'Smazat filtry',
+                }}
+              />
+            </VStack>
+
+            <SortBy
+              defaultRefinement='bookTitle'
+              items={[
+                { value: 'bookTitle', label: 'Seřadit' },
+                { value: 'time_asc', label: 'Nejstarší' },
+                { value: 'time_desc', label: 'Nejnovější' },
+              ]}
+            />
+          </HStack>
+          <Configure hitsPerPage={5} />
+        </VStack>
 
         <Hits userUID={user.data?.uid} />
+        <Pagination />
       </InstantSearch>
     </VStack>
   );

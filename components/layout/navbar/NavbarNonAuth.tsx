@@ -36,7 +36,11 @@ const LinksNonAuth = ({
   return (
     <NavbarLinksContainer isOpen={isOpen} authJustify={false}>
       <NextLink href={'/jak-to-funguje'} onClick={setOpenFalse}>
-        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+        <Heading
+          size={{ base: 'md', md: 'sm' }}
+          fontWeight={'normal'}
+          _hover={{ opacity: 0.8 }}
+        >
           Jak to funguje?
         </Heading>
       </NextLink>

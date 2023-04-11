@@ -62,17 +62,29 @@ const LinksAuth = ({
   return (
     <NavbarLinksContainer isOpen={isOpen} authJustify={true}>
       <NextLink href={'/'} onClick={setOpenFalse}>
-        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
-          SWAPuj
+        <Heading
+          size={{ base: 'md', md: 'sm' }}
+          fontWeight={'normal'}
+          _hover={{ opacity: 0.8 }}
+        >
+          SWAP
         </Heading>
       </NextLink>
       <NextLink href={'/nabidky'} onClick={setOpenFalse}>
-        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+        <Heading
+          size={{ base: 'md', md: 'sm' }}
+          fontWeight={'normal'}
+          _hover={{ opacity: 0.8 }}
+        >
           Nabídky
         </Heading>
       </NextLink>
       <NextLink href={'/poptavky'} onClick={setOpenFalse}>
-        <Heading size={{ base: 'md', md: 'sm' }} fontWeight={'normal'}>
+        <Heading
+          size={{ base: 'md', md: 'sm' }}
+          fontWeight={'normal'}
+          _hover={{ opacity: 0.8 }}
+        >
           Poptávky
         </Heading>
       </NextLink>
