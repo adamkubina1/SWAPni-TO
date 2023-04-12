@@ -1,4 +1,5 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
+import { ConfirmExchangeButton } from '@/components/ConfirmExchangeButton';
 import { ChatMessageForm } from '@/components/forms/ChatMessageForm';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -78,9 +79,9 @@ const ChatControl = ({
           <CounterOffer chat={chatData} />
         ) : null}
         <VStack>
-          <Button onClick={() => {}} colorScheme={'green'} size={'sm'}>
-            Potvrdit výměnu
-          </Button>
+          {userId === chatData.exchangeOfferData.receiverUserId ? (
+            <ConfirmExchangeButton chatId={chatData.id} />
+          ) : null}
           <Button
             size={'sm'}
             colorScheme={'red'}

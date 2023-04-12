@@ -10,7 +10,9 @@ const useFetchChat = (chatId: string) => {
 
   const ref = doc(firestore, path, chatId) as DocumentReference<Response>;
 
-  return useFirestoreDocData(ref, { idField: 'id' }) as ObservableStatus<Chat>;
+  return useFirestoreDocData(ref, {
+    idField: 'id',
+  }) as ObservableStatus<Response>;
 };
 
 export { useFetchChat };
