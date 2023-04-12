@@ -117,36 +117,38 @@ const BookOffers = () => {
 
   return (
     <VStack className='ais-InstantSearch' w={'full'} gap={4}>
-      <InstantSearch indexName={'bookTitle'} searchClient={searchClient}>
-        <VStack gap={6}>
-          <SearchBox />
-          <HStack gap={2} align={'start'}>
-            <VStack>
-              <Heading size={'sm'}>Stav</Heading>
-              <RefinementList attribute={'bookState'} />
-              <ClearRefinements
-                translations={{
-                  reset: 'Smazat filtry',
-                }}
-              />
-            </VStack>
-            <Box color={'swap.lightHighlight'}>
-              <SortBy
-                defaultRefinement='bookTitle'
-                items={[
-                  { value: 'bookTitle', label: 'Seřadit' },
-                  { value: 'time_asc', label: 'Nejstarší' },
-                  { value: 'time_desc', label: 'Nejnovější' },
-                ]}
-              />
-            </Box>
-          </HStack>
-          <Configure hitsPerPage={5} />
-        </VStack>
+      <NoSSR>
+        <InstantSearch indexName={'bookTitle'} searchClient={searchClient}>
+          <VStack gap={6}>
+            <SearchBox />
+            <HStack gap={2} align={'start'}>
+              <VStack>
+                <Heading size={'sm'}>Stav</Heading>
+                <RefinementList attribute={'bookState'} />
+                <ClearRefinements
+                  translations={{
+                    reset: 'Smazat filtry',
+                  }}
+                />
+              </VStack>
+              <Box color={'swap.lightHighlight'}>
+                <SortBy
+                  defaultRefinement='bookTitle'
+                  items={[
+                    { value: 'bookTitle', label: 'Seřadit' },
+                    { value: 'time_asc', label: 'Nejstarší' },
+                    { value: 'time_desc', label: 'Nejnovější' },
+                  ]}
+                />
+              </Box>
+            </HStack>
+            <Configure hitsPerPage={5} />
+          </VStack>
 
-        <Hits userUID={user.data?.uid} />
-        <Pagination />
-      </InstantSearch>
+          <Hits userUID={user.data?.uid} />
+          <Pagination />
+        </InstantSearch>
+      </NoSSR>
     </VStack>
   );
 };
