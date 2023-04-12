@@ -1,15 +1,10 @@
 import { ValidateSearch } from '@/lib/formValidators';
 import { InfoIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  HStack,
-  InputRightAddon,
-  Tooltip,
-} from '@chakra-ui/react';
+import { Box, Button, HStack, InputRightAddon } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import { MdSearch } from 'react-icons/md';
+import { ResponsiveTooltip } from '../ResponsiveTootip';
 import { FormFieldInput } from './FormField';
 
 const SearchForm = ({
@@ -55,9 +50,9 @@ const SearchForm = ({
               }
             />
             <Box pt={1}>
-              <Tooltip label={'Při vyhledávání použijte interpunkci'}>
+              <ResponsiveTooltip text={'Při vyhledávání použijte interpunkci'}>
                 <InfoIcon w={5} h={5} />
-              </Tooltip>
+              </ResponsiveTooltip>
             </Box>
           </HStack>
         </Box>

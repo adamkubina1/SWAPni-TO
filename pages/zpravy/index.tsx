@@ -1,6 +1,7 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
 import { ConfirmExchangeButton } from '@/components/ConfirmExchangeButton';
 import { ProtectedPage } from '@/components/ProtectedPage';
+import { ResponsiveTooltip } from '@/components/ResponsiveTootip';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { UserRating } from '@/components/UserRating';
@@ -16,7 +17,6 @@ import {
   Spinner,
   Stack,
   Text,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -142,16 +142,14 @@ const ChatLink = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
+        <ResponsiveTooltip
           placement={'top-start'}
-          label={chat.exchangeOfferData.message}
-          fontSize={'md'}
-          closeDelay={500}
+          text={chat.exchangeOfferData.message}
         >
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
 
         <VStack>
           <Button

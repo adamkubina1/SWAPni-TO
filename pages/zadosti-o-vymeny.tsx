@@ -1,6 +1,7 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
 import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
+import { ResponsiveTooltip } from '@/components/ResponsiveTootip';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { UserRating } from '@/components/UserRating';
@@ -26,7 +27,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  Tooltip,
   useToast,
   VStack,
 } from '@chakra-ui/react';
@@ -168,16 +168,11 @@ const IncomingExchangeCard = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
-          placement={'top-start'}
-          label={exchange.message}
-          fontSize={'md'}
-          closeDelay={500}
-        >
+        <ResponsiveTooltip placement={'top-start'} text={exchange.message}>
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
         <VStack>
           <Button
             isLoading={isLoading}
@@ -296,16 +291,11 @@ const SentExchangeCard = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
-          placement={'top-start'}
-          label={exchange.message}
-          fontSize={'md'}
-          closeDelay={500}
-        >
+        <ResponsiveTooltip placement={'top-start'} text={exchange.message}>
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
 
         <Button
           onClick={() => deleteExchangeOffer(firestore, exchange.id)}
