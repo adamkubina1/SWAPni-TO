@@ -133,9 +133,9 @@ const BookOffers = () => {
               </VStack>
               <Box color={'swap.lightHighlight'}>
                 <SortBy
-                  defaultRefinement='bookTitle'
+                  defaultRefinement='time_desc'
                   items={[
-                    { value: 'bookTitle', label: 'Seřadit' },
+                    { value: 'bookTitle', label: 'Bez řazení' },
                     { value: 'time_asc', label: 'Nejstarší' },
                     { value: 'time_desc', label: 'Nejnovější' },
                   ]}
