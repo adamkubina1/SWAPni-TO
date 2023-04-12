@@ -1,4 +1,5 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
+import { ConfirmExchangeButton } from '@/components/ConfirmExchangeButton';
 import { ProtectedPage } from '@/components/ProtectedPage';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -52,7 +53,7 @@ const ChatLinks = ({ userId }: { userId: string }) => {
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
-    <VStack>
+    <VStack gap={4}>
       {chats.map((chat, i) => (
         <ChatLink
           key={i}
@@ -96,9 +97,19 @@ const ChatLink = ({
     >
       <Stack direction={{ base: 'column', md: 'row' }} align={'center'} gap={4}>
         <VStack>
-          <Link href={`uzivatel/${chat.exchangeOfferData.receiverUserId}`}>
+          <Link
+            href={`uzivatel/${
+              chat.exchangeOfferData.receiverUserId === userId
+                ? chat.exchangeOfferData.senderUserId
+                : chat.exchangeOfferData.receiverUserId
+            }`}
+          >
             <UserAvatar
-              userId={chat.exchangeOfferData.receiverUserId}
+              userId={
+                chat.exchangeOfferData.receiverUserId === userId
+                  ? chat.exchangeOfferData.senderUserId
+                  : chat.exchangeOfferData.receiverUserId
+              }
               size={'md'}
             />
           </Link>
@@ -154,9 +165,9 @@ const ChatLink = ({
             Přejít na chat
           </Button>
 
-          <Button onClick={() => {}} colorScheme={'green'} size={'sm'}>
-            Potvrdit výměnu
-          </Button>
+          {userId === chat.exchangeOfferData.receiverUserId ? (
+            <ConfirmExchangeButton chatId={chat.id} />
+          ) : null}
 
           <Button
             onClick={() => deleteChat(firestore, chat.id)}

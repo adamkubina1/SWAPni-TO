@@ -5,7 +5,7 @@ import { connectSearchBox } from 'react-instantsearch-dom';
 const SearchBox = ({ refine }: any) => {
   return (
     <form
-      action=''
+      // action=''
       role='search'
       onSubmit={(e) => {
         e.preventDefault();

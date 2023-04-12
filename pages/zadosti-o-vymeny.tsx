@@ -12,9 +12,7 @@ import {
 import { useFetchBook } from '@/lib/customHooks/useFetchBook';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { deleteExchangeOffer } from '@/lib/deleteExchangeOffer';
-import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
   Button,
@@ -140,8 +138,8 @@ const IncomingExchangeCard = ({
     >
       <Stack direction={{ base: 'column', md: 'row' }} align={'center'} gap={4}>
         <VStack>
-          <Link href={`uzivatel/${exchange.receiverUserId}`}>
-            <UserAvatar userId={exchange.receiverUserId} size={'md'} />
+          <Link href={`uzivatel/${exchange.senderUserId}`}>
+            <UserAvatar userId={exchange.senderUserId} size={'md'} />
           </Link>
           <UserRating
             userRating={profileData.userScore}
@@ -253,9 +251,6 @@ const SentExchangeCard = ({
   if (isLoading) return <Spinner />;
   if (error) return <Text>Něco se pokazilo...</Text>;
   if (profileStatus === 'loading') return <Spinner />;
-
-  const bookData = data as GoogleBookApiBook;
-  const imgUrl = getHighestSizeLinkUrl(bookData?.volumeInfo?.imageLinks);
 
   return (
     <Box
