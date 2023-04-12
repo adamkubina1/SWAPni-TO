@@ -1,5 +1,7 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
+import { ConfirmExchangeButton } from '@/components/ConfirmExchangeButton';
 import { ProtectedPage } from '@/components/ProtectedPage';
+import { ResponsiveTooltip } from '@/components/ResponsiveTootip';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { UserRating } from '@/components/UserRating';
@@ -15,7 +17,6 @@ import {
   Spinner,
   Stack,
   Text,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -52,7 +53,7 @@ const ChatLinks = ({ userId }: { userId: string }) => {
   if (status === 'error') return <Text>Něco se pokazilo...</Text>;
 
   return (
-    <VStack>
+    <VStack gap={4}>
       {chats.map((chat, i) => (
         <ChatLink
           key={i}
@@ -96,9 +97,19 @@ const ChatLink = ({
     >
       <Stack direction={{ base: 'column', md: 'row' }} align={'center'} gap={4}>
         <VStack>
-          <Link href={`uzivatel/${chat.exchangeOfferData.receiverUserId}`}>
+          <Link
+            href={`uzivatel/${
+              chat.exchangeOfferData.receiverUserId === userId
+                ? chat.exchangeOfferData.senderUserId
+                : chat.exchangeOfferData.receiverUserId
+            }`}
+          >
             <UserAvatar
-              userId={chat.exchangeOfferData.receiverUserId}
+              userId={
+                chat.exchangeOfferData.receiverUserId === userId
+                  ? chat.exchangeOfferData.senderUserId
+                  : chat.exchangeOfferData.receiverUserId
+              }
               size={'md'}
             />
           </Link>
@@ -131,16 +142,14 @@ const ChatLink = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
+        <ResponsiveTooltip
           placement={'top-start'}
-          label={chat.exchangeOfferData.message}
-          fontSize={'md'}
-          closeDelay={500}
+          text={chat.exchangeOfferData.message}
         >
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
 
         <VStack>
           <Button
@@ -154,9 +163,9 @@ const ChatLink = ({
             Přejít na chat
           </Button>
 
-          <Button onClick={() => {}} colorScheme={'green'} size={'sm'}>
-            Potvrdit výměnu
-          </Button>
+          {userId === chat.exchangeOfferData.receiverUserId ? (
+            <ConfirmExchangeButton chatId={chat.id} />
+          ) : null}
 
           <Button
             onClick={() => deleteChat(firestore, chat.id)}

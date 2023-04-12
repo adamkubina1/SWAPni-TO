@@ -10,13 +10,13 @@ import {
   Spinner,
   Stack,
   Text,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
 import { CreateExchangeOfferForm } from './forms/CreateExchangeOfferForm';
+import { ResponsiveTooltip } from './ResponsiveTootip';
 import { UserAvatar } from './UserAvatar';
 import { UserRating } from './UserRating';
 
@@ -91,26 +91,22 @@ const OfferCard = ({
 
         <VStack gap={3}>
           <HStack>
-            <Tooltip
+            <ResponsiveTooltip
+              text={'Poznámky: ' + offer.notes}
               placement={'top-end'}
-              label={'Poznámky: ' + offer.notes}
-              fontSize={'md'}
-              closeDelay={500}
             >
               <Box _hover={{ cursor: 'pointer' }}>
                 <MdInfoOutline size={32} />
               </Box>
-            </Tooltip>
-            <Tooltip
+            </ResponsiveTooltip>
+            <ResponsiveTooltip
+              text={'Stav: ' + offer.bookState}
               placement={'top-start'}
-              label={'Stav: ' + offer.bookState}
-              fontSize={'md'}
-              closeDelay={500}
             >
               <Box _hover={{ cursor: 'pointer' }}>
                 <MdMenuBook size={32} />
               </Box>
-            </Tooltip>
+            </ResponsiveTooltip>
           </HStack>
           <FormButtons
             userUID={userUID}

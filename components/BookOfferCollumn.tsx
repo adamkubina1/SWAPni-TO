@@ -2,10 +2,11 @@ import { useFetchBook } from '@/lib/customHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
-import { Box, Heading, HStack, Spinner, Tooltip } from '@chakra-ui/react';
+import { Box, Heading, HStack, Spinner } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
+import { ResponsiveTooltip } from './ResponsiveTootip';
 
 const BookOfferCollumn = ({ offer }: { offer: BookOffer }) => {
   const { data, error, isLoading } = useFetchBook(offer.bookId);
@@ -39,26 +40,22 @@ const BookOfferCollumn = ({ offer }: { offer: BookOffer }) => {
       </Link>
       <Heading size={'xs'}>{bookData?.volumeInfo?.title}</Heading>
       <HStack>
-        <Tooltip
+        <ResponsiveTooltip
           placement={'top-end'}
-          label={'Poznámky: ' + offer.notes}
-          fontSize={'md'}
-          closeDelay={500}
+          text={'Poznámky: ' + offer.notes}
         >
           <Box _hover={{ cursor: 'pointer' }}>
             <MdInfoOutline size={24} />
           </Box>
-        </Tooltip>
-        <Tooltip
+        </ResponsiveTooltip>
+        <ResponsiveTooltip
           placement={'top-start'}
-          label={'Stav: ' + offer.bookState}
-          fontSize={'md'}
-          closeDelay={500}
+          text={'Stav: ' + offer.bookState}
         >
           <Box _hover={{ cursor: 'pointer' }}>
             <MdMenuBook size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
       </HStack>
     </>
   );

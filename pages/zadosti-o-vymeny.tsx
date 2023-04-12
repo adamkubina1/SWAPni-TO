@@ -1,6 +1,7 @@
 import { BookOfferCollumn } from '@/components/BookOfferCollumn';
 import NoSSR from '@/components/NoSSR';
 import { ProtectedPage } from '@/components/ProtectedPage';
+import { ResponsiveTooltip } from '@/components/ResponsiveTootip';
 import { Seo } from '@/components/Seo';
 import { UserAvatar } from '@/components/UserAvatar';
 import { UserRating } from '@/components/UserRating';
@@ -12,9 +13,7 @@ import {
 import { useFetchBook } from '@/lib/customHooks/useFetchBook';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { deleteExchangeOffer } from '@/lib/deleteExchangeOffer';
-import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
   Box,
   Button,
@@ -28,7 +27,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  Tooltip,
   useToast,
   VStack,
 } from '@chakra-ui/react';
@@ -140,8 +138,8 @@ const IncomingExchangeCard = ({
     >
       <Stack direction={{ base: 'column', md: 'row' }} align={'center'} gap={4}>
         <VStack>
-          <Link href={`uzivatel/${exchange.receiverUserId}`}>
-            <UserAvatar userId={exchange.receiverUserId} size={'md'} />
+          <Link href={`uzivatel/${exchange.senderUserId}`}>
+            <UserAvatar userId={exchange.senderUserId} size={'md'} />
           </Link>
           <UserRating
             userRating={profileData.userScore}
@@ -170,16 +168,11 @@ const IncomingExchangeCard = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
-          placement={'top-start'}
-          label={exchange.message}
-          fontSize={'md'}
-          closeDelay={500}
-        >
+        <ResponsiveTooltip placement={'top-start'} text={exchange.message}>
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
         <VStack>
           <Button
             isLoading={isLoading}
@@ -254,9 +247,6 @@ const SentExchangeCard = ({
   if (error) return <Text>Něco se pokazilo...</Text>;
   if (profileStatus === 'loading') return <Spinner />;
 
-  const bookData = data as GoogleBookApiBook;
-  const imgUrl = getHighestSizeLinkUrl(bookData?.volumeInfo?.imageLinks);
-
   return (
     <Box
       boxShadow={'xl'}
@@ -301,16 +291,11 @@ const SentExchangeCard = ({
             )}
           </VStack>
         </HStack>
-        <Tooltip
-          placement={'top-start'}
-          label={exchange.message}
-          fontSize={'md'}
-          closeDelay={500}
-        >
+        <ResponsiveTooltip placement={'top-start'} text={exchange.message}>
           <Box _hover={{ cursor: 'pointer' }}>
             <MdOutlineMessage size={24} />
           </Box>
-        </Tooltip>
+        </ResponsiveTooltip>
 
         <Button
           onClick={() => deleteExchangeOffer(firestore, exchange.id)}
