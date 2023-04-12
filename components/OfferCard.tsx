@@ -24,7 +24,7 @@ const OfferCard = ({
   offer,
   userUID,
 }: {
-  offer: BookOffer & { id?: string };
+  offer: BookOffer & { id: string };
   userUID: string | undefined;
 }) => {
   const { data: userFirestore, status } = useFetchProfile(offer.userId);

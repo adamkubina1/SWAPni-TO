@@ -1,5 +1,4 @@
 import { createBookOffer } from '@/lib/cloudFunctionsCalls/createBookOffer';
-import { BookOffer } from '@/lib/types/BookOffer';
 import { BookState } from '@/lib/types/BookState';
 import { Button, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
@@ -27,7 +26,7 @@ const AddBookOfferForm = ({
   const functions = useFunctions();
   const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
 
-  const addBookOfferSubmit = async (values: BookOffer) => {
+  const addBookOfferSubmit = async (values: any) => {
     if (!user) {
       toast({
         title: 'Jejda něco se pokazilo.',

@@ -87,7 +87,7 @@ const BookOfferCard = ({
   offer,
   userUID,
 }: {
-  offer: BookOffer;
+  offer: BookOffer & { id: string };
   userUID: string | undefined;
 }) => {
   return <OfferCard offer={offer} userUID={userUID} />;

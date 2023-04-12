@@ -88,7 +88,7 @@ const Profil = () => {
 
 const DeleteAccountAlert = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const cancelRef = React.useRef(null);
   const toast = useToast();
 
   const submited = () => {

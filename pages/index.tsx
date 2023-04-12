@@ -29,8 +29,6 @@ import {
 } from 'react-instantsearch-dom';
 import { useUser } from 'reactfire';
 
-const searchClient = algoliasearch(algoliaConfig.appID, algoliaConfig.apiKey);
-
 const Home = () => {
   const [search, setSearch] = useState<string>(getRandomBook());
   const [searchType, setSearchType] = useState<SearchType>('searchBookName');
@@ -106,6 +104,11 @@ const SearchTypeForm = ({
     </form>
   );
 };
+
+const searchClient = algoliasearch(
+  algoliaConfig.appID ? algoliaConfig.appID : '',
+  algoliaConfig.apiKey ? algoliaConfig.apiKey : ''
+);
 
 const BookOffers = () => {
   const user = useUser();
