@@ -4,8 +4,8 @@ const TITLE = 'Aplikace pro knižní výměnu';
 const DESCRIPTION =
   'Webová aplikace SWAPni TO propojující čtenáře za účelem výměny knih.';
 const SITE_NAME = 'SWAPni TO';
-const DOMAIN = 'tmp'; //TODO add domain
-const DEFAULT_OG_IMAGE = 'tmp'; //TODO add default image absolute path
+const DOMAIN = 'https://swapni-to.vercel.app'; //TODO add domain
+const DEFAULT_OG_IMAGE = 'https://swapni-to.vercel.app/imgs/swap-logo.svg'; //TODO add default image absolute path
 const OG_TYPE = 'website';
 
 const Seo = ({
