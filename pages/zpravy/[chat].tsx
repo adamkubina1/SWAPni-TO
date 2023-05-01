@@ -1,6 +1,5 @@
 import { ProtectedPage } from '@/components/generic/ProtectedPage';
 import { ChatControl } from '@/components/pageSpecific/zpravy/ChatControl';
-import { Chat } from '@/lib/types/Chat';
 import { Spinner, Text, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useSigninCheck } from 'reactfire';

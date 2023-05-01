@@ -1,7 +1,7 @@
-type BookDemand = {
+type BookDemandType = {
   userId: string;
   bookId: string;
   bookTitle: string;
 };
 
-export type { BookDemand };
+export type { BookDemandType };

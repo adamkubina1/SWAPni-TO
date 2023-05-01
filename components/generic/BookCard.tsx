@@ -1,5 +1,5 @@
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import { Box, Divider, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 /**
  * TODO add sizes prop to book images to boost performance
  */
-const BookCard = ({ book }: { book: GoogleBookApiBook }) => {
+const BookCard = ({ book }: { book: GoogleBookApiBookType }) => {
   const imgUrl = getHighestSizeLinkUrl(book?.volumeInfo?.imageLinks);
 
   return (

@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { ExchangeOffer } from '../../types/ExchangeOffer';
+import { ExchangeOfferType } from '../../types/ExchangeOfferType';
 
-type Response = Array<ExchangeOffer & { id: string }>;
+type Response = Array<ExchangeOfferType & { id: string }>;
 
 /**
  * Fetches all incoming exchange requests for user

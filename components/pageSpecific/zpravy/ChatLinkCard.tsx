@@ -5,7 +5,7 @@ import { UserAvatar } from '@/components/generic/UserAvatar';
 import { UserRating } from '@/components/generic/UserRating';
 import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { deleteChat } from '@/lib/firestoreCalls/deleteChat';
-import { Chat } from '@/lib/types/Chat';
+import { ChatType } from '@/lib/types/ChatType';
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ export const ChatLinkCard = ({
   chat,
   userId,
 }: {
-  chat: Chat & { id: string };
+  chat: ChatType & { id: string };
   userId: string;
 }) => {
   const otherUserId =

@@ -5,7 +5,7 @@ import { UserRating } from '@/components/generic/UserRating';
 import { acceptExchangeOffer } from '@/lib/cloudFunctionsCalls/acceptExchangeOffer';
 import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { deleteExchangeOffer } from '@/lib/firestoreCalls/deleteExchangeOffer';
-import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
+import { ExchangeOfferType } from '@/lib/types/ExchangeOfferType';
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ import { useFirestore, useFunctions } from 'reactfire';
 export const IncomingExchangeCard = ({
   exchange,
 }: {
-  exchange: ExchangeOffer & { id: string };
+  exchange: ExchangeOfferType & { id: string };
 }) => {
   const { status: profileStatus, data: profileData } = useFetchProfile(
     exchange.senderUserId

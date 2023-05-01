@@ -5,7 +5,7 @@ import { Seo } from '@/components/generic/Seo';
 import { AlgoiliaContainer } from '@/components/pageSpecific/home/Algolia/AlgoliaContainer';
 import { SearchResult } from '@/components/pageSpecific/home/SearchResult';
 import { getRandomBook } from '@/lib/getRandomBook';
-import { SearchType } from '@/lib/types/Search';
+import { SearchType } from '@/lib/types/SearchType';
 import { Box, Heading, HStack, Stack, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useState } from 'react';

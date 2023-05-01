@@ -1,9 +1,9 @@
 import { Timestamp } from 'firebase/firestore';
 
-type Message = {
+type MessageType = {
   userId: string;
   message: string;
   timestamp: Timestamp;
 };
 
-export type { Message };
+export type { MessageType };

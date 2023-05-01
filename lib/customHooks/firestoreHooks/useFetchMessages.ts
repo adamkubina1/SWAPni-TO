@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { Message } from '../../types/Message';
+import { MessageType } from '../../types/MessageType';
 
-type Response = Message & { id: string };
+type Response = MessageType & { id: string };
 
 /**
  * Fetches last 30 messages for certain chat ordered from oldest to newest

@@ -1,9 +1,9 @@
 import { Timestamp } from 'firebase/firestore';
-import { BookState } from './BookState';
+import { BookStateType } from './BookStateType';
 
-type BookOffer = {
+type BookOfferType = {
   objectID?: string;
-  bookState: BookState;
+  bookState: BookStateType;
   bookTitle: string;
   userId: string;
   notes: string;
@@ -11,4 +11,4 @@ type BookOffer = {
   timestamp?: Timestamp;
 };
 
-export type { BookOffer };
+export type { BookOfferType };

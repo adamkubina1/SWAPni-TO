@@ -1,8 +1,8 @@
 import { doc, DocumentReference } from 'firebase/firestore';
 import { ObservableStatus, useFirestore, useFirestoreDocData } from 'reactfire';
-import { Chat } from '../../types/Chat';
+import { ChatType } from '../../types/ChatType';
 
-type Response = Chat & { id: string };
+type Response = ChatType & { id: string };
 
 /**
  * Fetches chat based on its ID

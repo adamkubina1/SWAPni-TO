@@ -1,4 +1,4 @@
-import { SearchType } from '@/lib/types/Search';
+import { SearchType } from '@/lib/types/SearchType';
 import { Select } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 

@@ -2,7 +2,6 @@ import {
   useFetchAllExchangesForReceiver,
   useFetchAllExchangesForSender,
 } from '@/lib/customHooks/firestoreHooks/useFetchAllExchanges';
-import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
 import {
   Spinner,
   Tab,
@@ -55,11 +54,9 @@ const IncomingExchanges = ({ userId }: { userId: string }) => {
   if (status === 'loading') return <Spinner />;
   if (status === 'error') return <Text>Něco se pokazilo</Text>;
 
-  const incomingExchanges = data as Array<ExchangeOffer & { id: string }>;
-
   return (
     <VStack>
-      {incomingExchanges.map((exchange, i) => (
+      {data.map((exchange, i) => (
         <IncomingExchangeCard key={i} exchange={exchange} />
       ))}
     </VStack>
@@ -72,11 +69,9 @@ const SentExchanges = ({ userId }: { userId: string }) => {
   if (status === 'loading') return <Spinner />;
   if (status === 'error') return <Text>Něco se pokazilo</Text>;
 
-  const sentExchanges = data as Array<ExchangeOffer & { id: string }>;
-
   return (
     <VStack>
-      {sentExchanges.map((exchange, i) => (
+      {data.map((exchange, i) => (
         <SentExchangeCard key={i} exchange={exchange} />
       ))}
     </VStack>

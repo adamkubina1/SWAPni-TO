@@ -1,8 +1,8 @@
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { deleteDemand } from '@/lib/firestoreCalls/deleteDemand';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { BookDemand } from '@/lib/types/BookDemand';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { BookDemandType } from '@/lib/types/BookDemandType';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import {
   Box,
   Button,
@@ -19,7 +19,7 @@ import { useFirestore } from 'reactfire';
 export const BookDemandCard = ({
   demand,
 }: {
-  demand: BookDemand & { id: string };
+  demand: BookDemandType & { id: string };
 }) => {
   const book = useFetchBook(demand.bookId);
   const firestore = useFirestore();
@@ -27,7 +27,7 @@ export const BookDemandCard = ({
   if (book.isLoading) return <Spinner />;
   if (book.error) return <Text>Něco se pokazilo...</Text>;
 
-  const bookData: GoogleBookApiBook = book.data;
+  const bookData: GoogleBookApiBookType = book.data;
 
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 

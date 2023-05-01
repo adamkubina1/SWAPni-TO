@@ -1,7 +1,7 @@
 import { BookCard } from '@/components/generic/BookCard';
 import { useFetchBooks } from '@/lib/customHooks/googleBooksHooks/useFetchBooks';
-import { GoogleBookApiResponseType } from '@/lib/types/GoogleBooksApi';
-import { SearchType } from '@/lib/types/Search';
+import { GoogleBookApiResponseType } from '@/lib/types/GoogleBooksApiType';
+import { SearchType } from '@/lib/types/SearchType';
 import { Spinner, Text, VStack } from '@chakra-ui/react';
 
 const SearchResult = ({
@@ -20,7 +20,6 @@ const SearchResult = ({
 };
 
 const SearchBookByNameResults = ({ search }: { search: string }) => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useFetchBooks(search);
 
   if (isLoading) return <Spinner />;

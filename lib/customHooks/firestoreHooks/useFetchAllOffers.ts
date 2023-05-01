@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { BookOffer } from '../../types/BookOffer';
+import { BookOfferType } from '../../types/BookOfferType';
 
-type Response = BookOffer & { id: string };
+type Response = BookOfferType & { id: string };
 
 /**
  * Fetches all offers for a certain book

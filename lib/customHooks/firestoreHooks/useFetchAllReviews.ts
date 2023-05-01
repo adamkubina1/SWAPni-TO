@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { UserReview } from '../../types/UserReview';
+import { UserReviewType } from '../../types/UserReviewType';
 
-type Response = UserReview & { id: string };
+type Response = UserReviewType & { id: string };
 
 /**
  * Fetches all user review for certain user

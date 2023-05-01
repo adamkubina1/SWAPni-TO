@@ -1,6 +1,6 @@
 import { createExchangeOffer } from '@/lib/cloudFunctionsCalls/createExchangeOffer';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/firestoreHooks/useFetchAllOffers';
-import { BookOffer } from '@/lib/types/BookOffer';
+import { BookOfferType } from '@/lib/types/BookOfferType';
 import { Button, Spinner, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ const CreateExchangeOfferForm = ({
   bookOfferId: string;
   bookId: string;
   receiverUserId: string;
-  bookOffer: BookOffer;
+  bookOffer: BookOfferType;
 }) => {
   const { data: user } = useUser();
   const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
@@ -28,7 +28,7 @@ const CreateExchangeOfferForm = ({
   );
 
   let options: Array<{
-    value: BookOffer & { id: string | null };
+    value: BookOfferType & { id: string | null };
     description: string;
   }> = Array();
 

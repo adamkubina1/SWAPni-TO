@@ -2,7 +2,7 @@ import { BookOfferCollumn } from '@/components/generic/BookOfferCollumn';
 import { ConfirmExchangeButton } from '@/components/generic/ConfirmExchangeButton';
 import { useFetchChat } from '@/lib/customHooks/firestoreHooks/useFetchChat';
 import { deleteChat } from '@/lib/firestoreCalls/deleteChat';
-import { Chat } from '@/lib/types/Chat';
+import { ChatType } from '@/lib/types/ChatType';
 import {
   Button,
   Heading,
@@ -63,7 +63,7 @@ export const ChatControl = ({
   );
 };
 
-const BookOffer = ({ chat, userId }: { chat: Chat; userId: string }) => {
+const BookOffer = ({ chat, userId }: { chat: ChatType; userId: string }) => {
   return (
     <VStack>
       <Heading size={'xs'} color={'swap.darkHighlight'}>
@@ -76,7 +76,7 @@ const BookOffer = ({ chat, userId }: { chat: Chat; userId: string }) => {
   );
 };
 
-const CounterOffer = ({ chat }: { chat: Chat }) => {
+const CounterOffer = ({ chat }: { chat: ChatType }) => {
   return (
     <VStack>
       <Heading size={'xs'} color={'swap.darkHighlight'}>

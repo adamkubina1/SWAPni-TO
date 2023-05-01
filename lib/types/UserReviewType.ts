@@ -1,9 +1,9 @@
 import { Timestamp } from 'firebase/firestore';
 
-type UserReview = {
+type UserReviewType = {
   review: string;
   stars: number;
   timestamp: Timestamp;
 };
 
-export type { UserReview };
+export type { UserReviewType };

@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { Chat } from '../../types/Chat';
+import { ChatType } from '../../types/ChatType';
 
-type Response = Array<Chat & { id: string }>;
+type Response = Array<ChatType & { id: string }>;
 
 /**
  * Hook fetching all chats where passed userId is either involved in

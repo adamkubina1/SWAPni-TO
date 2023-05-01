@@ -1,7 +1,7 @@
-type BookState =
+type BookStateType =
   | 'Jako nová'
   | 'Používaná'
   | 'Mírně poškozená'
   | 'Velmi poškozená';
 
-export type { BookState };
+export type { BookStateType };

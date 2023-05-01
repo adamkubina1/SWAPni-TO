@@ -2,8 +2,8 @@ import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { deleteBookOffer } from '@/lib/firestoreCalls/deleteBookOffer';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { BookOffer } from '@/lib/types/BookOffer';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { BookOfferType } from '@/lib/types/BookOfferType';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -44,7 +44,7 @@ export const BookOfferCard = ({
     return <Heading color={'red'}>Něco se pokazilo...</Heading>;
   }
 
-  const bookData: GoogleBookApiBook = data;
+  const bookData: GoogleBookApiBookType = data;
 
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 
@@ -123,7 +123,7 @@ const DeleteOfferAlert = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  offer: BookOffer & { id: string };
+  offer: BookOfferType & { id: string };
 }) => {
   const cancelRef = useRef(null);
   const firestore = useFirestore();

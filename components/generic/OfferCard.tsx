@@ -1,7 +1,7 @@
 import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { BookOffer } from '@/lib/types/BookOffer';
+import { BookOfferType } from '@/lib/types/BookOfferType';
 import {
   Box,
   Button,
@@ -24,7 +24,7 @@ const OfferCard = ({
   offer,
   userUID,
 }: {
-  offer: BookOffer & { id: string };
+  offer: BookOfferType & { id: string };
   userUID: string | undefined;
 }) => {
   const { data: userFirestore, status } = useFetchProfile(offer.userId);
@@ -126,7 +126,7 @@ const FormButtons = ({
 }: {
   userUID: string | undefined;
   offerUserID: string;
-  offer: BookOffer & { id: string };
+  offer: BookOfferType & { id: string };
 }) => {
   if (!userUID || userUID.length < 1)
     return (

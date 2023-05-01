@@ -1,7 +1,7 @@
 import { ChatMessageForm } from '@/components/forms/ChatMessageForm';
 import { UserAvatar } from '@/components/generic/UserAvatar';
 import { useFetchMessages } from '@/lib/customHooks/firestoreHooks/useFetchMessages';
-import { Message } from '@/lib/types/Message';
+import { MessageType } from '@/lib/types/MessageType';
 import { Box, HStack, Link, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
@@ -58,7 +58,7 @@ const ChatMessage = ({
   mes,
   userId,
 }: {
-  mes: Message & { id: string };
+  mes: MessageType & { id: string };
   userId: string;
 }) => {
   return (

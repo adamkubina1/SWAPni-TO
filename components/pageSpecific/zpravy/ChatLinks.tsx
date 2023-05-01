@@ -1,5 +1,5 @@
 import { useFetchAllChats } from '@/lib/customHooks/firestoreHooks/useFetchAllChats';
-import { Chat } from '@/lib/types/Chat';
+import { ChatType } from '@/lib/types/ChatType';
 import { Spinner, Text, VStack } from '@chakra-ui/react';
 import { ChatLinkCard } from './ChatLinkCard';
 
@@ -14,7 +14,7 @@ export const ChatLinks = ({ userId }: { userId: string }) => {
       {chats.map((chat, i) => (
         <ChatLinkCard
           key={i}
-          chat={chat as Chat & { id: string }}
+          chat={chat as ChatType & { id: string }}
           userId={userId}
         />
       ))}

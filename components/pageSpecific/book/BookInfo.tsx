@@ -2,7 +2,7 @@ import { Rating } from '@/components/generic/Ratings';
 import { Seo } from '@/components/generic/Seo';
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import {
   Box,
   Divider,
@@ -25,7 +25,7 @@ export const BookInfo = ({ bookId }: { bookId: string }) => {
 
   if (error) return <Heading color={'red'}>Něco se pokazilo...</Heading>;
 
-  const bookData: GoogleBookApiBook = data;
+  const bookData: GoogleBookApiBookType = data;
 
   const imgUrl = getHighestSizeLinkUrl(bookData.volumeInfo.imageLinks);
 

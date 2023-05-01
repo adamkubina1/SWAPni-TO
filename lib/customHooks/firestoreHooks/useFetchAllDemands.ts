@@ -4,9 +4,9 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { BookDemand } from '../../types/BookDemand';
+import { BookDemandType } from '../../types/BookDemandType';
 
-type Response = BookDemand & { id: string };
+type Response = BookDemandType & { id: string };
 
 /**
  * Fetches all book demands for particular user

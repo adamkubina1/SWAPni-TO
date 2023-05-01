@@ -1,20 +1,20 @@
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
-import { BookOffer } from '@/lib/types/BookOffer';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { BookOfferType } from '@/lib/types/BookOfferType';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import { Box, Heading, HStack, Spinner } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
 import { ResponsiveTooltip } from './ResponsiveTootip';
 
-const BookOfferCollumn = ({ offer }: { offer: BookOffer }) => {
+const BookOfferCollumn = ({ offer }: { offer: BookOfferType }) => {
   const { data, error, isLoading } = useFetchBook(offer.bookId);
 
   if (error) return null;
   if (isLoading) return <Spinner />;
 
-  const bookData = data as GoogleBookApiBook;
+  const bookData = data as GoogleBookApiBookType;
 
   const imgUrlOther = getHighestSizeLinkUrl(bookData?.volumeInfo?.imageLinks);
 

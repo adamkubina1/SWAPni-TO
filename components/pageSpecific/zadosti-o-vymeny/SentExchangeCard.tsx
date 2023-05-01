@@ -3,9 +3,8 @@ import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
 import { UserAvatar } from '@/components/generic/UserAvatar';
 import { UserRating } from '@/components/generic/UserRating';
 import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
-import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { deleteExchangeOffer } from '@/lib/firestoreCalls/deleteExchangeOffer';
-import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
+import { ExchangeOfferType } from '@/lib/types/ExchangeOfferType';
 import {
   Box,
   Button,
@@ -23,17 +22,13 @@ import { useFirestore } from 'reactfire';
 export const SentExchangeCard = ({
   exchange,
 }: {
-  exchange: ExchangeOffer & { id: string };
+  exchange: ExchangeOfferType & { id: string };
 }) => {
   const { status: profileStatus, data: profileData } = useFetchProfile(
     exchange.receiverUserId
   );
-  const { data, error, isLoading } = useFetchBook(exchange.bookId);
-
   const firestore = useFirestore();
 
-  if (isLoading) return <Spinner />;
-  if (error) return <Text>Něco se pokazilo...</Text>;
   if (profileStatus === 'loading') return <Spinner />;
 
   return (

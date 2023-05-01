@@ -1,6 +1,6 @@
 import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { Validator } from '@/lib/formValidators';
-import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
+import { GoogleBookApiBookType } from '@/lib/types/GoogleBooksApiType';
 import {
   FormControl,
   FormErrorMessage,
@@ -274,7 +274,7 @@ const BookOption = ({
   if (error) {
     return <Text color={'red'}>Něco se pokazilo...</Text>;
   }
-  const bookData: GoogleBookApiBook = data;
+  const bookData: GoogleBookApiBookType = data;
 
   return (
     <option id={name} value={value}>

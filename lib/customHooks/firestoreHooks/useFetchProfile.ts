@@ -1,8 +1,8 @@
 import { doc, DocumentReference } from 'firebase/firestore';
 import { ObservableStatus, useFirestore, useFirestoreDocData } from 'reactfire';
-import { Users } from '../../types/Users';
+import { UserType } from '../../types/UsersType';
 
-type Response = Users & { id: string };
+type Response = UserType & { id: string };
 
 /**
  * Custom hook fetching user from Firebase based on id.

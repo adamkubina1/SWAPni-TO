@@ -1,5 +1,5 @@
 import { useFetchAllReviews } from '@/lib/customHooks/firestoreHooks/useFetchAllReviews';
-import { UserReview } from '@/lib/types/UserReview';
+import { UserReviewType } from '@/lib/types/UserReviewType';
 import {
   Button,
   HStack,
@@ -43,24 +43,17 @@ const UserRating = ({
           {')'}
         </Text>
       </VStack>
-      <UserReviewsModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        userId={userId}
-      />
+      <UserReviewsModal isOpen={isOpen} onClose={onClose} userId={userId} />
     </>
   );
 };
 
 const UserReviewsModal = ({
   isOpen,
-  onOpen,
   onClose,
   userId,
 }: {
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
   userId: string;
 }) => {
@@ -94,7 +87,7 @@ const UserReviewsModal = ({
   );
 };
 
-const SingelUserReview = ({ review }: { review: UserReview }) => {
+const SingelUserReview = ({ review }: { review: UserReviewType }) => {
   return (
     <HStack w={'full'} justify={'start'} align={'center'}>
       <Rating maxRating={5} rating={Number(review.stars) - 0.5} />

@@ -1,4 +1,4 @@
-type GoogleBookApiImageLinks = {
+type GoogleBookApiImageLinksType = {
   smallThumbnail: string | undefined;
   thumbnail: string | undefined;
   small: string | undefined;
@@ -7,7 +7,7 @@ type GoogleBookApiImageLinks = {
   extraLarge: string | undefined;
 };
 
-type GoogleBookApiBook = {
+type GoogleBookApiBookType = {
   id: string;
   volumeInfo: {
     title: string;
@@ -22,18 +22,18 @@ type GoogleBookApiBook = {
     averageRating: number | undefined;
     ratingsCount: number | undefined;
 
-    imageLinks: GoogleBookApiImageLinks;
+    imageLinks: GoogleBookApiImageLinksType;
   };
 };
 
 type GoogleBookApiResponseType = {
   kind: string;
-  items: Array<GoogleBookApiBook>;
+  items: Array<GoogleBookApiBookType>;
   totalItems: number;
 };
 
 export type {
   GoogleBookApiResponseType,
-  GoogleBookApiBook,
-  GoogleBookApiImageLinks,
+  GoogleBookApiBookType,
+  GoogleBookApiImageLinksType,
 };
