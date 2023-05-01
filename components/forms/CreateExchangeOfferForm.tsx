@@ -23,9 +23,9 @@ const CreateExchangeOfferForm = ({
   const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
   const toast = useToast();
   const functions = useFunctions();
-  const { status, data: possibleCounterOffers } = useFetchAllOffersForUser({
-    userId: user?.uid,
-  });
+  const { status, data: possibleCounterOffers } = useFetchAllOffersForUser(
+    user?.uid
+  );
 
   let options: Array<{
     value: BookOffer & { id: string | null };

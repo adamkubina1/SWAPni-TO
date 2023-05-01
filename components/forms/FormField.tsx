@@ -1,3 +1,4 @@
+import { useFetchBook } from '@/lib/customHooks/useFetchBook';
 import { Validator } from '@/lib/formValidators';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {
@@ -13,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { Field } from 'formik';
 import { ReactNode } from 'react';
-import useSWR from 'swr';
 
 /**
  *
@@ -266,11 +266,7 @@ const BookOption = ({
   descriptionEnding: string;
   bookId: string;
 }) => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-    fetcher
-  );
+  const { data, error, isLoading } = useFetchBook(bookId);
 
   if (isLoading) {
     return <Spinner />;
