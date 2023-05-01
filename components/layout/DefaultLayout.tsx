@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useSigninCheck } from 'reactfire';
-import NoSSR from '../NoSSR';
+import NoSSR from '../generic/NoSSR';
 import { Footer } from './Footer';
 import { NavbarAuth } from './navbar/NavbarAuth';
 import { NavbarNonAuth } from './navbar/NavbarNonAuth';

@@ -8,6 +8,11 @@ import { Message } from '../types/Message';
 
 type Response = Message & { id: string };
 
+/**
+ * Fetches last 30 messages for certain chat ordered from oldest to newest
+ * @param chatId
+ * @returns Observable status of messages array
+ */
 const useFetchMessages = (chatId: string) => {
   const firestore = useFirestore();
   const maxFetchedMessages = 30;

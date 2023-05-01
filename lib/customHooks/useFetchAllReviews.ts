@@ -8,7 +8,12 @@ import { UserReview } from '../types/UserReview';
 
 type Response = UserReview & { id: string };
 
-const useFetchAllReviews = ({ userId }: { userId: string }) => {
+/**
+ * Fetches all user review for certain user
+ * @param userId
+ * @returns Obsarvable status of review array
+ */
+const useFetchAllReviews = (userId: string) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, `/users/${userId}/userReviews`);
   const reviewsQuery = query(collectionRef);

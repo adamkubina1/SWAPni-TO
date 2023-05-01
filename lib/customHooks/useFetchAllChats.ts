@@ -1,7 +1,19 @@
 import { collection, or, query, where } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import {
+  ObservableStatus,
+  useFirestore,
+  useFirestoreCollectionData,
+} from 'reactfire';
+import { Chat } from '../types/Chat';
 
-const useFetchAllChats = ({ userId }: { userId: string }) => {
+type Response = Array<Chat & { id: string }>;
+
+/**
+ * Hook fetching all chats where passed userId is either involved in
+ * @param userId
+ * @returns Obsarveble status of chats array
+ */
+const useFetchAllChats = (userId: string) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, '/chats');
   const offersQuery = query(
@@ -14,7 +26,7 @@ const useFetchAllChats = ({ userId }: { userId: string }) => {
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
-  });
+  }) as ObservableStatus<Response>;
 };
 
 export { useFetchAllChats };

@@ -1,8 +1,8 @@
 import { AddBookOfferForm } from '@/components/forms/AddBookOfferForm';
-import NoSSR from '@/components/NoSSR';
-import { OfferCard } from '@/components/OfferCard';
-import { Rating } from '@/components/Ratings';
-import { Seo } from '@/components/Seo';
+import NoSSR from '@/components/generic/NoSSR';
+import { OfferCard } from '@/components/generic/OfferCard';
+import { Rating } from '@/components/generic/Ratings';
+import { Seo } from '@/components/generic/Seo';
 import { createBookDemand } from '@/lib/cloudFunctionsCalls/createBookDemand';
 import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';

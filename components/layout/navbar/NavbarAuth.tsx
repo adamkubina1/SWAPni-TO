@@ -1,4 +1,4 @@
-import { UserAvatar } from '@/components/UserAvatar';
+import { UserAvatar } from '@/components/generic/UserAvatar';
 import { Box, Flex, Heading, HStack, Spinner, Tooltip } from '@chakra-ui/react';
 import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';

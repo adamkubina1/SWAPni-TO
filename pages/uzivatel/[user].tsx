@@ -1,9 +1,9 @@
 import { AddUserReview } from '@/components/forms/AddUserReview';
-import NoSSR from '@/components/NoSSR';
-import { OfferCard } from '@/components/OfferCard';
-import { Seo } from '@/components/Seo';
-import { UserAvatar } from '@/components/UserAvatar';
-import { UserRating } from '@/components/UserRating';
+import NoSSR from '@/components/generic/NoSSR';
+import { OfferCard } from '@/components/generic/OfferCard';
+import { Seo } from '@/components/generic/Seo';
+import { UserAvatar } from '@/components/generic/UserAvatar';
+import { UserRating } from '@/components/generic/UserRating';
 import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
 import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
 import { BookOffer } from '@/lib/types/BookOffer';
@@ -61,7 +61,7 @@ const User = () => {
 };
 
 const UserCreatedContent = ({ userId }: { userId: string }) => {
-  const { status, data: offers } = useFetchAllOffersForUser({ userId });
+  const { status, data: offers } = useFetchAllOffersForUser(userId);
   const signinCheck = useSigninCheck();
 
   if (status === 'loading') return <Spinner />;

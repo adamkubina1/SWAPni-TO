@@ -1,11 +1,19 @@
 import { collection, query, where } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import {
+  ObservableStatus,
+  useFirestore,
+  useFirestoreCollectionData,
+} from 'reactfire';
+import { ExchangeOffer } from '../types/ExchangeOffer';
 
-const useFetchAllExchangesForReceiver = ({
-  receiverId,
-}: {
-  receiverId: string;
-}) => {
+type Response = Array<ExchangeOffer & { id: string }>;
+
+/**
+ * Fetches all incoming exchange requests for user
+ * @param receiverId
+ * @returns Observable status for exchange offers array
+ */
+const useFetchAllExchangesForReceiver = (receiverId: string) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, '/exchangeOffers');
   const offersQuery = query(
@@ -15,10 +23,15 @@ const useFetchAllExchangesForReceiver = ({
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
-  });
+  }) as ObservableStatus<Response>;
 };
 
-const useFetchAllExchangesForSender = ({ senderId }: { senderId: string }) => {
+/**
+ * Fetches all sent user requests for user
+ * @param senderId
+ * @returns Observable status for exchange offers array
+ */
+const useFetchAllExchangesForSender = (senderId: string) => {
   const firestore = useFirestore();
   const collectionRef = collection(firestore, '/exchangeOffers');
   const offersQuery = query(
@@ -28,7 +41,7 @@ const useFetchAllExchangesForSender = ({ senderId }: { senderId: string }) => {
 
   return useFirestoreCollectionData(offersQuery, {
     idField: 'id',
-  });
+  }) as ObservableStatus<Response>;
 };
 
 export { useFetchAllExchangesForReceiver, useFetchAllExchangesForSender };

@@ -15,7 +15,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { MdInfoOutline, MdMenuBook } from 'react-icons/md';
-import { CreateExchangeOfferForm } from './forms/CreateExchangeOfferForm';
+import { CreateExchangeOfferForm } from '../forms/CreateExchangeOfferForm';
 import { ResponsiveTooltip } from './ResponsiveTootip';
 import { UserAvatar } from './UserAvatar';
 import { UserRating } from './UserRating';

@@ -1,4 +1,4 @@
-import { BookCard } from '@/components/BookCard';
+import { BookCard } from '@/components/generic/BookCard';
 import { GoogleBookApiResponseType } from '@/lib/types/GoogleBooksApi';
 import { SearchType } from '@/lib/types/Search';
 import { Spinner, Text, VStack } from '@chakra-ui/react';

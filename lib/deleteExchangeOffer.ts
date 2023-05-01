@@ -2,10 +2,10 @@ import { collection, deleteDoc, doc, Firestore } from 'firebase/firestore';
 
 const deleteExchangeOffer = async (
   firestore: Firestore,
-  exchangeOffer: string
+  exchangeOfferId: string
 ) => {
   const collectionPath = collection(firestore, '/exchangeOffers');
-  const docPath = doc(collectionPath, exchangeOffer);
+  const docPath = doc(collectionPath, exchangeOfferId);
 
   await deleteDoc(docPath);
 };

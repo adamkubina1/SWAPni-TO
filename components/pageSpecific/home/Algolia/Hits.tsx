@@ -1,4 +1,4 @@
-import { OfferCard } from '@/components/OfferCard';
+import { OfferCard } from '@/components/generic/OfferCard';
 import { VStack } from '@chakra-ui/react';
 import { connectHits } from 'react-instantsearch-dom';
 

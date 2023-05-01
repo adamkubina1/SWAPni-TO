@@ -8,8 +8,8 @@ import NextLink from 'next/link';
 import { ReactNode, useEffect } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
-import { FacebookSignButton } from '../FacebookSignButton';
-import { GoogleSignButton } from '../GoogleSignButton';
+import { FacebookSignButton } from '../generic/FacebookSignButton';
+import { GoogleSignButton } from '../generic/GoogleSignButton';
 import { FormFieldInput } from './FormField';
 
 const SignUpContainer = ({ children }: { children: ReactNode }) => {

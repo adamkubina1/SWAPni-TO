@@ -8,9 +8,7 @@ import { GoogleBookApiImageLinks } from './types/GoogleBooksApi';
 const getHighestSizeLinkUrl = (urls: GoogleBookApiImageLinks) => {
   let url: string | undefined;
 
-  if (!urls) {
-    return url;
-  }
+  if (!urls) return url;
 
   for (const [imgSize, imgUrl] of Object.entries(urls)) {
     if (imgUrl) url = imgUrl;

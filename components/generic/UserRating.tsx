@@ -64,7 +64,7 @@ const UserReviewsModal = ({
   onClose: () => void;
   userId: string;
 }) => {
-  const { status, data } = useFetchAllReviews({ userId: userId });
+  const { status, data } = useFetchAllReviews(userId);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>

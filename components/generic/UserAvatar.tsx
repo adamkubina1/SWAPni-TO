@@ -28,19 +28,25 @@ const UserAvatar = ({
 
   useEffect(() => {
     if (userId) {
+      setIsLoading(true);
       const avatarRef = ref(storage, `userAvatars/${userId}`);
 
-      const getDownloadURLMine = async () => {
-        try {
-          const url = await getDownloadURL(avatarRef);
+      getDownloadURL(avatarRef)
+        .then((url) => {
           setDownloadURL(url);
           setIsLoading(false);
-        } catch (error) {
+        })
+        .catch(() => {
           setIsLoading(false);
-        }
-      };
+        });
+      // const getDownloadURLMine = async () => {
+      //   try {
+      //     const url = await getDownloadURL(avatarRef);
+      //     setDownloadURL(url);
+      //   } catch (error) {}
+      // };
 
-      getDownloadURLMine();
+      // getDownloadURLMine();
     } else {
       setDownloadURL(null);
       setIsLoading(false);
