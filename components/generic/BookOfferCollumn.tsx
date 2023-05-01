@@ -1,4 +1,4 @@
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';

@@ -1,6 +1,6 @@
 import { Rating } from '@/components/generic/Ratings';
 import { Seo } from '@/components/generic/Seo';
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {

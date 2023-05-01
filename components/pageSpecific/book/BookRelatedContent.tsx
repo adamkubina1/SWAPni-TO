@@ -1,5 +1,5 @@
 import { OfferCard } from '@/components/generic/OfferCard';
-import { useFetchAllOffersForBook } from '@/lib/customHooks/useFetchAllOffers';
+import { useFetchAllOffersForBook } from '@/lib/customHooks/firestoreHooks/useFetchAllOffers';
 import { Spinner, Text, VStack } from '@chakra-ui/react';
 import { useSigninCheck } from 'reactfire';
 

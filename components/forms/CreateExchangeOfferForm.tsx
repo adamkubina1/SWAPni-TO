@@ -1,5 +1,5 @@
 import { createExchangeOffer } from '@/lib/cloudFunctionsCalls/createExchangeOffer';
-import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
+import { useFetchAllOffersForUser } from '@/lib/customHooks/firestoreHooks/useFetchAllOffers';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { Button, Spinner, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';

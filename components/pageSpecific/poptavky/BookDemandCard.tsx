@@ -1,5 +1,5 @@
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
-import { deleteDemand } from '@/lib/deleteDemand';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
+import { deleteDemand } from '@/lib/firestoreCalls/deleteDemand';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { BookDemand } from '@/lib/types/BookDemand';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';

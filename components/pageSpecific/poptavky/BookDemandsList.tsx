@@ -1,4 +1,4 @@
-import { useFetchAllDemandsForUser } from '@/lib/customHooks/useFetchAllDemands';
+import { useFetchAllDemandsForUser } from '@/lib/customHooks/firestoreHooks/useFetchAllDemands';
 import { Box, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { BookDemandCard } from './BookDemandCard';

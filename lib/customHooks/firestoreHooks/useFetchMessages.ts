@@ -4,7 +4,7 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { Message } from '../types/Message';
+import { Message } from '../../types/Message';
 
 type Response = Message & { id: string };
 

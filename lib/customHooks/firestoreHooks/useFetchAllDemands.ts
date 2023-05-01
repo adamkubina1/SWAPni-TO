@@ -4,7 +4,7 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { BookDemand } from '../types/BookDemand';
+import { BookDemand } from '../../types/BookDemand';
 
 type Response = BookDemand & { id: string };
 

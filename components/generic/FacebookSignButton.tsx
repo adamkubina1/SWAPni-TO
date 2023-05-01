@@ -1,4 +1,4 @@
-import { useSignInWithProvider } from '@/lib/customHooks/useSignInWithProvider';
+import { useSignInWithProvider } from '@/lib/customHooks/authHooks/useSignInWithProvider';
 import { Button } from '@chakra-ui/button';
 import { FacebookAuthProvider } from 'firebase/auth';
 import { useEffect } from 'react';

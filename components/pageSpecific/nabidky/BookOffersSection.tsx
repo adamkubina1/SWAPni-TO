@@ -1,4 +1,4 @@
-import { useFetchAllOffersForUser } from '@/lib/customHooks/useFetchAllOffers';
+import { useFetchAllOffersForUser } from '@/lib/customHooks/firestoreHooks/useFetchAllOffers';
 import { Box, Spinner, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { BookOfferCard } from './BookOfferCard';

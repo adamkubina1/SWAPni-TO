@@ -1,6 +1,6 @@
 import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
-import { deleteBookOffer } from '@/lib/deleteBookOffer';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
+import { deleteBookOffer } from '@/lib/firestoreCalls/deleteBookOffer';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { BookOffer } from '@/lib/types/BookOffer';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';

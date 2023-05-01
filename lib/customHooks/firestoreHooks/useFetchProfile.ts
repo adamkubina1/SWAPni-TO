@@ -1,6 +1,6 @@
 import { doc, DocumentReference } from 'firebase/firestore';
 import { ObservableStatus, useFirestore, useFirestoreDocData } from 'reactfire';
-import { Users } from '../types/Users';
+import { Users } from '../../types/Users';
 
 type Response = Users & { id: string };
 

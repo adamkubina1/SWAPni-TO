@@ -1,7 +1,7 @@
 import {
   useFetchAllExchangesForReceiver,
   useFetchAllExchangesForSender,
-} from '@/lib/customHooks/useFetchAllExchanges';
+} from '@/lib/customHooks/firestoreHooks/useFetchAllExchanges';
 import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
 import {
   Spinner,

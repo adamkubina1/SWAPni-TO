@@ -3,8 +3,8 @@ import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
 import { UserAvatar } from '@/components/generic/UserAvatar';
 import { UserRating } from '@/components/generic/UserRating';
 import { acceptExchangeOffer } from '@/lib/cloudFunctionsCalls/acceptExchangeOffer';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { deleteExchangeOffer } from '@/lib/deleteExchangeOffer';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
+import { deleteExchangeOffer } from '@/lib/firestoreCalls/deleteExchangeOffer';
 import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
 import {
   Box,

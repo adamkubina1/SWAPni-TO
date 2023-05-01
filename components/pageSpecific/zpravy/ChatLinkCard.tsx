@@ -3,8 +3,8 @@ import { ConfirmExchangeButton } from '@/components/generic/ConfirmExchangeButto
 import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
 import { UserAvatar } from '@/components/generic/UserAvatar';
 import { UserRating } from '@/components/generic/UserRating';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { deleteChat } from '@/lib/deleteChat';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
+import { deleteChat } from '@/lib/firestoreCalls/deleteChat';
 import { Chat } from '@/lib/types/Chat';
 import {
   Box,

@@ -1,7 +1,7 @@
 import { BookOfferCollumn } from '@/components/generic/BookOfferCollumn';
 import { ConfirmExchangeButton } from '@/components/generic/ConfirmExchangeButton';
-import { useFetchChat } from '@/lib/customHooks/useFetchChat';
-import { deleteChat } from '@/lib/deleteChat';
+import { useFetchChat } from '@/lib/customHooks/firestoreHooks/useFetchChat';
+import { deleteChat } from '@/lib/firestoreCalls/deleteChat';
 import { Chat } from '@/lib/types/Chat';
 import {
   Button,

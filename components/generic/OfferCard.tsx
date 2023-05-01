@@ -1,5 +1,5 @@
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { getHighestSizeLinkUrl } from '@/lib/getHighestResImgUrl';
 import { BookOffer } from '@/lib/types/BookOffer';
 import {

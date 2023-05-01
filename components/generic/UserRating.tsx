@@ -1,4 +1,4 @@
-import { useFetchAllReviews } from '@/lib/customHooks/useFetchAllReviews';
+import { useFetchAllReviews } from '@/lib/customHooks/firestoreHooks/useFetchAllReviews';
 import { UserReview } from '@/lib/types/UserReview';
 import {
   Button,

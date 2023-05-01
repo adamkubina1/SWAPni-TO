@@ -2,9 +2,9 @@ import { BookOfferCollumn } from '@/components/generic/BookOfferCollumn';
 import { ResponsiveTooltip } from '@/components/generic/ResponsiveTootip';
 import { UserAvatar } from '@/components/generic/UserAvatar';
 import { UserRating } from '@/components/generic/UserRating';
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import { deleteExchangeOffer } from '@/lib/deleteExchangeOffer';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
+import { deleteExchangeOffer } from '@/lib/firestoreCalls/deleteExchangeOffer';
 import { ExchangeOffer } from '@/lib/types/ExchangeOffer';
 import {
   Box,

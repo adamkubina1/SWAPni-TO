@@ -1,5 +1,5 @@
 import { UserRating } from '@/components/generic/UserRating';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { Heading, Spinner, Text, VStack } from '@chakra-ui/react';
 
 export const UserDescription = ({ userId }: { userId: string }) => {

@@ -1,4 +1,4 @@
-import { useFetchAllChats } from '@/lib/customHooks/useFetchAllChats';
+import { useFetchAllChats } from '@/lib/customHooks/firestoreHooks/useFetchAllChats';
 import { Chat } from '@/lib/types/Chat';
 import { Spinner, Text, VStack } from '@chakra-ui/react';
 import { ChatLinkCard } from './ChatLinkCard';

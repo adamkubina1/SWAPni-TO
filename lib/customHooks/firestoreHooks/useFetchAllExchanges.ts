@@ -4,7 +4,7 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { ExchangeOffer } from '../types/ExchangeOffer';
+import { ExchangeOffer } from '../../types/ExchangeOffer';
 
 type Response = Array<ExchangeOffer & { id: string }>;
 

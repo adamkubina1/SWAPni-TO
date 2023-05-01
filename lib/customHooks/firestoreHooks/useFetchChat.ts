@@ -1,6 +1,6 @@
 import { doc, DocumentReference } from 'firebase/firestore';
 import { ObservableStatus, useFirestore, useFirestoreDocData } from 'reactfire';
-import { Chat } from '../types/Chat';
+import { Chat } from '../../types/Chat';
 
 type Response = Chat & { id: string };
 

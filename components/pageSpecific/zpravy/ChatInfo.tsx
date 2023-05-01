@@ -1,4 +1,4 @@
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { Box, Heading, HStack, Spinner, Text } from '@chakra-ui/react';
 import Link from 'next/link';

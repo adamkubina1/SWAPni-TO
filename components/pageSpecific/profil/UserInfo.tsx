@@ -1,4 +1,4 @@
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
+import { useFetchProfile } from '@/lib/customHooks/firestoreHooks/useFetchProfile';
 import { Box, Heading, Spinner, Text } from '@chakra-ui/react';
 
 export const UserInfo = ({ userId }: { userId: string }) => {

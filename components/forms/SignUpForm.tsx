@@ -1,4 +1,4 @@
-import { useSignUpWithPass } from '@/lib/customHooks/useSignUpWithPass';
+import { useSignUpWithPass } from '@/lib/customHooks/authHooks/useSignUpWithPass';
 import { ValidateEmail, ValidatePasswordSignUp } from '@/lib/formValidators';
 import { Button } from '@chakra-ui/button';
 import { InputLeftAddon } from '@chakra-ui/input';

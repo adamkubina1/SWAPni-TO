@@ -1,4 +1,4 @@
-import { useFetchBook } from '@/lib/customHooks/useFetchBook';
+import { useFetchBook } from '@/lib/customHooks/googleBooksHooks/useFetchBook';
 import { Validator } from '@/lib/formValidators';
 import { GoogleBookApiBook } from '@/lib/types/GoogleBooksApi';
 import {

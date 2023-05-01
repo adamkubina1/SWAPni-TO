@@ -1,6 +1,6 @@
 import { ChatMessageForm } from '@/components/forms/ChatMessageForm';
 import { UserAvatar } from '@/components/generic/UserAvatar';
-import { useFetchMessages } from '@/lib/customHooks/useFetchMessages';
+import { useFetchMessages } from '@/lib/customHooks/firestoreHooks/useFetchMessages';
 import { Message } from '@/lib/types/Message';
 import { Box, HStack, Link, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';

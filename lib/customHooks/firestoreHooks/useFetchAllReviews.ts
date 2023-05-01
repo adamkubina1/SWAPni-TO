@@ -4,7 +4,7 @@ import {
   useFirestore,
   useFirestoreCollectionData,
 } from 'reactfire';
-import { UserReview } from '../types/UserReview';
+import { UserReview } from '../../types/UserReview';
 
 type Response = UserReview & { id: string };
 
