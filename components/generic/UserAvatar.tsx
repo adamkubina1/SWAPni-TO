@@ -63,7 +63,7 @@ const UserAvatar = ({
       src={
         downloadURL
           ? downloadURL
-          : `https://api.dicebear.com/6.x/personas/svg?seed=${userId}`
+          : `https://api.dicebear.com/6.x/micah/svg?seed=${userId}`
       }
     />
   );
