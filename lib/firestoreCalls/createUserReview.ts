@@ -29,7 +29,7 @@ const createUserReview = async (
 
   await setDoc(docPath, {
     review: review,
-    stars: stars,
+    stars: Number(stars),
     timestamp: serverTimestamp(),
   });
 };

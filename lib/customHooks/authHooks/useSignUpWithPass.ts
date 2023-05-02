@@ -21,17 +21,13 @@ const useSignUpWithPass = () => {
     async (email: string, password: string) => {
       setLoading(true);
 
-      try {
-        const credential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        setData(credential);
-      } catch (error) {
-        setError(error as FirebaseError);
-      }
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((credentials) => {
+          setData(credentials);
+        })
+        .catch((error) => {
+          setError(error as FirebaseError);
+        });
     },
     [auth, setData, setError, setLoading]
   );

@@ -21,17 +21,13 @@ const useSignInWithPass = () => {
     async (email: string, password: string) => {
       setLoading(true);
 
-      try {
-        const credential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        setData(credential);
-      } catch (error) {
-        setError(error as FirebaseError);
-      }
+      signInWithEmailAndPassword(auth, email, password)
+        .then((credential) => {
+          setData(credential);
+        })
+        .catch((error) => {
+          setError(error as FirebaseError);
+        });
     },
     [auth, setData, setError, setLoading]
   );

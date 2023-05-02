@@ -39,14 +39,6 @@ const UserAvatar = ({
         .catch(() => {
           setIsLoading(false);
         });
-      // const getDownloadURLMine = async () => {
-      //   try {
-      //     const url = await getDownloadURL(avatarRef);
-      //     setDownloadURL(url);
-      //   } catch (error) {}
-      // };
-
-      // getDownloadURLMine();
     } else {
       setDownloadURL(null);
       setIsLoading(false);

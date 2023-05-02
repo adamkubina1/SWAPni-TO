@@ -25,17 +25,13 @@ const useSignInWithProvider = () => {
     async (provider: AuthProvider) => {
       setLoading(true);
 
-      try {
-        const credential = await signInWithPopup(
-          auth,
-          provider,
-          browserPopupRedirectResolver
-        );
-
-        setData(credential);
-      } catch (error) {
-        setError(error as FirebaseError);
-      }
+      signInWithPopup(auth, provider, browserPopupRedirectResolver)
+        .then((credentials) => {
+          setData(credentials);
+        })
+        .catch((error) => {
+          setError(error as FirebaseError);
+        });
     },
     [auth, setData, setError, setLoading]
   );
