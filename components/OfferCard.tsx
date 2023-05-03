@@ -31,7 +31,7 @@ const OfferCard = ({
   const book = useFetchBook(offer.bookId);
 
   if (status === 'loading') return <Spinner />;
-  if (!book.data) return <Spinner />;
+  if (book.isLoading) return <Spinner />;
 
   const imgUrl = getHighestSizeLinkUrl(book.data.volumeInfo?.imageLinks);
 
