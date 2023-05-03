@@ -7,16 +7,12 @@ import {
 } from 'firebase/auth';
 import { useCallback } from 'react';
 import { useAuth } from 'reactfire';
-import { useRequestState } from './useRequestState';
+import { useRequestAuthState } from './useRequestState';
 
-/**
- * Custom hook implementing sign in with any provider supported by firebase.
- * @returns Array [signInWithProvider, state] signInWithProvider is function with param of used Provider.
- */
 const useSignInWithProvider = () => {
   const auth = useAuth();
 
-  const { state, setLoading, setData, setError } = useRequestState<
+  const { authState, setLoading, setData, setError } = useRequestAuthState<
     UserCredential,
     FirebaseError
   >();
@@ -36,9 +32,9 @@ const useSignInWithProvider = () => {
     [auth, setData, setError, setLoading]
   );
 
-  return [signInWithProvider, state] as [
+  return [signInWithProvider, authState] as [
     typeof signInWithProvider,
-    typeof state
+    typeof authState
   ];
 };
 

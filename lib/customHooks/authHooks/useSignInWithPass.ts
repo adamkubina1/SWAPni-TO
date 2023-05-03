@@ -2,17 +2,12 @@ import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { useCallback } from 'react';
 import { useAuth } from 'reactfire';
-import { useRequestState } from './useRequestState';
+import { useRequestAuthState } from './useRequestState';
 
-/**
- * Custom hook used for sing in to firebase.
- * @returns Array [signIn, state] - signIn is function called on attempt to sign in, state  is the current hook state.
- *
- */
 const useSignInWithPass = () => {
   const auth = useAuth();
 
-  const { state, setLoading, setData, setError } = useRequestState<
+  const { authState, setLoading, setData, setError } = useRequestAuthState<
     UserCredential,
     FirebaseError
   >();
@@ -22,8 +17,8 @@ const useSignInWithPass = () => {
       setLoading(true);
 
       signInWithEmailAndPassword(auth, email, password)
-        .then((credential) => {
-          setData(credential);
+        .then((credentials) => {
+          setData(credentials);
         })
         .catch((error) => {
           setError(error as FirebaseError);
@@ -32,7 +27,7 @@ const useSignInWithPass = () => {
     [auth, setData, setError, setLoading]
   );
 
-  return [signIn, state] as [typeof signIn, typeof state];
+  return [signIn, authState] as [typeof signIn, typeof authState];
 };
 
 export { useSignInWithPass };

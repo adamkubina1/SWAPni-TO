@@ -6,6 +6,7 @@ import { UserCreatedContent } from '@/components/pageSpecific/uzivatel/UserCreat
 import { UserDescription } from '@/components/pageSpecific/uzivatel/UserDescription';
 import { Flex, Heading, Spinner, Stack, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useSigninCheck } from 'reactfire';
 
 const PAGE_TITLE = 'Profil uživatele';
 const PAGE_DESCRIPTION = 'Profil uživatele ve webové aplikace SWAPni TO.';
@@ -16,6 +17,10 @@ const User = () => {
   if (Array.isArray(user)) {
     user = user[0];
   }
+
+  const { status, data } = useSigninCheck();
+
+  if (status === 'loading') return <Spinner />;
 
   return (
     <>
@@ -42,7 +47,9 @@ const User = () => {
 
             <VStack align={'start'}>
               {user ? <UserDescription userId={user} /> : <Spinner />}
-              {user ? <AddUserReview reviewedUserId={user} /> : <Spinner />}
+              {user && data?.signedIn ? (
+                <AddUserReview reviewedUserId={user} />
+              ) : null}
             </VStack>
           </NoSSR>
         </Stack>

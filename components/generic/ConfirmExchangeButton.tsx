@@ -10,6 +10,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useFunctions } from 'reactfire';
 
@@ -19,6 +20,7 @@ const ConfirmExchangeButton = ({ chatId }: { chatId: string }) => {
   const [isButtonLoading, setButtonLoading] = useState<boolean>(false);
   const functions = useFunctions();
   const toast = useToast();
+  const router = useRouter();
 
   return (
     <>
@@ -54,6 +56,7 @@ const ConfirmExchangeButton = ({ chatId }: { chatId: string }) => {
                     .then(() => {
                       setButtonLoading(false);
                       onClose();
+                      router.push('/zpravy');
                     })
                     .catch(() => {
                       setButtonLoading(false);

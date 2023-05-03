@@ -1,58 +1,58 @@
 import { useCallback, useState } from 'react';
 
-type Maybe<T> = T | undefined;
-
-type State<Data, ErrorType> =
+type AuthStateType<DataType, ErrorType> =
   | {
-      data: Data;
+      data: DataType;
       loading: false;
       success: true;
-      error: Maybe<ErrorType>;
+      error: ErrorType | undefined;
     }
   | {
       data: undefined;
       loading: true;
       success: false;
-      error: Maybe<ErrorType>;
+      error: ErrorType | undefined;
     }
   | {
       data: undefined;
       loading: false;
       success: false;
-      error: Maybe<ErrorType>;
+      error: ErrorType | undefined;
     };
 
 /**
  * Custom hook that works like a state machine for authentificaton.
  */
-const useRequestState = <Data = unknown, ErrorType = unknown>() => {
-  const [state, setState] = useState<State<Data, ErrorType>>({
+const useRequestAuthState = <DataType = unknown, ErrorType = unknown>() => {
+  const [authState, setAuthState] = useState<
+    AuthStateType<DataType, ErrorType>
+  >({
+    data: undefined,
     loading: false,
     success: false,
     error: undefined,
-    data: undefined,
   });
 
   const setLoading = useCallback((loading: boolean) => {
-    setState({
+    setAuthState({
+      data: undefined,
       loading,
       success: false,
-      data: undefined,
       error: undefined,
     });
   }, []);
 
-  const setData = useCallback((data: Data) => {
-    setState({
+  const setData = useCallback((data: DataType) => {
+    setAuthState({
       data,
-      success: true,
       loading: false,
+      success: true,
       error: undefined,
     });
   }, []);
 
   const setError = useCallback((error: ErrorType) => {
-    setState({
+    setAuthState({
       data: undefined,
       loading: false,
       success: false,
@@ -61,12 +61,12 @@ const useRequestState = <Data = unknown, ErrorType = unknown>() => {
   }, []);
 
   return {
-    state,
-    setState,
+    authState,
+    setAuthState,
     setLoading,
     setData,
     setError,
   };
 };
 
-export { useRequestState };
+export { useRequestAuthState };
