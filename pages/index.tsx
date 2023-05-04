@@ -1,33 +1,14 @@
-import Hits from '@/components/forms/Algolia/Hits';
-import Pagination from '@/components/forms/Algolia/Pagination';
-import RefinementList from '@/components/forms/Algolia/RefinementList';
-import SearchBox from '@/components/forms/Algolia/SearchBox';
 import { SearchForm } from '@/components/forms/SearchForm';
-import NoSSR from '@/components/NoSSR';
+import { SearchTypeForm } from '@/components/forms/SearchTypeForm';
+import NoSSR from '@/components/generic/NoSSR';
+import { Seo } from '@/components/generic/Seo';
+import { AlgoiliaContainer } from '@/components/pageSpecific/home/Algolia/AlgoliaContainer';
 import { SearchResult } from '@/components/pageSpecific/home/SearchResult';
-import { Seo } from '@/components/Seo';
 import { getRandomBook } from '@/lib/getRandomBook';
-import { SearchType } from '@/lib/types/Search';
-import { algoliaConfig } from '@/utils/algoliaConfig';
-import {
-  Box,
-  Heading,
-  HStack,
-  Select,
-  Spinner,
-  Stack,
-  VStack,
-} from '@chakra-ui/react';
-import algoliasearch from 'algoliasearch/lite';
+import { SearchType } from '@/lib/types/SearchType';
+import { Box, Heading, HStack, Stack, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
-import {
-  ClearRefinements,
-  Configure,
-  InstantSearch,
-  SortBy,
-} from 'react-instantsearch-dom';
-import { useUser } from 'reactfire';
+import { useState } from 'react';
 
 const Home = () => {
   const [search, setSearch] = useState<string>(getRandomBook());
@@ -60,7 +41,7 @@ const Home = () => {
             {searchType == 'searchBookName' ? (
               <SearchForm setSearch={setSearch} />
             ) : (
-              <BookOffers />
+              <AlgoiliaContainer />
             )}
           </Stack>
           {searchType === 'searchBookName' ? (
@@ -69,87 +50,6 @@ const Home = () => {
         </NoSSR>
       </VStack>
     </>
-  );
-};
-
-const searchOptions: Array<{ value: SearchType; description: string }> = [
-  { value: 'searchBookName', description: 'Knihu název/autora/ISBN' },
-  { value: 'searchOffer', description: 'Nabídku dle názvu knihy' },
-];
-
-const SearchTypeForm = ({
-  searchType,
-  setSearchType,
-}: {
-  searchType: SearchType;
-  setSearchType: Dispatch<SetStateAction<SearchType>>;
-}) => {
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchType(event.target.value as SearchType);
-  };
-
-  return (
-    <form>
-      <Select
-        value={searchType}
-        onChange={handleSelectChange}
-        color={'swap.lightHighlight'}
-      >
-        {searchOptions.map((option, i) => (
-          <option id={'searchOption'} key={i} value={option.value}>
-            {option.description}
-          </option>
-        ))}
-      </Select>
-    </form>
-  );
-};
-
-const searchClient = algoliasearch(
-  algoliaConfig.appID ? algoliaConfig.appID : '',
-  algoliaConfig.apiKey ? algoliaConfig.apiKey : ''
-);
-
-const BookOffers = () => {
-  const user = useUser();
-
-  if (user.status === 'loading') return <Spinner />;
-
-  return (
-    <VStack className='ais-InstantSearch' w={'full'} gap={4}>
-      <NoSSR>
-        <InstantSearch indexName={'bookTitle'} searchClient={searchClient}>
-          <VStack gap={6}>
-            <SearchBox />
-            <HStack gap={2} align={'start'}>
-              <VStack>
-                <Heading size={'sm'}>Stav</Heading>
-                <RefinementList attribute={'bookState'} />
-                <ClearRefinements
-                  translations={{
-                    reset: 'Smazat filtry',
-                  }}
-                />
-              </VStack>
-              <Box color={'swap.lightHighlight'}>
-                <SortBy
-                  defaultRefinement='time_desc'
-                  items={[
-                    { value: 'bookTitle', label: 'Bez řazení' },
-                    { value: 'time_asc', label: 'Nejstarší' },
-                    { value: 'time_desc', label: 'Nejnovější' },
-                  ]}
-                />
-              </Box>
-            </HStack>
-            <Configure hitsPerPage={5} />
-          </VStack>
-
-          <Hits userUID={user.data?.uid} />
-          <Pagination />
-        </InstantSearch>
-      </NoSSR>
-    </VStack>
   );
 };
 

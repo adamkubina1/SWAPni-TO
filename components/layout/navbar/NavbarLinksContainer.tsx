@@ -1,11 +1,6 @@
 import { Box, Stack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-/**
- * @param children ReactNode
- * @param isOpen Boolean that describes the state of the the mobile hamburger.
- * @param authJustify Boolean for justifying links correctly based on the type of navbar. True for authentificated, false for nonauthentificated.
- */
 const NavbarLinksContainer = ({
   children,
   isOpen,

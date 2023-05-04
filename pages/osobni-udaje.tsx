@@ -1,4 +1,4 @@
-import { Seo } from '@/components/Seo';
+import { Seo } from '@/components/generic/Seo';
 import { Heading, Text, VStack } from '@chakra-ui/react';
 
 const PAGE_TITLE = 'Osobní údaje';
