@@ -2,32 +2,14 @@ import { ChangePasswordForm } from '@/components/forms/ChangePasswordForm';
 import { EditProfileForm } from '@/components/forms/EditProfileForm';
 import { EditProfilePicForm } from '@/components/forms/EditProfilePicForm';
 import { EditUserNameForm } from '@/components/forms/EditUserNameForm';
+import NoSSR from '@/components/generic/NoSSR';
+import { ProtectedPage } from '@/components/generic/ProtectedPage';
+import { Seo } from '@/components/generic/Seo';
+import { UserAvatar } from '@/components/generic/UserAvatar';
 import { ModalContainer } from '@/components/modals/ModalContainer';
-import NoSSR from '@/components/NoSSR';
-import { ProtectedPage } from '@/components/ProtectedPage';
-import { Seo } from '@/components/Seo';
-import { UserAvatar } from '@/components/UserAvatar';
-import { useFetchProfile } from '@/lib/customHooks/useFetchProfile';
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Spinner,
-  Stack,
-  Text,
-  useDisclosure,
-  useToast,
-  VStack,
-} from '@chakra-ui/react';
-import { deleteUser, getAuth } from 'firebase/auth';
-import React from 'react';
+import { DeleteAccountAlert } from '@/components/pageSpecific/profil/DeleteAccountAlert';
+import { UserInfo } from '@/components/pageSpecific/profil/UserInfo';
+import { Box, Flex, Heading, Spinner, Stack, VStack } from '@chakra-ui/react';
 import { useUser } from 'reactfire';
 
 const PAGE_TITLE = 'Můj profil';
@@ -56,7 +38,7 @@ const Profil = () => {
               <Spinner />
             )}
             <VStack>
-              {user?.uid ? <UserDescription userId={user.uid} /> : <Spinner />}
+              {user?.uid ? <UserInfo userId={user.uid} /> : <Spinner />}
             </VStack>
           </NoSSR>
         </Stack>
@@ -83,98 +65,6 @@ const Profil = () => {
         </NoSSR>
       </VStack>
     </ProtectedPage>
-  );
-};
-
-const DeleteAccountAlert = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef(null);
-  const toast = useToast();
-
-  const submited = () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) return;
-
-    deleteUser(user)
-      .then(() => {})
-      .catch((error) => {
-        toast({
-          title: 'Vaše relace je příliš stará.',
-          description: 'Odhlašte se a znovu přihlašte a zkuste akci znovu.',
-          status: 'error',
-          duration: 8000,
-          isClosable: true,
-        });
-      });
-  };
-
-  return (
-    <>
-      <Button colorScheme='red' onClick={onOpen} size={'sm'}>
-        Smazat účet
-      </Button>
-
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Smazat účet
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Opravdu chcete permanentně smazat váš uživetelský účet?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Zrušit
-              </Button>
-              <Button
-                colorScheme='red'
-                onClick={() => {
-                  onClose;
-                  submited();
-                }}
-                ml={3}
-              >
-                Smazat můj účet
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </>
-  );
-};
-
-const UserDescription = ({ userId }: { userId: string }) => {
-  const { data: userFirestore, status } = useFetchProfile(userId);
-
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  return (
-    <Box textAlign={'left'}>
-      <Heading
-        size={'lg'}
-        color={'swap.darkHighlight'}
-        textAlign={{ base: 'center', md: 'left' }}
-      >
-        {userFirestore?.userName ? userFirestore.userName : 'Nový uživatel'}
-      </Heading>
-      <Text>
-        {userFirestore?.bio
-          ? userFirestore.bio
-          : 'Zatím jsem o sobě nic nenapsal :)'}
-      </Text>
-    </Box>
   );
 };
 

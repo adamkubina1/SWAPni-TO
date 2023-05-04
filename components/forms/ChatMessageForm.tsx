@@ -1,4 +1,4 @@
-import { createMessage } from '@/lib/createMessage';
+import { createMessage } from '@/lib/firestoreCalls/createMessage';
 import { ValidateMessage } from '@/lib/formValidators';
 import { Button, HStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';

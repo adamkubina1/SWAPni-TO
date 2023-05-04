@@ -1,6 +1,6 @@
 import { LoginForm } from '@/components/forms/LoginForm';
-import NoSSR from '@/components/NoSSR';
-import { Seo } from '@/components/Seo';
+import NoSSR from '@/components/generic/NoSSR';
+import { Seo } from '@/components/generic/Seo';
 import { Heading, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';

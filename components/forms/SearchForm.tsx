@@ -4,7 +4,7 @@ import { Box, Button, HStack, InputRightAddon } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import { MdSearch } from 'react-icons/md';
-import { ResponsiveTooltip } from '../ResponsiveTootip';
+import { ResponsiveTooltip } from '../generic/ResponsiveTootip';
 import { FormFieldInput } from './FormField';
 
 const SearchForm = ({

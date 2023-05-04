@@ -51,6 +51,10 @@ const bookTitles = [
   'Analfabetka, která uměla počítat',
 ];
 
+/**
+ * Function that returns random book out 50 most read Czech books
+ * @returns String with book name
+ */
 const getRandomBook = (): string => {
   const randomIndex = Math.floor(Math.random() * bookTitles.length);
   return bookTitles[randomIndex];

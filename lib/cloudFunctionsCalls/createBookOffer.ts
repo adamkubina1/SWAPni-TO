@@ -1,11 +1,11 @@
 import { Functions, httpsCallable } from 'firebase/functions';
-import { BookOffer } from '../types/BookOffer';
+import { BookOfferType } from '../types/BookOfferType';
 
 const createBookOffer = async (
   functions: Functions,
   bookId: string,
   bookTitle: string,
-  bookOfferData: BookOffer
+  bookOfferData: BookOfferType
 ) => {
   const createBookOfferCall = httpsCallable(functions, 'createBookOffer');
 

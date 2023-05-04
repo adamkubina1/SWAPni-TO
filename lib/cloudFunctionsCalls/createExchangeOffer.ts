@@ -1,5 +1,5 @@
 import { Functions, httpsCallable } from 'firebase/functions';
-import { BookOffer } from '../types/BookOffer';
+import { BookOfferType } from '../types/BookOfferType';
 
 const createExchangeOffer = async (
   functions: Functions,
@@ -7,9 +7,9 @@ const createExchangeOffer = async (
   counterOfferId: string | null,
   targetUserId: string,
   bookId: string,
-  bookOfferData: BookOffer,
+  bookOfferData: BookOfferType,
   message: string,
-  counterOffer: BookOffer | null
+  counterOffer: BookOfferType | null
 ) => {
   const createExchangeOfferCall = httpsCallable(
     functions,

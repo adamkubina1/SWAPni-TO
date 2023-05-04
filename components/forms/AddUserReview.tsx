@@ -1,4 +1,4 @@
-import { createUserReview } from '@/lib/createUserReview';
+import { createUserReview } from '@/lib/firestoreCalls/createUserReview';
 import { ValidateStars } from '@/lib/formValidators';
 import { Button, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';

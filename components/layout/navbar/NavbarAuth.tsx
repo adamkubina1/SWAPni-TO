@@ -1,4 +1,4 @@
-import { UserAvatar } from '@/components/UserAvatar';
+import { UserAvatar } from '@/components/generic/UserAvatar';
 import { Box, Flex, Heading, HStack, Spinner, Tooltip } from '@chakra-ui/react';
 import { signOut } from '@firebase/auth';
 import NextLink from 'next/link';
@@ -89,7 +89,7 @@ const LinksAuth = ({
         </Heading>
       </NextLink>
       <Box display={{ base: 'block', md: 'none' }}>
-        <LogOutIcon setOpenFalse={setOpenFalse} />
+        <LogOutIcon />
       </Box>
     </NavbarLinksContainer>
   );
@@ -125,13 +125,13 @@ const ButtonLinksAuth = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
         </Tooltip>
       </HStack>
       <Box display={{ base: 'none', md: 'block' }}>
-        <LogOutIcon setOpenFalse={setOpenFalse} />
+        <LogOutIcon />
       </Box>
     </HStack>
   );
 };
 
-const LogOutIcon = ({ setOpenFalse }: { setOpenFalse: () => void }) => {
+const LogOutIcon = () => {
   const auth = useAuth();
   const router = useRouter();
 

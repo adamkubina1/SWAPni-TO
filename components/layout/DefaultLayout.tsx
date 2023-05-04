@@ -1,7 +1,7 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Box, Container, Skeleton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useSigninCheck } from 'reactfire';
-import NoSSR from '../NoSSR';
+import NoSSR from '../generic/NoSSR';
 import { Footer } from './Footer';
 import { NavbarAuth } from './navbar/NavbarAuth';
 import { NavbarNonAuth } from './navbar/NavbarNonAuth';
@@ -28,8 +28,12 @@ const DefaultLayout = ({ children }: { children: ReactNode }) => {
 const NavbarAuthRender = () => {
   const { status, data: signInCheckResult } = useSigninCheck();
 
-  //Potentionaly put here spinner or skeleton
-  if (status === 'loading') return null;
+  if (status === 'loading')
+    return (
+      <Box w={'100%'} h={'8vh'}>
+        <Skeleton w={'full'} h={'full'} />
+      </Box>
+    );
 
   return <>{signInCheckResult.signedIn ? <NavbarAuth /> : <NavbarNonAuth />}</>;
 };

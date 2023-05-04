@@ -1,5 +1,5 @@
 import { createBookOffer } from '@/lib/cloudFunctionsCalls/createBookOffer';
-import { BookState } from '@/lib/types/BookState';
+import { BookStateType } from '@/lib/types/BookStateType';
 import { Button, useToast, VStack } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import { useFunctions, useUser } from 'reactfire';
 import { ModalContainer } from '../modals/ModalContainer';
 import { FormFieldSelect, FormFieldTextArea } from './FormField';
 
-const bookStateOptions: Array<{ value: BookState; description: string }> = [
+const bookStateOptions: Array<{ value: BookStateType; description: string }> = [
   { value: 'Jako nová', description: 'Jako nová' },
   { value: 'Mírně poškozená', description: 'Mírně poškozená' },
   { value: 'Používaná', description: 'Používaná' },
