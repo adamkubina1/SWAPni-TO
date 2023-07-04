@@ -3,10 +3,10 @@
 <a href="#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
 <a href="https://github.com/adamkubina1/SWAPni-TO/issues"><img src="https://img.shields.io/github/issues/adamkubina1/SWAPni-TO" alt="issues - SWAPni-TO"></a>
 
-This repo is hosting the frontend of the web application SWAPni-TO created as a part of my Bachelor thesis project.
+This repo is hosting the front end of the web application SWAPni-TO created as a part of my Bachelor thesis project.
 
 The focus of this application is to provide a tool for setting up book-swapping arrangements.
-The code is written in English, but the language localisation of the app is Czech.
+The code is written in English, but the language localization of the app is Czech.
 
 
 <h2>License</h2>
